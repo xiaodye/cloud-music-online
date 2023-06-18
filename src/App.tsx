@@ -6,7 +6,6 @@ function App() {
     <div className="App">
       <h2>App</h2>
       <hr />
-
       <RouterProvider router={router} />
     </div>
   );
