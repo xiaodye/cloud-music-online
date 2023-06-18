@@ -1,9 +1,11 @@
 {
   "recommendations": [
-    "christian-kohler.path-intellisense",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "dsznajder.es7-react-js-snippets",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "christian-kohler.path-intellisense",
+    "eamodio.gitlens",
+    "syler.sass-indented"
   ]
 }
