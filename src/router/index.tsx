@@ -19,6 +19,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Navigate to="/home/recommend" />,
+      },
+      {
+        path: "recommend",
         element: <Recommend />,
       },
       {

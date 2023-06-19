@@ -1,0 +1,38 @@
+@import "@/styles/theme.scss";
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: $theme-color;
+  & > span {
+    line-height: 40px;
+    color: #f1f1f1;
+    font-size: 20px;
+    &.iconfont {
+      font-size: 25px;
+    }
+  }
+}
+
+.tab {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 45px;
+  background-color: $theme-color;
+  padding: 0 10px;
+  &-item {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+    &.active {
+      border-bottom-color: #f1f1f1;
+    }
+  }
+}
