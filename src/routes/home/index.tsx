@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./styles.module.scss";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import classNames from "classnames";
 
 const Home: React.FC = () => {
@@ -40,6 +40,7 @@ const Home: React.FC = () => {
           </NavLink>
         ))}
       </div>
+
       <Outlet />
     </>
   );

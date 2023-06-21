@@ -1,12 +1,17 @@
 .root {
   border-radius: 8px;
+
+  padding: 10px;
+}
+
+.carousel {
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .carousel-item {
-  height: 150px;
+  height: 160px;
   width: 100%;
-  objectfit: cover;
+  object-fit: cover;
   color: #fff;
-  borderradius: 10px;
 }

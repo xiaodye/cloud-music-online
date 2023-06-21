@@ -2,59 +2,73 @@
 
 .wrapper {
   max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  padding-top: 0;
+
   .title {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 45px;
     font-weight: 700;
-    padding-left: 6px;
-    font-size: 14px;
-    line-height: 60px;
+    padding-left: 10px;
+    font-size: 15px;
   }
 }
 
 .list {
-  width: 100%;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  row-gap: 10px;
+
   &-item {
     position: relative;
-    width: 32%;
+    width: 30%;
 
-    .img_wrapper {
+    .img-wrapper {
+      width: 100%;
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 3px;
+        object-fit: cover;
+      }
+
       .decorate {
         position: absolute;
         top: 0;
         width: 100%;
-        height: 35px;
-        border-radius: 3px;
-        background: linear-gradient (hsla (0, 0%, 43%, 0.4), hsla (0, 0%, 100%, 0));
-      }
-      position: relative;
-      height: 0;
-      padding-bottom: 100%;
-      .play_count {
-        position: absolute;
-        right: 2px;
-        top: 2px;
-        font-size: $font-size-s;
-        line-height: 15px;
+        border-radius: 5px;
         color: $font-color-light;
-        .play {
-          vertical-align: top;
+        font-size: 12px;
+        padding-top: 5px;
+        padding-right: 5px;
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 2px;
+
+        .play_count {
+          position: absolute;
+          right: 2px;
+          top: 2px;
+          font-size: $font-size-s;
+          line-height: 15px;
+
+          .play {
+            font-size: 18px;
+          }
         }
-      }
-      img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 3px;
       }
     }
     .desc {
       overflow: hidden;
-      margin-top: 2px;
-      padding: 0 2px;
-      height: 50px;
+      padding: 10px 2px;
       text-align: left;
       font-size: $font-size-s;
       line-height: 1.4;

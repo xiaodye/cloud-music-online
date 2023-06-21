@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   css: {
     modules: {
-      localsConvention: "camelCaseOnly", // 修改生成的配置对象的key的展示形式(驼峰还是中划线形式
+      localsConvention: "camelCaseOnly", // 修改生成的配置对象的key的展示形式(驼峰还是中划线形式)
     },
     // preprocessorOptions: {
     //   scss: {
