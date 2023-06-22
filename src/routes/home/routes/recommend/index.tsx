@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./styles.module.scss";
 import Slider from "@/components/Slider";
 import RecommendList from "@/components/recommendList";
+import Scroll from "@/components/Scroll";
+import { PullRefresh, Toast } from "react-vant";
 
 const bannerList = [
   {
@@ -26,11 +28,26 @@ const recommendList = Array.from({ length: 9 }, (_, index) => ({
 }));
 
 const Recommend: React.FC = () => {
+  const onRefresh = (showToast: boolean) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (showToast) {
+          Toast.info("刷新成功");
+        }
+
+        resolve(true);
+      }, 1000);
+    });
+  };
+
   return (
     <div className={styles.root}>
-      <div className={styles.backgroud}></div>
-      <Slider bannerList={bannerList} />
-      <RecommendList list={recommendList} />
+      {/* <div className={styles.backgroud}></div> */}
+
+      <PullRefresh onRefresh={() => onRefresh(true)}>
+        <Slider bannerList={bannerList} />
+        <RecommendList list={recommendList} />
+      </PullRefresh>
     </div>
   );
 };

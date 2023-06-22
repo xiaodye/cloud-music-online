@@ -27,7 +27,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <>
+    <div className={styles.home}>
       <div className={styles.top}>
         <span className="iconfont menu">&#xe65c;</span>
         <span className="title">WebApp</span>
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       </div>
 
       <Outlet />
-    </>
+    </div>
   );
 };
 

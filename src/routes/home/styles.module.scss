@@ -1,5 +1,11 @@
 @import "@/styles/theme.scss";
 
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .top {
   display: flex;
   flex-direction: row;
