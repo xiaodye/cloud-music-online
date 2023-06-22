@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import { getCount } from "@/api/utils";
+import { getCount } from "@/utils/utils";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import placeholderSrc from "./music.png";
 
 type List = {
   id: number;
@@ -26,7 +28,13 @@ const RecommendList: React.FC<Props> = ({ list }) => {
                 <i className="iconfont play">&#xe885;</i>
                 <span className="count">{getCount(item.playCount)}</span>
               </div>
-              <img src={item.picUrl + "?param=300x300"} alt="music" />
+
+              <LazyLoadImage
+                className={styles.img}
+                src={item.picUrl + "?param=300x300"}
+                placeholderSrc={placeholderSrc}
+                alt="music"
+              />
             </div>
 
             <div className={styles.desc}>{item.name}</div>

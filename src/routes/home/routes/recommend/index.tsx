@@ -1,24 +1,12 @@
-import React from "react";
+import React, { ElementRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Slider from "@/components/Slider";
 import RecommendList from "@/components/recommendList";
 import Scroll from "@/components/Scroll";
 import { PullRefresh, Toast } from "react-vant";
-
-const bannerList = [
-  {
-    imageUrl: "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg",
-  },
-  {
-    imageUrl: "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg",
-  },
-  {
-    imageUrl: "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg",
-  },
-  {
-    imageUrl: "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg",
-  },
-];
+import useMount from "@/hooks/useMount";
+import { getBannerListData, getRecommendListData } from "@/api/request";
+import Loading from "@/baseUI/Loading";
 
 const recommendList = Array.from({ length: 9 }, (_, index) => ({
   id: index + 1,
@@ -28,6 +16,28 @@ const recommendList = Array.from({ length: 9 }, (_, index) => ({
 }));
 
 const Recommend: React.FC = () => {
+  const [bannerList, setBannerList] = useState([]);
+  const [recommendList, setRecommendList] = useState([]);
+
+  const bsRef = useRef<ElementRef<typeof Scroll>>({} as HTMLDivElement);
+
+  useMount(async () => {
+    getBannerList();
+    getRecommendList();
+  });
+
+  const getBannerList = async () => {
+    const res = await getBannerListData();
+    const data = res as any;
+    setBannerList(data.banners);
+  };
+
+  const getRecommendList = async () => {
+    const res = await getRecommendListData();
+    const data = res as any;
+    setRecommendList(data.result);
+  };
+
   const onRefresh = (showToast: boolean) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -42,12 +52,16 @@ const Recommend: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      {/* <div className={styles.backgroud}></div> */}
+      <div className={styles.backgroud}></div>
 
-      <PullRefresh onRefresh={() => onRefresh(true)}>
-        <Slider bannerList={bannerList} />
-        <RecommendList list={recommendList} />
-      </PullRefresh>
+      <Scroll ref={bsRef}>
+        <div className={styles.content}>
+          <Slider bannerList={bannerList} />
+          <RecommendList list={recommendList} />
+        </div>
+      </Scroll>
+
+      <Loading />
     </div>
   );
 };
