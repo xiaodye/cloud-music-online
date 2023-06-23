@@ -1,6 +1,7 @@
 @import url(./styles/reset.css);
 @import url(./styles/iconfont.css);
 @import url(./styles/theme.css);
+@import url(./styles/globalStyles.css);
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
