@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEURL = "http://localhost:4000";
+const BASEURL = "http://netease-cloud-music-9dkpwl9zj-xiaodye.vercel.app";
 
 const axiosInstance = axios.create({
   baseURL: BASEURL,
