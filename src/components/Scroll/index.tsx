@@ -17,18 +17,16 @@ BScroll.use(ObserveImage);
 type IProps = {
   direction?: "vertical" | "horizental";
   click?: boolean;
+  observeImage?: boolean;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
   onScroll?: () => void;
   pullUp?: () => void;
   pullDown?: () => void;
-  children: React.ReactNode;
 };
 
 const Scroll = forwardRef<HTMLDivElement, IProps>(
-  (
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    { children, direction = "vertical", click = true, onScroll = () => {}, pullUp = () => {}, pullDown = () => {} },
-    ref
-  ) => {
+  ({ children, direction = "vertical", click = true, observeImage = true, style, onScroll, pullUp, pullDown }, ref) => {
     // current 指向初始化 bs 实例需要的 DOM 元素
     const bsContainer = useRef<HTMLDivElement>({} as HTMLDivElement);
     // 用于存储一个 BScroll 实例
@@ -47,20 +45,20 @@ const Scroll = forwardRef<HTMLDivElement, IProps>(
           threshold: 60,
         },
         observeDOM: true, // 开启 observe-dom 插件
-        observeImage: true, // 开启 observe-image 插件
+        // observeImage: true, // 开启 observe-image 插件
         probeType: 3,
       });
 
       // 绑定事件
       bs.current.on("scroll", () => {
-        onScroll();
+        onScroll && onScroll();
       });
       bs.current.on("pullingDown", () => {
-        pullDown();
+        pullDown && pullDown();
         bs.current.finishPullDown();
       });
       bs.current.on("pullingUp", () => {
-        pullUp();
+        pullUp && pullUp();
         bs.current.finishPullUp();
       });
     });
@@ -74,7 +72,7 @@ const Scroll = forwardRef<HTMLDivElement, IProps>(
     });
 
     return (
-      <div className={styles.container} ref={bsContainer}>
+      <div className={styles.container} style={style} ref={bsContainer}>
         {children}
       </div>
     );

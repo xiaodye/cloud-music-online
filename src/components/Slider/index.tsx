@@ -6,13 +6,9 @@ type IProps = {
 };
 
 const Slider: React.FC<IProps> = ({ bannerList }) => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
-
   return (
     <div className={styles.root}>
-      <Carousel afterChange={onChange} className={styles.carousel}>
+      <Carousel className={styles.carousel}>
         {bannerList.map((item, index) => (
           <div key={index}>
             <img key={index} src={item.imageUrl} alt="img" className={styles.carouselItem} />

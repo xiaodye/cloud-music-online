@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { getCount } from "@/utils/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import placeholderSrc from "./music.png";
+import placeImg from "@/assets/music.png";
 
 type List = {
   id: number;
@@ -32,7 +32,7 @@ const RecommendList: React.FC<Props> = ({ list }) => {
               <LazyLoadImage
                 className={styles.img}
                 src={item.picUrl + "?param=300x300"}
-                placeholderSrc={placeholderSrc}
+                placeholderSrc={placeImg}
                 alt="music"
               />
             </div>

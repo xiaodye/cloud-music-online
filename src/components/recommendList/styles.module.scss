@@ -22,6 +22,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-content: flex-start;
   row-gap: 10px;
 
   &-item {
@@ -29,10 +30,10 @@
     width: 30%;
 
     .img-wrapper {
-      width: 100%;
+      width: 110px;
       .img {
-        width: 100%;
-        height: 100%;
+        width: 110px;
+        aspect-ratio: 1;
         object-fit: cover;
         border-radius: 3px;
         object-fit: cover;
@@ -68,12 +69,18 @@
       }
     }
     .desc {
-      overflow: hidden;
-      padding: 10px 2px;
+      margin-top: 10px;
       text-align: left;
       font-size: $font-size-s;
       line-height: 1.4;
       color: $font-color-desc;
+
+      // 多行文本溢出
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 }
