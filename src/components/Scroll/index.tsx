@@ -52,9 +52,17 @@ const Scroll = forwardRef<HTMLDivElement, IProps>(
       });
 
       // 绑定事件
-      bs.current.on("scroll", onScroll);
-      bs.current.on("pullingDown", pullDown);
-      bs.current.on("pullingUp", pullUp);
+      bs.current.on("scroll", () => {
+        onScroll();
+      });
+      bs.current.on("pullingDown", () => {
+        pullDown();
+        bs.current.finishPullDown();
+      });
+      bs.current.on("pullingUp", () => {
+        pullUp();
+        bs.current.finishPullUp();
+      });
     });
 
     useUnMount(() => {
