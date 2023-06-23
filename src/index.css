@@ -1,16 +1,12 @@
-@import url(./styles/reset.scss);
-@import url(./styles/iconfont.scss);
-@import url(./styles/global.scss);
+@import url(./styles/reset.css);
+@import url(./styles/iconfont.css);
+@import url(./styles/theme.css);
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
   color-scheme: light dark;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  // --rv-loading-text-color: #ffffff;
 }
