@@ -17,7 +17,6 @@ BScroll.use(ObserveImage);
 type IProps = {
   direction?: "vertical" | "horizental";
   click?: boolean;
-  observeImage?: boolean;
   style?: React.CSSProperties;
   children: React.ReactNode;
   onScroll?: () => void;
@@ -26,7 +25,7 @@ type IProps = {
 };
 
 const Scroll = forwardRef<HTMLDivElement, IProps>(
-  ({ children, direction = "vertical", click = true, observeImage = true, style, onScroll, pullUp, pullDown }, ref) => {
+  ({ children, direction = "vertical", click = true, style, onScroll, pullUp, pullDown }, ref) => {
     // current 指向初始化 bs 实例需要的 DOM 元素
     const bsContainer = useRef<HTMLDivElement>({} as HTMLDivElement);
     // 用于存储一个 BScroll 实例
