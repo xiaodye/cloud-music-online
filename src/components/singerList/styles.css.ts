@@ -1,4 +1,4 @@
-import globalVars from "@/styles/theme.css";
+import globalVars from "@/styles/vars.css";
 import { style, styleVariants } from "@vanilla-extract/css";
 
 const list = style({

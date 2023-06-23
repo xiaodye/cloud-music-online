@@ -1,4 +1,4 @@
-import globalVars from "@/styles/theme.css";
+import globalVars from "@/styles/vars.css";
 import { style } from "@vanilla-extract/css";
 
 const horizen = style({

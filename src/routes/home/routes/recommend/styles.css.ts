@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import globalVars from "@/styles/theme.css";
+import globalVars from "@/styles/vars.css";
 
 const root = style({
   flex: 1,
