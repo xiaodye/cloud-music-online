@@ -1,0 +1,20 @@
+:root {
+  --theme-color: #d44439;
+  --theme-color-shadow: #d4443980;
+
+  --font-color-light: #f1f1f1;
+  --font-color-desc: #2e3030;
+  --font-color-desc-v2: #bba8a8;
+
+  --font-size-ss: 10px;
+  --font-size-s: 12px;
+  --font-size-m: 14px;
+  --font-size-l: 16px;
+  --font-size-ll: 18px;
+
+  --background-color: #f2f3f4;
+  --background-color-shadow: #0000004d;
+  --background-color-highlight: #fff;
+
+  --border-color: #e4e4e4;
+}
