@@ -1,17 +1,17 @@
 import React, { ElementRef, useRef, useState } from "react";
-import styles from "./styles.module.scss";
 import Slider from "@/components/Slider";
 import RecommendList from "@/components/recommendList";
 import Scroll from "@/components/Scroll";
 import useMount from "@/hooks/useMount";
 import { getBannerListData, getRecommendListData } from "@/api/request";
 import Loading from "@/baseUI/Loading";
+import { root, backgroud, content } from "./styles.css";
 
 const Recommend: React.FC = () => {
   const [bannerList, setBannerList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
 
-  const bsRef = useRef<ElementRef<typeof Scroll>>({} as HTMLDivElement);
+  const bsRef = useRef<ElementRef<typeof Scroll>>({} as ElementRef<typeof Scroll>);
 
   useMount(async () => {
     getBannerList();
@@ -31,11 +31,11 @@ const Recommend: React.FC = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <div className={styles.backgroud}></div>
+    <div className={root}>
+      <div className={backgroud}></div>
 
       <Scroll ref={bsRef}>
-        <div className={styles.content}>
+        <div className={content}>
           <Slider bannerList={bannerList} />
           <RecommendList list={recommendList} />
         </div>
