@@ -1,11 +1,9 @@
-@import "@/styles/theme.scss";
-
 .wrapper {
   max-width: 100%;
   box-sizing: border-box;
   padding: 10px;
   padding-top: 0;
-  background-color: #f2f3f4;
+  background-color: var(--background-color);
 
   .title {
     box-sizing: border-box;
@@ -44,7 +42,8 @@
         top: 0;
         width: 100%;
         border-radius: 5px;
-        color: $font-color-light;
+
+        color: var(--font-color-light);
         font-size: 12px;
         padding-top: 5px;
         padding-right: 5px;
@@ -59,7 +58,7 @@
           position: absolute;
           right: 2px;
           top: 2px;
-          font-size: $font-size-s;
+          font-size: var(--font-size-s);
           line-height: 15px;
 
           .play {
@@ -71,9 +70,9 @@
     .desc {
       margin-top: 10px;
       text-align: left;
-      font-size: $font-size-s;
+      font-size: var(--font-size-s);
       line-height: 1.4;
-      color: $font-color-desc;
+      color: var(--font-color-desc);
 
       // 多行文本溢出
       display: -webkit-box;

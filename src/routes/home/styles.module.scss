@@ -1,5 +1,3 @@
-@import "@/styles/theme.scss";
-
 .home {
   display: flex;
   flex-direction: column;
@@ -11,10 +9,10 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 10px;
-  background: $theme-color;
+  background: var(--theme-color);
   & > span {
     line-height: 40px;
-    color: #f1f1f1;
+    color: var(--font-color-light);
     font-size: 20px;
     &.iconfont {
       font-size: 25px;
@@ -27,7 +25,7 @@
   justify-content: space-around;
   align-items: center;
   height: 45px;
-  background-color: $theme-color;
+  background-color: var(--theme-color);
   padding: 0 10px;
   &-item {
     display: flex;
@@ -38,7 +36,7 @@
     border-bottom: 2px solid transparent;
     transition: all 0.3s;
     &.active {
-      border-bottom-color: #f1f1f1;
+      border-bottom-color: var(--font-color-light);
     }
   }
 }
