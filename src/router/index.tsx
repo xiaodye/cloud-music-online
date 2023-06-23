@@ -4,9 +4,9 @@ import Recommend from "@/routes/home/routes/recommend";
 import Singers from "@/routes/home/routes/singers";
 import NotFound from "@/routes/notFound";
 import User from "@/routes/user";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter, createHashRouter } from "react-router-dom";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   // 访问根路径，重定向到/home
   {
     path: "/",
