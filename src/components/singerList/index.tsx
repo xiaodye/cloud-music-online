@@ -12,7 +12,11 @@ const SingerList: React.FC<IProps> = ({ list }) => {
     <ul className={styles.list}>
       {list.map((item, index) => (
         <li className={styles.listItem} key={index}>
-          <LazyLoadImage src={item.picUrl} className={styles.listItemContent.cover} placeholderSrc={placeImg} />
+          <LazyLoadImage
+            src={item.picUrl + "?param=300x300"}
+            className={styles.listItemContent.cover}
+            placeholderSrc={placeImg}
+          />
           <div className={styles.listItemContent.name}>{item.name}</div>
         </li>
       ))}

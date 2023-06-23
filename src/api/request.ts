@@ -19,7 +19,7 @@ export const getHotSingerListData = async (count: number) => {
 export const getSingerListData = async (category: string, alpha: string, count: number) => {
   try {
     const { data } = await axiosInstance.get<ArtistData>(
-      `/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}`
+      `/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}&limit=${30}`
     );
 
     return data;

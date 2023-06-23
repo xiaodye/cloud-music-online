@@ -44,7 +44,7 @@ const Scroll = forwardRef<HTMLDivElement, IProps>(
           threshold: 60,
         },
         observeDOM: true, // 开启 observe-dom 插件
-        // observeImage: true, // 开启 observe-image 插件
+        observeImage: true, // 开启 observe-image 插件
         probeType: 3,
       });
 
