@@ -1,6 +1,6 @@
 import Scroll from "@/components/Scroll";
 import React, { useState } from "react";
-import { content, listContainer, listItem, root } from "./styles.css";
+import { content, listContainer, listItem, horizen } from "./styles.css";
 import classNames from "classnames";
 
 type category = {
@@ -11,9 +11,10 @@ type category = {
 type IProps = {
   list: category[];
   title: string;
+  style?: React.CSSProperties;
 };
 
-const Horizen: React.FC<IProps> = ({ list, title }) => {
+const Horizen: React.FC<IProps> = ({ list, title, style }) => {
   const [currentIndex, setCurrentIndex] = useState(list[0].key);
 
   const clickHandle = (key: string) => {
@@ -21,7 +22,7 @@ const Horizen: React.FC<IProps> = ({ list, title }) => {
   };
 
   return (
-    <div className={root}>
+    <div className={horizen} style={style}>
       <Scroll direction="horizental">
         <div className={content}>
           <div className={listContainer}>

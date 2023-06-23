@@ -19,18 +19,18 @@ const listContainer = style({
   padding: "10px 0",
   height: "100%",
   boxSizing: "border-box",
+  columnGap: 5,
 });
 
 const listItem = style({
   flex: " 0 0 auto",
   fontSize: globalVars.font_size_m,
   borderRadius: "10px",
-  padding: "5px",
+  padding: "4px 5px",
 
   ":first-of-type": {
     flex: "0 0 auto",
     padding: "5px 10px",
-    columnGap: 5,
     color: "gray",
     fontSize: globalVars.font_size_m,
     verticalAlign: "middle",
@@ -45,4 +45,4 @@ const listItem = style({
   },
 });
 
-export { horizen as root, content, listContainer, listItem };
+export { horizen, content, listContainer, listItem };

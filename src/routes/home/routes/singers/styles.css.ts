@@ -1,8 +1,16 @@
 import { style } from "@vanilla-extract/css";
 
-const root = style({
+const singers = style({
   flex: 1,
   width: "100%",
+  display: "flex",
+  overflow: "auto",
+  flexDirection: "column",
 });
 
-export { root };
+const scrollContainer = style({
+  flex: "1 1 0%",
+  overflowY: "auto",
+});
+
+export { singers, scrollContainer };
