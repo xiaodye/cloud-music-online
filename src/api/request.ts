@@ -1,11 +1,31 @@
 import axiosInstance from "./config";
+import { ArtistData } from "./type";
 
-export const getBannerListData = () => {
-  return axiosInstance.get("/banner");
+export const getBannerListData = async () => {
+  const { data } = await axiosInstance.get("/banner");
+  return data;
 };
 
-export const getRecommendListData = () => {
-  return axiosInstance.get("/personalized");
+export const getRecommendListData = async () => {
+  const { data } = await axiosInstance.get("/personalized");
+  return data;
+};
+
+export const getHotSingerListData = async (count: number) => {
+  const { data } = await axiosInstance.get(`/top/artists?offset=${count}`);
+  return data;
+};
+
+export const getSingerListData = async (category: string, alpha: string, count: number) => {
+  try {
+    const { data } = await axiosInstance.get<ArtistData>(
+      `/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}`
+    );
+
+    return data;
+  } catch (err) {
+    throw new Error(`request error: ${err}`);
+  }
 };
 
 // 歌手种类
