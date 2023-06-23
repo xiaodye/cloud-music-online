@@ -6,6 +6,7 @@
     "editorconfig.editorconfig",
     "christian-kohler.path-intellisense",
     "eamodio.gitlens",
-    "syler.sass-indented"
+    "syler.sass-indented",
+    "phoenisx.cssvar"
   ]
 }
