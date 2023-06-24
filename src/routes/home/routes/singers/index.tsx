@@ -9,30 +9,30 @@ import useMount from "@/hooks/useMount";
 
 const Singers: React.FC = () => {
   const [singerList, setSingerList] = useState<Artist[]>([]);
-  const [pullUpIsLoading, setpullUpIsLoading] = useState(true);
-  const [pullDownIsLoading, setPullDownisLoading] = useState(true);
+  const [pullUpIsLoading, setpullUpIsLoading] = useState(false);
+  const [pullDownIsLoading, setPullDownisLoading] = useState(false);
 
-  useMount(async () => {
-    const res = await getSingerListData("华语男", "A", 1);
-    setSingerList(res.artists);
+  useMount(() => {
+    getSingerList();
   });
 
-  const onPullDown = () => {
-    console.log("下拉刷新");
+  const getSingerList = async () => {
+    const res = await getSingerListData("华语男", "A", 1);
+    setSingerList(res.artists);
+  };
 
+  const onPullDown = async () => {
     setPullDownisLoading(true);
+    getSingerList();
     setTimeout(() => {
       setPullDownisLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   const onPullUp = () => {
-    if (pullUpIsLoading) return;
-    console.log("上拉加载");
     setpullUpIsLoading(true);
     setTimeout(() => {
       setpullUpIsLoading(false);
-      console.log("完成");
     }, 2000);
   };
 
