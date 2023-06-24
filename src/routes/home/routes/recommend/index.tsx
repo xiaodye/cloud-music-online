@@ -5,7 +5,7 @@ import Scroll from "@/components/Scroll";
 import useMount from "@/hooks/useMount";
 import { getBannerListData, getRecommendListData } from "@/api/request";
 import Loading from "@/baseUI/Loading";
-import { root, backgroud, content } from "./styles.css";
+import { root } from "./styles.css";
 
 const Recommend: React.FC = () => {
   const [bannerList, setBannerList] = useState([]);
@@ -32,10 +32,8 @@ const Recommend: React.FC = () => {
 
   return (
     <div className={root}>
-      {/* <div className={backgroud}></div> */}
-
       <Scroll ref={bsRef}>
-        {/* <Slider bannerList={bannerList} /> */}
+        <Slider bannerList={bannerList} />
         <RecommendList list={recommendList} />
       </Scroll>
 

@@ -16,6 +16,4 @@ const backgroud = style({
   backgroundColor: globalVars.theme_color,
 });
 
-const content = style({});
-
-export { root, backgroud, content };
+export { root, backgroud };

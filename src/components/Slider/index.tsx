@@ -1,5 +1,11 @@
 import styles from "./styles.module.scss";
-import { Carousel } from "antd";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import placeImg from "@/assets/music.png";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 type IProps = {
   bannerList: { imageUrl: string }[];
@@ -8,14 +14,23 @@ type IProps = {
 const Slider: React.FC<IProps> = ({ bannerList }) => {
   return (
     <div className={styles.root}>
-      <Carousel className={styles.carousel}>
+      <Swiper
+        pagination={true}
+        modules={[Pagination]}
+        autoplay={true}
+        loop={true}
+        spaceBetween={15}
+        className={styles.swiper}
+      >
         {bannerList.map((item, index) => (
-          <div key={index}>
-            <img key={index} src={item.imageUrl} alt="img" className={styles.carouselItem} />
-          </div>
+          <SwiperSlide key={index} className={styles.swiperItem}>
+            <LazyLoadImage key={index} src={item.imageUrl} placeholderSrc={placeImg} alt="img" className={styles.img} />
+          </SwiperSlide>
         ))}
-      </Carousel>
+      </Swiper>
     </div>
+
+    // </div>
   );
 };
 
