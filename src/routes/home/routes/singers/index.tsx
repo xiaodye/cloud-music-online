@@ -6,9 +6,11 @@ import Scroll from "@/components/Scroll";
 import SingerList from "@/components/singerList";
 import { Artist } from "@/api/type";
 import useMount from "@/hooks/useMount";
+import Loading from "@/baseUI/Loading";
 
 const Singers: React.FC = () => {
   const [singerList, setSingerList] = useState<Artist[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [pullUpIsLoading, setpullUpIsLoading] = useState(false);
   const [pullDownIsLoading, setPullDownisLoading] = useState(false);
 
@@ -17,8 +19,10 @@ const Singers: React.FC = () => {
   });
 
   const getSingerList = async () => {
+    setIsLoading(true);
     const res = await getSingerListData("华语男", "A", 1);
     setSingerList(res.artists);
+    setIsLoading(false);
   };
 
   const onPullDown = async () => {
@@ -35,6 +39,10 @@ const Singers: React.FC = () => {
       setpullUpIsLoading(false);
     }, 2000);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className={singers}>
