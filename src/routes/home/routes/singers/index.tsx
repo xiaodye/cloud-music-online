@@ -15,13 +15,21 @@ const Singers: React.FC = () => {
     setSingerList(res.artists);
   });
 
+  const onPullUp = () => {
+    console.log("上拉刷新");
+  };
+
+  const onPullDown = () => {
+    console.log("下拉加载");
+  };
+
   return (
     <div className={singers}>
       <Horizen list={categoryTypes} title={"分类 (默认热门):"} />
       <Horizen list={alphaTypes} title={"首字母:"} />
 
       <div className={scrollContainer}>
-        <Scroll>
+        <Scroll pullUp={onPullUp} pullDown={onPullDown}>
           <SingerList list={singerList} />
         </Scroll>
       </div>

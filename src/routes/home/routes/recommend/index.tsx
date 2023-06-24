@@ -32,13 +32,11 @@ const Recommend: React.FC = () => {
 
   return (
     <div className={root}>
-      <div className={backgroud}></div>
+      {/* <div className={backgroud}></div> */}
 
       <Scroll ref={bsRef}>
-        <div className={content}>
-          <Slider bannerList={bannerList} />
-          <RecommendList list={recommendList} />
-        </div>
+        {/* <Slider bannerList={bannerList} /> */}
+        <RecommendList list={recommendList} />
       </Scroll>
 
       <Loading />
