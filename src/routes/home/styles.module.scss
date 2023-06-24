@@ -35,6 +35,7 @@
     padding: 5px 0;
     border-bottom: 2px solid transparent;
     transition: all 0.3s;
+    color: var(--font-color-light);
     &.active {
       border-bottom-color: var(--font-color-light);
     }

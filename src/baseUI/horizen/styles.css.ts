@@ -24,9 +24,9 @@ const listContainer = style({
 
 const listItem = style({
   flex: " 0 0 auto",
-  fontSize: globalVars.font_size_m,
+  fontSize: globalVars.font_size_s,
   borderRadius: "10px",
-  padding: "4px 5px",
+  padding: "2px 10px",
 
   ":first-of-type": {
     flex: "0 0 auto",
@@ -38,6 +38,7 @@ const listItem = style({
 
   selectors: {
     "&.selected": {
+      backgroundColor: "#fdf5f5",
       color: globalVars.theme_color,
       border: `1px solid ${globalVars.theme_color}`,
       opacity: 0.8,
