@@ -19,7 +19,10 @@ type IProps = {
   direction?: "vertical" | "horizental";
   click?: boolean;
   style?: React.CSSProperties;
-  loading?: boolean;
+  pullUpLoading?: boolean;
+  pullUpLoadText?: string;
+  pullDownLoading?: boolean;
+  pullDownLoadText?: string;
   children: React.ReactNode;
   onScroll?: () => void;
   pullUp?: () => void;
@@ -27,7 +30,22 @@ type IProps = {
 };
 
 const Scroll = forwardRef<HTMLDivElement, IProps>(
-  ({ children, direction = "vertical", click = true, loading = false, style, onScroll, pullUp, pullDown }, ref) => {
+  (
+    {
+      children,
+      direction = "vertical",
+      click = true,
+      pullUpLoading = false,
+      pullUpLoadText,
+      pullDownLoading = false,
+      pullDownLoadText,
+      style,
+      onScroll,
+      pullUp,
+      pullDown,
+    },
+    ref
+  ) => {
     // current 指向初始化 bs 实例需要的 DOM 元素
     const bsContainer = useRef<HTMLDivElement>({} as HTMLDivElement);
     // 用于存储一个 BScroll 实例
@@ -75,8 +93,9 @@ const Scroll = forwardRef<HTMLDivElement, IProps>(
     return (
       <div className={styles.container} style={style} ref={bsContainer}>
         <div className={styles.content}>
-          <DanceLoading style={{ display: loading ? "flex" : "none" }} />
+          <DanceLoading style={{ display: pullDownLoading ? "flex" : "none" }} loadText={pullDownLoadText} />
           {children}
+          <DanceLoading style={{ display: pullUpLoading ? "flex" : "none" }} loadText={pullUpLoadText} />
         </div>
       </div>
     );

@@ -1,11 +1,12 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import styles from "./styles.module.scss";
 
 type IProps = {
+  loadText?: string;
   style?: React.CSSProperties;
 };
 
-const DanceLoading: React.FC<IProps> = memo(({ style }) => {
+const DanceLoading: React.FC<IProps> = memo(({ loadText, style }) => {
   return (
     <div className={styles.container} style={style}>
       <ul className={styles.danceList}>
@@ -13,7 +14,7 @@ const DanceLoading: React.FC<IProps> = memo(({ style }) => {
           <li className={styles.danceListItem} key={item}></li>
         ))}
       </ul>
-      <p>拼命加载中...</p>
+      <p>{loadText ?? "拼命加载中..."}</p>
     </div>
   );
 });

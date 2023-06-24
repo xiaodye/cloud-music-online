@@ -9,18 +9,31 @@ import useMount from "@/hooks/useMount";
 
 const Singers: React.FC = () => {
   const [singerList, setSingerList] = useState<Artist[]>([]);
+  const [pullUpIsLoading, setpullUpIsLoading] = useState(true);
+  const [pullDownIsLoading, setPullDownisLoading] = useState(true);
 
   useMount(async () => {
     const res = await getSingerListData("华语男", "A", 1);
     setSingerList(res.artists);
   });
 
-  const onPullUp = () => {
-    console.log("上拉刷新");
+  const onPullDown = () => {
+    console.log("下拉刷新");
+
+    setPullDownisLoading(true);
+    setTimeout(() => {
+      setPullDownisLoading(false);
+    }, 2000);
   };
 
-  const onPullDown = () => {
-    console.log("下拉加载");
+  const onPullUp = () => {
+    if (pullUpIsLoading) return;
+    console.log("上拉加载");
+    setpullUpIsLoading(true);
+    setTimeout(() => {
+      setpullUpIsLoading(false);
+      console.log("完成");
+    }, 2000);
   };
 
   return (
@@ -29,7 +42,12 @@ const Singers: React.FC = () => {
       <Horizen list={alphaTypes} title={"首字母:"} />
 
       <div className={scrollContainer}>
-        <Scroll pullUp={onPullUp} pullDown={onPullDown}>
+        <Scroll
+          pullUp={onPullUp}
+          pullDown={onPullDown}
+          pullDownLoading={pullDownIsLoading}
+          pullUpLoading={pullUpIsLoading}
+        >
           <SingerList list={singerList} />
         </Scroll>
       </div>
