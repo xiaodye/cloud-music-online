@@ -40,9 +40,9 @@ const Singers: React.FC = () => {
     }, 2000);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div className={singers}>

@@ -1,15 +1,16 @@
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
   column-gap: 5px;
   padding: 5px 0;
-  height: 10px;
   font-size: var(--font-size-s);
 }
 
 .dance-list {
   display: flex;
   column-gap: 2px;
+  height: 10px;
 
   &-item {
     background-color: var(--theme-color);
