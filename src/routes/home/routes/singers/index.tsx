@@ -4,7 +4,7 @@ import { alphaTypes, categoryTypes, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
 import Scroll from "@/components/Scroll";
 import SingerList from "@/components/singerList";
-import { Artist } from "@/api/type";
+import { Artist } from "@/api/types";
 import useMount from "@/hooks/useMount";
 import Loading from "@/baseUI/Loading";
 

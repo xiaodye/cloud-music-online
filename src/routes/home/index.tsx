@@ -30,7 +30,7 @@ const Home: React.FC = () => {
     <div className={styles.home}>
       <div className={styles.top}>
         <span className="iconfont menu">&#xe65c;</span>
-        <span className="title">WebApp</span>
+        <span className="title">云音悦</span>
         <span className="iconfont search">&#xe62b;</span>
       </div>
       <div className={styles.tab}>

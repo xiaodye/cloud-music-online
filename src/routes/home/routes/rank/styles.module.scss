@@ -1,0 +1,11 @@
+.rank {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+}
+
+.title {
+  padding: 10px;
+  font-size: var(--font-size-ll);
+  font-weight: bold;
+}

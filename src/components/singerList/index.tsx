@@ -1,6 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import styles from "./styles.css";
-import { Artist } from "@/api/type";
+import { Artist } from "@/api/types";
 import placeImg from "@/assets/music.png";
 
 type IProps = {

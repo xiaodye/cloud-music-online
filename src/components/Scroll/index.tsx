@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 import useMount from "@/hooks/useMount";
 import useUnMount from "@/hooks/useUnmount";
 import DanceLoading from "@/baseUI/DanceLoading";
+import React from "react";
 
 // 使用插件
 BScroll.use(PullUp);
@@ -104,6 +105,7 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     <div className={styles.container} style={style} ref={bsContainer}>
       <div className={styles.content}>
         <DanceLoading style={{ display: pullDownLoading ? "flex" : "none" }} loadText={pullDownLoadText} />
+        {/* {React.Children.map(children, (child, index) => child)} */}
         {children}
         <DanceLoading style={{ display: pullUpLoading ? "flex" : "none" }} loadText={pullUpLoadText} />
       </div>
