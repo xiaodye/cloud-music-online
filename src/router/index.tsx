@@ -3,6 +3,7 @@ import Rank from "@/routes/home/routes/rank";
 import Recommend from "@/routes/home/routes/recommend";
 import Singers from "@/routes/home/routes/singers";
 import NotFound from "@/routes/notFound";
+import Album from "@/routes/album";
 import User from "@/routes/user";
 import { Navigate, createBrowserRouter, createHashRouter } from "react-router-dom";
 
@@ -36,8 +37,12 @@ const router = createHashRouter([
     ],
   },
   {
-    path: "user",
+    path: "/user",
     element: <User />,
+  },
+  {
+    path: "/play-list/:id",
+    element: <Album />,
   },
 
   // NotFound

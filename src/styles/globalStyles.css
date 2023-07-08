@@ -1,4 +1,8 @@
 /* 扩大可点击区域 */
+* {
+  box-sizing: border-box;
+}
+
 .extendClick {
   position: relative;
 }

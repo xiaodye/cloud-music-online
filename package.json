@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-lazy-load-image-component": "^1.6.0",
     "react-router-dom": "^6.11.2",
+    "react-transition-group": "^4.4.5",
     "redux": "4.1.2",
     "swiper": "^9.4.1",
     "zustand": "^4.3.8"
@@ -33,6 +34,7 @@
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/react-lazy-load-image-component": "^1.5.3",
+    "@types/react-transition-group": "^4.4.6",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vanilla-extract/vite-plugin": "^3.8.2",

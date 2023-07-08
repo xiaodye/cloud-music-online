@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import OfficialRankList from "@/components/officialRankList";
 import Scroll from "@/components/Scroll";
 import GlobalRankList from "@/components/globalRankList";
+import Loading from "@/baseUI/Loading";
 
 export type OfficialListType = {
   id: string;
@@ -41,11 +42,15 @@ const Rank: React.FC = () => {
     return { officialList, globalList };
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className={styles.rank}>
       <Scroll>
         <h1 className={styles.title}>官方榜</h1>
-        <OfficialRankList list={officialList} isLoading={isLoading} />
+        <OfficialRankList list={officialList} />
         <h1 className={styles.title}>全球榜</h1>
         <GlobalRankList list={globalList} />
       </Scroll>

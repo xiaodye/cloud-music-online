@@ -2,20 +2,14 @@ import { OfficialListType } from "@/routes/home/routes/rank";
 import React from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
-import Loading from "@/baseUI/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeImg from "@/assets/music.png";
 
 interface IProps {
   list: OfficialListType[];
-  isLoading: boolean;
 }
 
-const OfficialRankList: React.FC<IProps> = ({ list, isLoading }) => {
-  if (isLoading) {
-    return <Loading />;
-  }
-
+const OfficialRankList: React.FC<IProps> = ({ list }) => {
   return (
     <ul className={styles.list}>
       {list.map((item) => (
