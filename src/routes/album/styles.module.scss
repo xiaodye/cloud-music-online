@@ -1,9 +1,8 @@
-.play-list {
+.album {
   min-height: 100vh;
-}
-
-.container {
   position: fixed;
+  display: flex;
+  align-items: center;
   top: 0;
   left: 0;
   right: 0;
@@ -17,7 +16,7 @@
   flex-direction: column;
   position: relative;
   padding: 20px;
-  padding-top: 40px;
+  padding-top: 70px;
   row-gap: 30px;
 
   .background {
@@ -124,4 +123,9 @@
       color: var(--font-color-light);
     }
   }
+}
+
+.main {
+  height: 500px;
+  background-color: #ffffff;
 }

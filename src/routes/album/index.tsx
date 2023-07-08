@@ -114,10 +114,10 @@ const Album: React.FC = () => {
       appear={true}
       onExited={() => navigate(-1)}
     >
-      <div className={styles.container}>
+      <div className={styles.album}>
         <Banner onClick={handleBack} />
         <Scroll>
-          <div className={styles.header}>
+          <header className={styles.header}>
             <div className={styles.background} style={{ backgroundImage: `url(${currentAlbum.coverImgUrl})` }}></div>
 
             <div className={styles.albumContainer}>
@@ -155,7 +155,9 @@ const Album: React.FC = () => {
                 更多
               </div>
             </div>
-          </div>
+          </header>
+
+          <main className={styles.main}></main>
         </Scroll>
       </div>
     </CSSTransition>
