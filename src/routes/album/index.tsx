@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 import animation from "./animation.module.css";
 import { CSSTransition } from "react-transition-group";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Banner from "@/components/Banner";
 import Scroll from "@/components/Scroll";
 import SongList from "@/components/songList";
@@ -21,9 +21,9 @@ const Album: React.FC = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setShow(false);
-  };
+  }, []);
 
   useMount(async () => {
     const res = await getAlbumDetailRequest(params.id!);

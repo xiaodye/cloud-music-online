@@ -5,7 +5,7 @@ import Singers from "@/routes/home/routes/singers";
 import NotFound from "@/routes/notFound";
 import Album from "@/routes/album";
 import User from "@/routes/user";
-import { Navigate, createBrowserRouter, createHashRouter } from "react-router-dom";
+import { Navigate, createHashRouter } from "react-router-dom";
 
 const router = createHashRouter([
   // 访问根路径，重定向到/home
@@ -41,7 +41,7 @@ const router = createHashRouter([
     element: <User />,
   },
   {
-    path: "/play-list/:id",
+    path: "/album/:id",
     element: <Album />,
   },
 

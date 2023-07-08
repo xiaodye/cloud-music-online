@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 
@@ -7,7 +7,7 @@ interface IProps {
   onClick?: () => void;
 }
 
-const Banner: React.FC<IProps> = ({ title = "返回", onClick }) => {
+const Banner: React.FC<IProps> = memo(({ title = "返回", onClick }) => {
   return (
     <div className={styles.banner}>
       <i className={classNames("iconfont", styles.back)} onClick={onClick}>
@@ -16,6 +16,6 @@ const Banner: React.FC<IProps> = ({ title = "返回", onClick }) => {
       <h1>{title}</h1>
     </div>
   );
-};
+});
 
 export default Banner;

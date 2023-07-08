@@ -4,7 +4,6 @@ import { getCount } from "@/utils/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeImg from "@/assets/music.png";
 import { useNavigate } from "react-router-dom";
-import classNames from "classnames";
 
 export type List = {
   id: number;
@@ -20,7 +19,7 @@ type Props = {
 const RecommendList: React.FC<Props> = ({ list }) => {
   const navigate = useNavigate();
   const gotoDetail = (id: number) => {
-    navigate(`/play-list/${id}`);
+    navigate(`/album/${id}`);
   };
 
   return (
