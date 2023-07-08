@@ -44,24 +44,26 @@ const SingerDetail: React.FC = () => {
       }}
       onExited={() => navigate(-1)}
     >
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className={styles.singerDetail}>
-          <Banner title={singerDetail.artist.name} onClick={handleClick} />
-          <div className={styles.singerBg} style={{ backgroundImage: `url(${singerDetail.artist.picUrl})` }}></div>
-          <div className={styles.collectBtn}>
-            <i className="iconfont">&#xe62d;</i>
-            <span className={styles.text}> 收藏 </span>
-          </div>
-          {/* <div className={styles.bgLayer}></div> */}
-          <div className={styles.singerListWrapper}>
-            <Scroll>
-              <SongList list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />
-            </Scroll>
-          </div>
-        </div>
-      )}
+      <div className={styles.singerDetail}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Banner title={singerDetail.artist.name} onClick={handleClick} />
+            <div className={styles.singerBg} style={{ backgroundImage: `url(${singerDetail.artist.picUrl})` }}></div>
+            <div className={styles.collectBtn}>
+              <i className="iconfont">&#xe62d;</i>
+              <span className={styles.text}> 收藏 </span>
+            </div>
+            {/* <div className={styles.bgLayer}></div> */}
+            <div className={styles.singerListWrapper}>
+              <Scroll>
+                <SongList list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />
+              </Scroll>
+            </div>
+          </>
+        )}
+      </div>
     </CSSTransition>
   );
 };

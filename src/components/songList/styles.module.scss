@@ -1,5 +1,5 @@
 .song-list {
-  list-style-type: none;
+  box-sizing: border-box;
   &-item {
     display: flex;
     // justify-content: space-between;
