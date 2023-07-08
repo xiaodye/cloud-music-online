@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styles from "./styles.module.scss";
 import { getName } from "@/utils/utils";
 import classNames from "classnames";
@@ -11,11 +11,12 @@ type List = {
 
 export interface IProps {
   list: List[];
+  style?: CSSProperties;
 }
 
-const SongList: React.FC<IProps> = ({ list }) => {
+const SongList: React.FC<IProps> = ({ list, style }) => {
   return (
-    <ul className={styles.songList}>
+    <ul className={styles.songList} style={style}>
       {list.map((item, index) => (
         <li key={index} className={styles.songListItem}>
           <div className={styles.songListItemIndex}>{index + 1}</div>

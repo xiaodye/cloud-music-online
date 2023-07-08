@@ -1,4 +1,5 @@
 export type Artist = {
+  id: number;
   accountId: number;
   name: string;
   picUrl: string;
@@ -22,5 +23,19 @@ export type AlbumDetailType = {
     name: string;
     ar: { name: string }[];
     al: { name: string };
+  }[];
+};
+
+export type SingerDetailType = {
+  artist: {
+    name: string;
+    picUrl: string;
+  };
+  hotSongs: {
+    name: string;
+    ar: { name: string }[];
+    al: {
+      name: string;
+    };
   }[];
 };

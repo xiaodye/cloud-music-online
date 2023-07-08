@@ -1,5 +1,5 @@
 import axiosInstance from "./config";
-import { AlbumDetailType, ArtistData } from "./types";
+import { AlbumDetailType, ArtistData, SingerDetailType } from "./types";
 
 // 轮播图
 export const getBannerListData = async () => {
@@ -45,6 +45,17 @@ export const getAlbumDetailRequest = async (id: string) => {
     } = await axiosInstance.get<{ playlist: AlbumDetailType }>(`/playlist/detail?id=${id}`);
 
     return playlist;
+  } catch (err) {
+    throw new Error(`request error: ${err}`);
+  }
+};
+
+// 获取歌手详情相关数据
+export const getSingerInfoRequest = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get<SingerDetailType>(`/artists?id=${id}`);
+
+    return data;
   } catch (err) {
     throw new Error(`request error: ${err}`);
   }

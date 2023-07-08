@@ -6,6 +6,7 @@ import NotFound from "@/routes/notFound";
 import Album from "@/routes/album";
 import User from "@/routes/user";
 import { Navigate, createHashRouter } from "react-router-dom";
+import SingerDetail from "@/routes/singerDetail";
 
 const router = createHashRouter([
   // 访问根路径，重定向到/home
@@ -43,6 +44,11 @@ const router = createHashRouter([
   {
     path: "/album/:id",
     element: <Album />,
+  },
+
+  {
+    path: "/singer-detail/:id",
+    element: <SingerDetail />,
   },
 
   // NotFound
