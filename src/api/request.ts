@@ -1,5 +1,5 @@
 import axiosInstance from "./config";
-import { ArtistData } from "./types";
+import { AlbumDetailType, ArtistData } from "./types";
 
 // 轮播图
 export const getBannerListData = async () => {
@@ -35,6 +35,19 @@ export const getSingerListData = async (category: string, alpha: string, count: 
 // 获取排行榜
 export const getRankListRequest = () => {
   return axiosInstance.get<any>(`/toplist/detail`);
+};
+
+// 获取歌单的歌曲列表
+export const getAlbumDetailRequest = async (id: string) => {
+  try {
+    const {
+      data: { playlist },
+    } = await axiosInstance.get<{ playlist: AlbumDetailType }>(`/playlist/detail?id=${id}`);
+
+    return playlist;
+  } catch (err) {
+    throw new Error(`request error: ${err}`);
+  }
 };
 
 // 歌手种类, 歌手首字母

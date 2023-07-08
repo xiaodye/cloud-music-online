@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import { getName } from "@/utils/utils";
+import classNames from "classnames";
 
 type List = {
   name: string;
@@ -16,11 +17,11 @@ const SongList: React.FC<IProps> = ({ list }) => {
   return (
     <ul className={styles.songList}>
       {list.map((item, index) => (
-        <li key={item.name} className={styles.songListItem}>
+        <li key={index} className={styles.songListItem}>
           <div className={styles.songListItemIndex}>{index + 1}</div>
           <div className={styles.songListItemInfo}>
-            <span className={styles.songListItemInfoName}>{item.name}</span>
-            <span className={styles.songListItemInfoMsg}>
+            <span className={classNames("text-noWrap", styles.songListItemInfoName)}>{item.name}</span>
+            <span className={classNames("text-noWrap", styles.songListItemInfoMsg)}>
               {getName(item.ar)} - {item.al.name}
             </span>
           </div>

@@ -3,14 +3,14 @@
 
   &-item {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     height: 60px;
 
     &-index {
+      width: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 60px;
     }
 
     &-info {
@@ -23,10 +23,12 @@
 
       &-name {
         font-size: 16px;
+        width: 300px;
       }
       &-msg {
         font-size: 12px;
         color: var(--font-color-desc-v2);
+        width: 300px;
       }
     }
   }
