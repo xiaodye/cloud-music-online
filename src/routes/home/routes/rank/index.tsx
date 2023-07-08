@@ -6,23 +6,11 @@ import OfficialRankList from "@/components/officialRankList";
 import Scroll from "@/components/Scroll";
 import GlobalRankList from "@/components/globalRankList";
 import Loading from "@/baseUI/Loading";
-
-export type OfficialListType = {
-  id: string;
-  coverImgUrl: string;
-  tracks: { first: string; second: string }[];
-};
-
-export type GlobalListType = {
-  id: string;
-  coverImgUrl: string;
-  tracks: { first: string; second: string }[];
-  updateFrequency: string;
-};
+import { RankListType } from "@/api/types";
 
 const Rank: React.FC = () => {
-  const [officialList, setOfficialList] = useState<OfficialListType[]>([]);
-  const [globalList, setGlobalList] = useState<GlobalListType[]>([]);
+  const [officialList, setOfficialList] = useState<RankListType[]>([]);
+  const [globalList, setGlobalList] = useState<RankListType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useMount(async () => {
@@ -34,10 +22,10 @@ const Rank: React.FC = () => {
 
   const getRankList = async () => {
     setIsLoading(true);
-    const { data } = await getRankListRequest();
+    const res = await getRankListRequest();
 
-    const officialList: OfficialListType[] = data.list.filter((item: OfficialListType) => item.tracks.length !== 0);
-    const globalList: GlobalListType[] = data.list.filter((item: GlobalListType) => item.tracks.length === 0);
+    const officialList = res.list.filter((item) => item.tracks.length !== 0);
+    const globalList = res.list.filter((item) => item.tracks.length === 0);
     setIsLoading(false);
     return { officialList, globalList };
   };

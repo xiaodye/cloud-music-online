@@ -10,6 +10,13 @@ export type ArtistData = {
   code: number;
 };
 
+export type RankListType = {
+  id: string;
+  coverImgUrl: string;
+  tracks: { first: string; second: string }[];
+  updateFrequency: string;
+};
+
 export type AlbumDetailType = {
   id: string;
   creator: {

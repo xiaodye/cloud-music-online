@@ -1,11 +1,11 @@
-import { GlobalListType } from "@/routes/home/routes/rank";
 import styles from "./styles.module.scss";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeImg from "@/assets/music.png";
 import { useNavigate } from "react-router-dom";
+import { RankListType } from "@/api/types";
 
 interface IProps {
-  list: GlobalListType[];
+  list: RankListType[];
 }
 
 const GlobalRankList: React.FC<IProps> = ({ list }) => {

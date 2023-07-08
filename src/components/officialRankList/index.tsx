@@ -1,13 +1,13 @@
-import { OfficialListType } from "@/routes/home/routes/rank";
 import React from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeImg from "@/assets/music.png";
 import { useNavigate } from "react-router-dom";
+import { RankListType } from "@/api/types";
 
 interface IProps {
-  list: OfficialListType[];
+  list: RankListType[];
 }
 
 const OfficialRankList: React.FC<IProps> = ({ list }) => {
