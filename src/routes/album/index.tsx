@@ -5,6 +5,9 @@ import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
 import Banner from "@/components/Banner";
 import Scroll from "@/components/Scroll";
+import SongList from "@/components/songList";
+import { getCount } from "@/utils/utils";
+import classNames from "classnames";
 
 const Album: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -157,7 +160,22 @@ const Album: React.FC = () => {
             </div>
           </header>
 
-          <main className={styles.main}></main>
+          <main className={styles.main}>
+            <div className={styles.firstLine}>
+              <div className={styles.playAll}>
+                <i className={classNames("iconfont", styles.icon)}>&#xe6e3;</i>
+                <div>
+                  <span>播放全部</span>
+                  <span className={styles.num}>（共 {currentAlbum.tracks.length} 首）</span>
+                </div>
+              </div>
+              <div className={styles.btn}>
+                <i className="iconfont">&#xe62d;</i>
+                <span> 收藏 ({getCount(currentAlbum.subscribedCount)})</span>
+              </div>
+            </div>
+            <SongList list={currentAlbum.tracks} />
+          </main>
         </Scroll>
       </div>
     </CSSTransition>

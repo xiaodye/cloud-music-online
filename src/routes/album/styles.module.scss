@@ -9,6 +9,7 @@
   bottom: 0;
   z-index: 100;
   background: var(--background-color);
+  color: #676969;
 }
 
 .header {
@@ -126,6 +127,45 @@
 }
 
 .main {
-  height: 500px;
   background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+
+  .first-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    color: #2e3030;
+    font-weight: bold;
+  }
+
+  .play-all {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    column-gap: 10px;
+    margin-left: 10px;
+    .num {
+      color: var(--font-color-desc-v2);
+      font-size: 14px;
+    }
+  }
+
+  .icon {
+    font-size: 24px;
+  }
+
+  .btn {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    padding: 0 10px;
+
+    background-color: var(--theme-color);
+    color: var(--font-color-light);
+    font-weight: normal;
+  }
 }
