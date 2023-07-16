@@ -11,8 +11,8 @@ import Loading from "@/baseUI/Loading";
 const Singers: React.FC = () => {
   const [singerList, setSingerList] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [pullUpIsLoading, setpullUpIsLoading] = useState(false);
-  const [pullDownIsLoading, setPullDownisLoading] = useState(false);
+  const [pullUpIsLoading, setPullUpIsLoading] = useState(false);
+  const [pullDownIsLoading, setPullDownIsLoading] = useState(false);
 
   useMount(() => {
     getSingerList();
@@ -26,17 +26,17 @@ const Singers: React.FC = () => {
   };
 
   const onPullDown = async () => {
-    setPullDownisLoading(true);
+    setPullDownIsLoading(true);
     getSingerList();
     setTimeout(() => {
-      setPullDownisLoading(false);
+      setPullDownIsLoading(false);
     }, 1000);
   };
 
   const onPullUp = () => {
-    setpullUpIsLoading(true);
+    setPullUpIsLoading(true);
     setTimeout(() => {
-      setpullUpIsLoading(false);
+      setPullUpIsLoading(false);
     }, 2000);
   };
 

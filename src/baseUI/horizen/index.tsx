@@ -23,7 +23,7 @@ const Horizen: React.FC<IProps> = ({ list, title, style }) => {
 
   return (
     <div className={horizen} style={style}>
-      <Scroll direction="horizental">
+      <Scroll direction="horizontal">
         <div className={content}>
           <div className={listContainer}>
             <span className={listItem}>{title}</span>

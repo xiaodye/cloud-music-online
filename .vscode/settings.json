@@ -10,5 +10,6 @@
   "reactSnippets.settings.importReactOnTop": false,
 
   "cssvar.files": ["src/**/*.css"],
-  "cssvar.extensions": ["css", "scss"]
+  "cssvar.extensions": ["css", "scss"],
+  "cSpell.words": ["Horizen"]
 }

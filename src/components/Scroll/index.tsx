@@ -17,7 +17,7 @@ BScroll.use(ObserveDOM);
 BScroll.use(ObserveImage);
 
 interface IProps {
-  direction?: "vertical" | "horizental";
+  direction?: "vertical" | "horizontal";
   click?: boolean;
   style?: React.CSSProperties;
   pullUpLoading?: boolean;
@@ -67,7 +67,7 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
 
   useMount(() => {
     bs.current = new BScroll(bsContainer.current, {
-      scrollX: direction === "horizental",
+      scrollX: direction === "horizontal",
       scrollY: direction === "vertical",
       click: click,
       pullUpLoad: true,
