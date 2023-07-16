@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { getName } from "@/utils/utils";
@@ -35,8 +35,10 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
           <img src={song.al.picUrl + "?param=300x300"} alt="song-img" />
         </div>
 
-        <header className={styles.header} onClick={() => setFullScreen(false)}>
-          <DownOutlined className={styles.icon} />
+        <header className={styles.header}>
+          <div onClick={() => setFullScreen(false)}>
+            <DownOutlined className={styles.icon} />
+          </div>
           <div className={styles.info}>
             <span className={styles.infoName}>{song.name}</span>
             <span className={styles.infoSinger}>{getName(song.ar)} </span>
