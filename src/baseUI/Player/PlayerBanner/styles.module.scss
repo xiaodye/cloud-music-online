@@ -1,0 +1,63 @@
+.miniPlayer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  background-color: var(--background-color-highlight);
+}
+
+.song-info {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+
+    &.play {
+      animation: rotate 10s infinite;
+    }
+
+    &.pause {
+      animation-play-state: paused;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 50vw;
+    &-name {
+      font-size: var(--font-size-m);
+      color: var(--font-color-desc);
+    }
+    &-singer {
+      font-size: var(--font-size-s);
+      color: var(--font-color-desc-v2);
+    }
+  }
+}
+
+.song-control {
+  display: flex;
+  column-gap: 20px;
+
+  .icon {
+    font-size: 20px;
+    color: var(--theme-color);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
