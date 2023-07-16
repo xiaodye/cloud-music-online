@@ -16,7 +16,7 @@ type State = {
 type Actions = {
   setCurrentSong: () => void;
   setCurrentIndex: () => void;
-  setFullScreen: () => void;
+  setFullScreen: (open: boolean) => void;
   setPlayMode: () => void;
   setPlayingState: () => void;
   setSequencePlayList: () => void;
@@ -41,7 +41,12 @@ const usePlayerStore = create(
 
     setCurrentSong: () => set((state) => ({ ...state })),
     setCurrentIndex: () => set((state) => ({ ...state })),
-    setFullScreen: () => set((state) => ({ ...state })),
+
+    setFullScreen: (open: boolean) =>
+      set((state) => {
+        state.fullScreen = open;
+      }),
+
     setPlayMode: () => set((state) => ({ ...state })),
     setPlayingState: () => set((state) => ({ ...state })),
     setSequencePlayList: () => set((state) => ({ ...state })),

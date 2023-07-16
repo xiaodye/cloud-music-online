@@ -2,6 +2,7 @@ import { FC } from "react";
 import { getName } from "@/utils/utils";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
+import { usePlayerStore } from "@/store";
 
 interface IProps {
   song: {
@@ -12,9 +13,11 @@ interface IProps {
 }
 
 const PlayerBanner: FC<IProps> = ({ song }) => {
+  const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
+
   return (
     <div className={styles.miniPlayerContainer}>
-      <div className={styles.songInfo}>
+      <div className={styles.songInfo} onClick={() => setFullScreen(true)}>
         <img src={song.al.picUrl} className={classNames(styles.avatar, styles.play)} alt="avatar" />
         <div className={styles.info}>
           <span className={classNames(styles.infoName, "text-noWrap")}>{song.name}</span>
