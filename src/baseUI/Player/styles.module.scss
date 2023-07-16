@@ -1,5 +1,7 @@
 .player {
-  position: sticky;
+  position: fixed;
   z-index: 999;
   bottom: 0;
+  left: 0;
+  width: 100vw;
 }

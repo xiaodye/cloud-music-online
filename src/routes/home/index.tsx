@@ -1,8 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./styles.module.scss";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import classNames from "classnames";
-import Player from "@/baseUI/Player";
 
 const Home: React.FC = () => {
   const tabs = useMemo(
@@ -43,8 +42,6 @@ const Home: React.FC = () => {
       </div>
 
       <Outlet />
-
-      <Player />
     </div>
   );
 };
