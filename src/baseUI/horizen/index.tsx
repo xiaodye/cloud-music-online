@@ -3,22 +3,24 @@ import React, { useState } from "react";
 import { content, listContainer, listItem, horizen } from "./styles.css";
 import classNames from "classnames";
 
-type category = {
+type areaType = {
   key: string;
   name: string;
 };
 
 type IProps = {
-  list: category[];
+  list: areaType[];
   title: string;
   style?: React.CSSProperties;
+  onClick: (value: string) => void;
 };
 
-const Horizen: React.FC<IProps> = ({ list, title, style }) => {
-  const [currentIndex, setCurrentIndex] = useState(list[0].key);
+const Horizen: React.FC<IProps> = ({ list, title, style, onClick }) => {
+  const [currentKey, setCurrentKey] = useState(list[0].key);
 
   const clickHandle = (key: string) => {
-    setCurrentIndex(key);
+    setCurrentKey(key);
+    onClick(key);
   };
 
   return (
@@ -30,7 +32,7 @@ const Horizen: React.FC<IProps> = ({ list, title, style }) => {
             {list.map((item) => (
               <span
                 key={item.key}
-                className={classNames(listItem, currentIndex === item.key ? "selected" : "")}
+                className={classNames(listItem, currentKey === item.key ? "selected" : "")}
                 onClick={() => clickHandle(item.key)}
               >
                 {item.name}

@@ -1,69 +1,52 @@
 // 歌手种类
-export const categoryTypes = [
+export const categoryList = [
   {
-    name: "华语男",
-    key: "1001",
+    key: "-1",
+    name: "全部",
   },
   {
-    name: "华语女",
-    key: "1002",
+    key: "1",
+    name: "男歌手",
   },
   {
-    name: "华语组合",
-    key: "1003",
+    key: "2",
+    name: "女歌手",
   },
   {
-    name: "欧美男",
-    key: "2001",
+    key: "3",
+    name: "乐队",
+  },
+];
+
+export const areaList = [
+  {
+    key: "-1",
+    name: "全部",
   },
   {
-    name: "欧美女",
-    key: "2002",
+    key: "7",
+    name: "华语",
   },
   {
-    name: "欧美组合",
-    key: "2003",
+    key: "96",
+    name: "欧美",
   },
   {
-    name: "日本男",
-    key: "6001",
+    key: "8",
+    name: "日本",
   },
   {
-    name: "日本女",
-    key: "6002",
+    key: "16",
+    name: "韩国",
   },
   {
-    name: "日本组合",
-    key: "6003",
-  },
-  {
-    name: "韩国男",
-    key: "7001",
-  },
-  {
-    name: "韩国女",
-    key: "7002",
-  },
-  {
-    name: "韩国组合",
-    key: "7003",
-  },
-  {
-    name: "其他男歌手",
-    key: "4001",
-  },
-  {
-    name: "其他女歌手",
-    key: "4002",
-  },
-  {
-    name: "其他组合",
-    key: "4003",
+    key: "0",
+    name: "其他",
   },
 ];
 
 // 歌手首字母
-export const alphaTypes = [
+export const alphaList = [
   {
     key: "A",
     name: "A",

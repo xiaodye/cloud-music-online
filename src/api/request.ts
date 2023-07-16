@@ -20,10 +20,10 @@ export const getHotSingerListData = async (count: number) => {
 };
 
 // 根据首字母获取相应歌手
-export const getSingerListData = async (category: string, alpha: string, count: number) => {
+export const getSingerListData = async (area: string, alpha: string, offset: number) => {
   try {
     const { data } = await axiosInstance.get<ArtistData>(
-      `/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}&limit=${30}`
+      `/artist/list?area=${area}&initial=${alpha.toLowerCase()}&offset=${offset}&limit=${30}`
     );
 
     return data;
@@ -68,4 +68,4 @@ export const getSingerInfoRequest = async (id: number) => {
 };
 
 // 歌手种类, 歌手首字母
-export { categoryTypes, alphaTypes } from "./static";
+export { categoryList as categoryTypes, alphaList as alphaTypes, areaList } from "./static";
