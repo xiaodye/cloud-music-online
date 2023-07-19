@@ -50,6 +50,16 @@
   .icon {
     font-size: 20px;
     color: var(--theme-color);
+
+    &.play {
+      font-size: 16px;
+    }
+  }
+
+  .icon-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

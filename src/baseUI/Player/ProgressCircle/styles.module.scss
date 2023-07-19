@@ -1,0 +1,27 @@
+.circle-wrapper {
+  position: relative;
+
+  .circle {
+    stroke-width: 8px;
+    transform-origin: center;
+    &.progress-background {
+      transform: scale (0.9);
+      stroke: var(--theme-color-shadow);
+    }
+    &.progress-bar {
+      transform: scale (0.9) rotate(-90deg);
+      stroke: var(--theme-color);
+    }
+  }
+}
+
+.circle-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

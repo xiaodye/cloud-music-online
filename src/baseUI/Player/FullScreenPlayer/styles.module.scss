@@ -98,24 +98,40 @@
 }
 
 .footer {
-  // height: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   padding: 0 40px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  row-gap: 20px;
   color: #ffffff;
 
-  .icon-box {
+  .progress-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    .icon {
-      font-size: 25px;
-      &.center {
-        font-size: 50px;
+    column-gap: 20px;
+
+    .time {
+      font-size: 12px;
+      color: #fff;
+    }
+  }
+
+  .icon-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+
+    .icon-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      .icon {
+        font-size: 25px;
+        &.center {
+          font-size: 50px;
+        }
       }
     }
   }

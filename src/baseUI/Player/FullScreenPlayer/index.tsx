@@ -5,6 +5,7 @@ import { getName } from "@/utils/utils";
 import { DownOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { CSSTransition } from "react-transition-group";
 import { usePlayerStore } from "@/store";
+import ProgressBar from "../ProgressBar";
 
 interface IProps {
   song: {
@@ -53,20 +54,28 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
         </main>
 
         <footer className={styles.footer}>
-          <div className={styles.iconBox}>
-            <i className={classNames("iconfont", styles.icon)}>&#xe625;</i>
+          <div className={styles.progressContainer}>
+            <div className={styles.time}>1:19</div>
+            <ProgressBar></ProgressBar>
+            <div className={styles.time}>2:45</div>
           </div>
-          <div className={styles.iconBox}>
-            <i className={classNames("iconfont", styles.icon)}>&#xe6e1;</i>
-          </div>
-          <div className={styles.iconBox}>
-            <i className={classNames("iconfont", styles.icon, styles.center)}>&#xe723;</i>
-          </div>
-          <div className={styles.iconBox}>
-            <i className={classNames("iconfont", styles.icon)}>&#xe718;</i>
-          </div>
-          <div className={styles.iconBox}>
-            <i className={classNames("iconfont", styles.icon)}>&#xe640;</i>
+
+          <div className={styles.iconList}>
+            <div className={styles.iconBox}>
+              <i className={classNames("iconfont", styles.icon)}>&#xe625;</i>
+            </div>
+            <div className={styles.iconBox}>
+              <i className={classNames("iconfont", styles.icon)}>&#xe6e1;</i>
+            </div>
+            <div className={styles.iconBox}>
+              <i className={classNames("iconfont", styles.icon, styles.center)}>&#xe723;</i>
+            </div>
+            <div className={styles.iconBox}>
+              <i className={classNames("iconfont", styles.icon)}>&#xe718;</i>
+            </div>
+            <div className={styles.iconBox}>
+              <i className={classNames("iconfont", styles.icon)}>&#xe640;</i>
+            </div>
           </div>
         </footer>
       </div>
