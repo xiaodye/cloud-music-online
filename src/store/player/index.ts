@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { PlayMode } from "./types";
 import { immer } from "zustand/middleware/immer";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type State = {
   fullScreen: boolean; // 播放器是否为全屏模式
@@ -42,10 +43,11 @@ const usePlayerStore = create(
     setCurrentSong: () => set((state) => ({ ...state })),
     setCurrentIndex: () => set((state) => ({ ...state })),
 
-    setFullScreen: (open: boolean) =>
+    setFullScreen: (open: boolean) => {
       set((state) => {
         state.fullScreen = open;
-      }),
+      });
+    },
 
     setPlayMode: () => set((state) => ({ ...state })),
     setPlayingState: () => set((state) => ({ ...state })),
