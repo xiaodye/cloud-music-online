@@ -53,9 +53,6 @@ dependencies:
   react-vant:
     specifier: ^3.3.1
     version: 3.3.1(react-dom@18.2.0)(react@18.2.0)
-  redux:
-    specifier: 4.1.2
-    version: 4.1.2
   swiper:
     specifier: ^9.4.1
     version: 9.4.1
@@ -2924,12 +2921,6 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
-
-  /redux@4.1.2:
-    resolution: {integrity: sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==}
-    dependencies:
-      '@babel/runtime': 7.22.5
-    dev: false
 
   /regenerator-runtime@0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
