@@ -45,21 +45,31 @@
 
 .song-control {
   display: flex;
+  align-items: center;
   column-gap: 20px;
 
-  .icon {
-    font-size: 20px;
-    color: var(--theme-color);
-
-    &.play {
-      font-size: 16px;
-    }
+  .progress-circle {
+    position: relative;
   }
 
   .icon-box {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .icon-play {
+    font-size: 16px;
+    color: var(--theme-color);
+  }
+
+  .icon-song {
+    color: var(--theme-color);
+    font-size: 25px;
   }
 }
 

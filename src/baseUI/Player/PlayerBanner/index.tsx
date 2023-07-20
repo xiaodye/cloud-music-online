@@ -16,11 +16,18 @@ interface IProps {
 
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
+  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
+  const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
 
   return (
     <div className={styles.miniPlayerContainer}>
       <div className={styles.songInfo} onClick={() => setFullScreen(!fullScreen)}>
-        <img src={song.al.picUrl} className={classNames(styles.avatar, styles.play)} alt="avatar" />
+        {/* 暂停的时候停止旋转 */}
+        <img
+          src={song.al.picUrl}
+          className={classNames(styles.avatar, styles.play, playing ? "" : styles.pause)}
+          alt="avatar"
+        />
         <div className={styles.info}>
           <span className={classNames(styles.infoName, "text-noWrap")}>{song.name}</span>
           <span className={classNames(styles.infoSinger, "text-noWrap")}>{getName(song.ar)}</span>
@@ -32,19 +39,23 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           <i className={classNames("iconfont", styles.icon, styles.play)}>&#xe650;</i>
         </ProgressCircle> */}
         <Circle
-          rate={70}
+          rate={percent}
           size={30}
           style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
           strokeWidth={80}
           layerColor="#e9a19c"
           color="#d44439"
+          className={styles.progressCircle}
         >
-          <i className={classNames("iconfont", styles.icon, styles.play)}>&#xe650;</i>
+          <div className={styles.iconBox} onClick={() => setPlaying(!playing)}>
+            <i
+              className={classNames("iconfont", styles.iconPlay)}
+              dangerouslySetInnerHTML={{ __html: playing ? "&#xe650;" : "&#xe61e;" }}
+            ></i>
+          </div>
         </Circle>
 
-        <div className={styles.iconBox}>
-          <i className={classNames("iconfont", styles.icon)}>&#xe640;</i>
-        </div>
+        <i className={classNames("iconfont", styles.iconSong)}>&#xe640;</i>
       </div>
     </div>
   );

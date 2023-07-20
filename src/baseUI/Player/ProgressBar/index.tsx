@@ -66,6 +66,10 @@ const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
     moveTo(offsetWidth);
   };
 
+  /**
+   * 进度条改变
+   * @param percent 百分比
+   */
   const changePercent = (percent: number) => {
     const progressBarWidth = progressContainer.current.clientWidth - touch.progressBtnWidth;
     const currentPercent = progress.current.clientWidth / progressBarWidth; // 新的进度计算

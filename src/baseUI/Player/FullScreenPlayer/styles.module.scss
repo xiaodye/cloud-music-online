@@ -93,6 +93,10 @@
       object-fit: cover;
       border-radius: 50%;
       animation: rotate 20s infinite linear;
+
+      &.pause {
+        animation-play-state: paused;
+      }
     }
   }
 }

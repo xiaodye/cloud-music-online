@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { getName } from "@/utils/utils";
@@ -17,6 +17,9 @@ interface IProps {
 
 const FullScreenPlayer: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
+  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
+  const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
+  const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
 
   return (
     <CSSTransition
@@ -49,7 +52,11 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
 
         <main className={styles.middle}>
           <div className={styles.cdWrapper}>
-            <img className={styles.cdInner} src={song.al.picUrl + "?param=400x400"} alt="cover" />
+            <img
+              className={classNames(styles.cdInner, playing ? "" : styles.pause)}
+              src={song.al.picUrl + "?param=400x400"}
+              alt="cover"
+            />
           </div>
         </main>
 
@@ -68,7 +75,13 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
               <i className={classNames("iconfont", styles.icon)}>&#xe6e1;</i>
             </div>
             <div className={styles.iconBox}>
-              <i className={classNames("iconfont", styles.icon, styles.center)}>&#xe723;</i>
+              <i
+                className={classNames("iconfont", styles.icon, styles.center)}
+                onClick={() => setPlaying(!playing)}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe723;" : "&#xe731;",
+                }}
+              ></i>
             </div>
             <div className={styles.iconBox}>
               <i className={classNames("iconfont", styles.icon)}>&#xe718;</i>
