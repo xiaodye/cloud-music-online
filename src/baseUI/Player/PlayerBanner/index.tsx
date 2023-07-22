@@ -39,7 +39,7 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           <i className={classNames("iconfont", styles.icon, styles.play)}>&#xe650;</i>
         </ProgressCircle> */}
         <Circle
-          rate={percent}
+          rate={percent * 100}
           size={30}
           style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
           strokeWidth={80}

@@ -88,7 +88,6 @@ const playList = [
 ];
 
 type ContextType = {
-  currentTime: number;
   setSongProgress: (percent: number) => void;
 };
 
@@ -154,15 +153,15 @@ const Player: FC = () => {
     audioRef.current.currentTime = newTime;
 
     // 如果进度条被滑动时，歌曲处于暂停状态，则把状态置为播放
-    if (!playing) {
-      setPlaying(true);
-    }
+    // if (!playing) {
+    //   setPlaying(true);
+    // }
   };
 
   return (
     <div className={styles.player}>
       <PlayerBanner song={currentSong} />
-      <CurrentTimeContext.Provider value={{ currentTime, setSongProgress }}>
+      <CurrentTimeContext.Provider value={{ setSongProgress }}>
         <FullScreenPlayer song={currentSong} currentTime={currentTime} duration={duration} />
       </CurrentTimeContext.Provider>
       <audio ref={audioRef} onTimeUpdate={updateTime}></audio>

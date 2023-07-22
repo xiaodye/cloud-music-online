@@ -33,9 +33,11 @@ const ProgressBar: React.FC = () => {
 
   // 当播放进度百分比 percent 发生改变时，滑块的偏移也要变
   useEffect(() => {
-    const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
-    const offsetWidth = percent * progressBarWidth;
-    moveTo(offsetWidth);
+    if (percent >= 0 && percent <= 1 && !touch.initiated) {
+      const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
+      const offsetWidth = percent * progressBarWidth;
+      moveTo(offsetWidth);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [percent, touch.progressBtnWidth]);
@@ -44,9 +46,6 @@ const ProgressBar: React.FC = () => {
   const moveTo = (offsetWidth: number) => {
     progress.current.style.width = `${offsetWidth}px`;
     progressBtn.current.style.transform = `translate(${offsetWidth}px, -50%)`;
-
-    // 更改进度条百分比
-    changePercent();
   };
 
   const progressTouchStart = (e: TouchEvent) => {
@@ -75,6 +74,9 @@ const ProgressBar: React.FC = () => {
     setTouch((touch) => {
       touch.initiated = false;
     });
+
+    // 更改进度条百分比
+    changePercent();
   };
 
   /**
@@ -85,7 +87,10 @@ const ProgressBar: React.FC = () => {
     const rect = progressBar.current.getBoundingClientRect();
     const offsetWidth = e.pageX - rect.left;
 
+    // 更改进度条百分比
+
     moveTo(offsetWidth);
+    changePercent();
   };
 
   /**
@@ -97,11 +102,11 @@ const ProgressBar: React.FC = () => {
     const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
     const currentPercent = progress.current.clientWidth / progressBarWidth; // 新的百分比计算
 
+    // 设置歌曲的currentTime
+    setSongProgress(currentPercent);
+
     // 更改歌曲进度百分比
     setPercent(currentPercent);
-
-    // 设置歌曲的currentTime
-    setSongProgress(percent);
   };
 
   return (
