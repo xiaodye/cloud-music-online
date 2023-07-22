@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, TouchEvent, MouseEvent, useContext } from "react";
 import styles from "./styles.module.scss";
 import { useImmer } from "use-immer";
-import useMount from "@/hooks/useMount";
 import { usePlayerStore } from "@/store";
 import { SongContext } from "..";
 
@@ -12,16 +11,15 @@ type TouchType = {
   progressBtnWidth: number;
 };
 
-interface IProps {
-  percent: number;
-  onPercentChange?: (percent: number) => void;
-}
-
 const ProgressBar: React.FC = () => {
   const progressBar = useRef<HTMLDivElement>({} as HTMLDivElement);
   const progress = useRef<HTMLDivElement>({} as HTMLDivElement);
   const progressBtn = useRef<HTMLDivElement>({} as HTMLDivElement);
-  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
+  const { percent, currentTime, setPercent } = usePlayerStore((state) => ({
+    percent: state.percent,
+    currentTime: state.currentTime,
+    setPercent: state.setPercent,
+  }));
   const { setSongProgress } = useContext(SongContext);
 
   const [touch, setTouch] = useImmer<TouchType>({
@@ -33,14 +31,14 @@ const ProgressBar: React.FC = () => {
 
   // 当播放进度百分比 percent 发生改变时，滑块的偏移也要变
   useEffect(() => {
-    if (percent >= 0 && percent <= 1 && !touch.initiated) {
+    if (!touch.initiated) {
       const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
       const offsetWidth = percent * progressBarWidth;
       moveTo(offsetWidth);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [percent, touch.progressBtnWidth]);
+  }, [currentTime]);
 
   // 处理进度条的偏移
   const moveTo = (offsetWidth: number) => {

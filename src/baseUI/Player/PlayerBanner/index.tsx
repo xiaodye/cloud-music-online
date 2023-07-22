@@ -3,7 +3,7 @@ import { getName } from "@/utils/utils";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { usePlayerStore } from "@/store";
-import ProgressCircle from "../ProgressCircle";
+// import ProgressCircle from "../ProgressCircle";
 import { Circle } from "react-vant";
 
 interface IProps {
@@ -16,8 +16,8 @@ interface IProps {
 
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
-  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
+  const { percent } = usePlayerStore((state) => ({ percent: state.percent }));
 
   return (
     <div className={styles.miniPlayerContainer}>

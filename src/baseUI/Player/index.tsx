@@ -14,7 +14,7 @@ type ContextType = {
 export const SongContext = createContext<ContextType>({} as ContextType);
 
 const Player: FC = () => {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = usePlayerStore((state) => [state.currentTime, state.setCurrentTime]);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>({} as HTMLAudioElement);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
@@ -30,22 +30,29 @@ const Player: FC = () => {
   ]);
   const songReady = useRef(true);
 
-  useMount(() => {
-    if (!currentSong) return;
+  // useMount(() => {
+  //   if (!currentSong) return;
 
-    setCurrentIndex(0);
-    const current = playList[0];
+  //   setCurrentIndex(0);
+  //   const current = playList[0];
 
-    setCurrentSong(current);
-    audioRef.current.src = getSongUrl(current.id);
+  //   setCurrentSong(current);
+  //   audioRef.current.src = getSongUrl(current.id);
 
-    setCurrentTime(0); // 设置播放起始时间, 从头开始播放
-    setDuration((current.dt / 1000) | 0); // 歌曲时长
-    setPercent(getPercent(currentTime, duration)); // 设置百分比
-  });
+  //   setCurrentTime(0); // 设置播放起始时间, 从头开始播放
+  //   setDuration((current.dt / 1000) | 0); // 歌曲时长
+  //   setPercent(getPercent(currentTime, duration)); // 设置百分比
+  // });
 
+  // 切换索引会触发播放
+  // 播放逻辑
+  // 1. 根据索引从歌曲中拿到播放的歌曲
+  // 2. 根据 id 播放设置 audio.src
+  // 3. 设置 playing -> true
+  // 4. 计算 duration, 重置 currentTime -> 0
+  // 5. 播放歌曲，audio.current.play()
   useEffect(() => {
-    if (!playList || currentIndex === -1 || !playList[currentIndex]) {
+    if (playList.length === 0 || currentIndex === -1 || !playList[currentIndex]) {
       return;
     }
 
@@ -60,11 +67,15 @@ const Player: FC = () => {
         songReady.current = true;
       });
     });
-    setPlaying(true);
-    setCurrentTime(0); // 从0 开始
-    setDuration((song.dt / 1000) | 0); // 时长
-  }, [playList, currentIndex]);
 
+    setPlaying(true);
+    setCurrentTime(0); // 从 0 开始
+    setDuration((song.dt / 1000) | 0); // 时长
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
+
+  // 监听 playing 变化，从而控制 audio 标签播放和暂停
   useEffect(() => {
     if (playing) {
       audioRef.current.play();
@@ -73,7 +84,12 @@ const Player: FC = () => {
     }
   }, [playing]);
 
-  // 获取音乐播放的时间
+  /**
+   * 获取音乐播放的进度
+   * 设置已经播放的时间
+   * 设置百分比
+   * @param e
+   */
   const updateTime = (e: SyntheticEvent<HTMLAudioElement>) => {
     const audioElement = e.target as HTMLAudioElement;
     const currentTime = audioElement.currentTime;
@@ -108,52 +124,45 @@ const Player: FC = () => {
   };
 
   /**
-   * 循环播放
+   * 点击上一曲
+   * @returns
    */
-  const loopHandler = () => {
-    audioRef.current.currentTime = 0;
-    setCurrentTime(0);
-    audioRef.current.play();
-    setPlaying(true);
-  };
-
   const prevHandler = () => {
-    //播放列表只有一首歌时单曲循环
-    if (playList.length === 1) {
-      loopHandler();
-      return;
-    }
-
-    // 切换索引
-    let index = currentIndex - 1;
-    if (index < 0) index = playList.length - 1;
-    if (!playing) setPlaying(true);
-    setCurrentIndex(index);
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) newIndex = playList.length - 1;
+    setCurrentIndex(newIndex);
   };
 
+  /**
+   * 点击下一曲
+   * @returns
+   */
   const nextHandler = () => {
-    if (playList.length === 1) {
-      loopHandler();
-      return;
-    }
-
-    // 切换索引
-    let index = currentIndex + 1;
-    if (index > playList.length - 1) index = 0;
-    if (!playing) setPlaying(true);
-    setCurrentIndex(index);
+    let newIndex = currentIndex + 1;
+    if (newIndex > playList.length - 1) newIndex = 0;
+    setCurrentIndex(newIndex);
   };
 
+  /**
+   * 播放完毕之后
+   */
   const endHandler = () => {
     if (playMode === PlayMode.LOOP) {
-      loopHandler();
+      audioRef.current.currentTime = 0;
+      setCurrentTime(0);
+      audioRef.current.play();
+      setPlaying(true);
     } else {
       nextHandler();
     }
   };
 
+  /**
+   * 切换播放模式
+   */
   const togglePlayMode = () => {
     const newMode = (playMode + 1) % 3;
+
     if (newMode === PlayMode.SEQUENCE) {
       setPlayList(sequencePlayList);
       const newIndex = findIndex(currentSong, sequencePlayList);
@@ -170,9 +179,13 @@ const Player: FC = () => {
     setPlayMode(newMode);
   };
 
+  /**
+   * 播放出错提示
+   */
   const errorHandler = () => {
     songReady.current = true;
-    alert("播放出错");
+    setPlaying(false);
+    alert("播放出错，歌曲收费！");
   };
 
   return (

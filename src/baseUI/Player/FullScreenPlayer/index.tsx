@@ -1,4 +1,4 @@
-import { FC, useCallback, useContext, useState } from "react";
+import { FC } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { formatPlayTime, getName } from "@/utils/utils";
@@ -7,6 +7,7 @@ import { CSSTransition } from "react-transition-group";
 import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
 import { SongType } from "@/api/types";
+import { PlayMode } from "@/store/player/types";
 
 interface IProps {
   song: SongType;
@@ -19,15 +20,13 @@ interface IProps {
 
 const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler, togglePlayMode }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
-  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
-  const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
+  const { playMode } = usePlayerStore((state) => ({ playMode: state.playMode }));
 
   const getPlayModeIcon = () => {
-    if (playMode === 0) {
+    if (playMode === PlayMode.SEQUENCE) {
       return "&#xe625;";
-    } else if (playMode === 1) {
+    } else if (playMode === PlayMode.LOOP) {
       return "&#xe653;";
     } else {
       return "&#xe61b;";

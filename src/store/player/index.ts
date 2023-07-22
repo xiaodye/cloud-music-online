@@ -11,19 +11,21 @@ type State = {
   playList: SongType[];
   playMode: PlayMode; // 播放模式
   currentIndex: number; // 当前歌曲在播放列表的索引位置
+  currentTime: number; // 当前歌曲已播放时长，单位: s
   showPlayList: boolean; // 是否展示播放列表
   currentSong: SongType;
   percent: number; // 播放百分比
 };
 
 type Actions = {
-  setCurrentSong: (song: any) => void;
+  setCurrentSong: (song: SongType) => void;
   setCurrentIndex: (index: number) => void;
+  setCurrentTime: (newTime: number) => void;
   setFullScreen: (open: boolean) => void;
   setPlayMode: (mode: PlayMode) => void;
   setPlaying: (newState: boolean) => void;
-  setSequencePlayList: () => void;
-  setPlayList: (list: any[]) => void;
+  setSequencePlayList: (list: SongType[]) => void;
+  setPlayList: (list: SongType[]) => void;
   setShowPlayList: () => void;
   setPercent: (percent: number) => void;
 };
@@ -98,8 +100,9 @@ const initialState: State = {
       },
     ],
   },
+  currentTime: 0,
   playMode: PlayMode.SEQUENCE, // 播放模式
-  currentIndex: -1, // 当前歌曲在播放列表的索引位置
+  currentIndex: 0, // 当前歌曲在播放列表的索引位置
   showPlayList: false, // 是否展示播放列表
 
   percent: 0,
@@ -109,7 +112,7 @@ const usePlayerStore = create(
   immer<State & Actions>((set) => ({
     ...initialState,
 
-    setCurrentSong: (song: any) =>
+    setCurrentSong: (song: SongType) =>
       set((state) => {
         state.currentSong = song;
       }),
@@ -117,6 +120,11 @@ const usePlayerStore = create(
     setCurrentIndex: (index: number) =>
       set((state) => {
         state.currentIndex = index;
+      }),
+
+    setCurrentTime: (newTime) =>
+      set((state) => {
+        state.currentTime = newTime;
       }),
 
     setFullScreen: (open: boolean) => {
@@ -135,9 +143,12 @@ const usePlayerStore = create(
         state.playing = newState;
       }),
 
-    setSequencePlayList: () => set((state) => ({ ...state })),
+    setSequencePlayList: (list: SongType[]) =>
+      set((state) => {
+        state.sequencePlayList = list;
+      }),
 
-    setPlayList: (list: any[]) =>
+    setPlayList: (list: SongType[]) =>
       set((state) => {
         state.playList = list;
       }),

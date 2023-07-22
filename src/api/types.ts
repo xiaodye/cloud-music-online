@@ -17,6 +17,7 @@ export type RankListType = {
   updateFrequency: string;
 };
 
+// 歌单详情
 export type AlbumDetailType = {
   id: string;
   creator: {
@@ -26,13 +27,10 @@ export type AlbumDetailType = {
   coverImgUrl: string;
   subscribedCount: number;
   name: string;
-  tracks: {
-    name: string;
-    ar: { name: string }[];
-    al: { name: string };
-  }[];
+  tracks: SongType[];
 };
 
+// 歌手详情
 export type SingerDetailType = {
   artist: {
     name: string;
