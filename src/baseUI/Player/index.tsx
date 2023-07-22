@@ -6,6 +6,7 @@ import { usePlayerStore } from "@/store";
 import useMount from "@/hooks/useMount";
 import { findIndex, getSongUrl, shuffle } from "@/utils/utils";
 import { PlayMode } from "@/store/player/types";
+import PlayList from "@/components/PlayList";
 
 type ContextType = {
   setSongProgress: (percent: number) => void;
@@ -77,8 +78,6 @@ const Player: FC = () => {
 
   // 监听 playing 变化，从而控制 audio 标签播放和暂停
   useEffect(() => {
-    console.log(playing);
-
     if (playing) {
       audioRef.current.play();
     } else {
@@ -203,6 +202,7 @@ const Player: FC = () => {
           togglePlayMode={togglePlayMode}
         />
       </SongContext.Provider>
+      <PlayList />
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={endHandler} onError={errorHandler}></audio>
     </div>
   );

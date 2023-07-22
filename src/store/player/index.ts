@@ -26,7 +26,7 @@ type Actions = {
   setPlaying: (newState: boolean) => void;
   setSequencePlayList: (list: SongType[]) => void;
   setPlayList: (list: SongType[]) => void;
-  setShowPlayList: () => void;
+  setShowPlayList: (show: boolean) => void;
   setPercent: (percent: number) => void;
 };
 
@@ -102,7 +102,7 @@ const initialState: State = {
   },
   currentTime: 0,
   playMode: PlayMode.SEQUENCE, // 播放模式
-  currentIndex: -1, // 当前歌曲在播放列表的索引位置
+  currentIndex: -1, // 当前歌曲在播放列表的索引位置，一开始不应该播放，所以置为 -1
   showPlayList: false, // 是否展示播放列表
 
   percent: 0,
@@ -152,7 +152,12 @@ const usePlayerStore = create(
       set((state) => {
         state.playList = list;
       }),
-    setShowPlayList: () => set((state) => ({ ...state })),
+
+    setShowPlayList: (show: boolean) =>
+      set((state) => {
+        state.showPlayList = show;
+      }),
+
     setPercent: (percent) =>
       set((state) => {
         state.percent = percent;

@@ -5,19 +5,19 @@ import classNames from "classnames";
 import { usePlayerStore } from "@/store";
 // import ProgressCircle from "../ProgressCircle";
 import { Circle } from "react-vant";
+import { SongType } from "@/api/types";
 
 interface IProps {
-  song: {
-    al: { picUrl: string };
-    name: string;
-    ar: { name: string }[];
-  };
+  song: SongType;
 }
 
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const { percent } = usePlayerStore((state) => ({ percent: state.percent }));
+  const { percent, setShowPlayList } = usePlayerStore((state) => ({
+    percent: state.percent,
+    setShowPlayList: state.setShowPlayList,
+  }));
 
   return (
     <div className={styles.miniPlayerContainer}>
@@ -55,7 +55,15 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           </div>
         </Circle>
 
-        <i className={classNames("iconfont", styles.iconSong)}>&#xe640;</i>
+        <i
+          className={classNames("iconfont", styles.iconSong)}
+          onClick={() => {
+            console.log(1);
+            setShowPlayList(true);
+          }}
+        >
+          &#xe640;
+        </i>
       </div>
     </div>
   );

@@ -21,7 +21,11 @@ interface IProps {
 const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler, togglePlayMode }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const { playMode } = usePlayerStore((state) => ({ playMode: state.playMode }));
+  const { playMode, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
+    playMode: state.playMode,
+    showPlayList: state.showPlayList,
+    setShowPlayList: state.setShowPlayList,
+  }));
 
   const getPlayModeIcon = () => {
     if (playMode === PlayMode.SEQUENCE) {
@@ -103,7 +107,7 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
             <div className={styles.iconBox} onClick={nextHandler}>
               <i className={classNames("iconfont", styles.icon)}>&#xe718;</i>
             </div>
-            <div className={styles.iconBox}>
+            <div className={styles.iconBox} onClick={() => setShowPlayList(true)}>
               <i className={classNames("iconfont", styles.icon)}>&#xe640;</i>
             </div>
           </div>

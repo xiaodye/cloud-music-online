@@ -1,0 +1,65 @@
+.playlist-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: var(--background-color-shadow);
+
+  opacity: 0;
+  transform: translate(0, 100%);
+
+  .list {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 1;
+    border-radius: 10px 10px 0 0;
+    background-color: var(--background-color-highlight);
+    transform: translate(0, 0);
+    padding: 10px;
+
+    &-close {
+      display: flex;
+      height: 50px;
+      background-color: var(--background-color);
+      font-size: var(--font-size-l);
+      color: var(--font-color-desc);
+    }
+  }
+
+  .scroll-wrapper {
+    height: 400px;
+    overflow: hidden;
+  }
+}
+
+.list-fade-enter {
+  opacity: 0;
+  transform: translate(0, 100%);
+}
+.list-fade-enter-active {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 0.3s;
+}
+.list-fade-enter-done {
+  opacity: 1;
+  transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.list-fade-exit {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.list-fade-exit-active {
+  opacity: 0;
+  transform: translate(0, 100%);
+  transition: all 0.3s;
+}
+.list-fade-exit-done {
+  opacity: 0;
+  transform: translate(0, 100%);
+}
