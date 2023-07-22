@@ -46,3 +46,23 @@ export type SingerDetailType = {
     };
   }[];
 };
+
+export type SongType = {
+  id: number;
+  name: string;
+  // 歌曲信息
+  al: {
+    id: number;
+    name: string;
+    picUrl: string;
+  };
+
+  // 歌手信息
+  ar: {
+    id: number;
+    name: string;
+  }[];
+
+  // 歌曲时长 单位: s
+  dt: number;
+};

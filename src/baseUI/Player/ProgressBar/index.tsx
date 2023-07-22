@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { useImmer } from "use-immer";
 import useMount from "@/hooks/useMount";
 import { usePlayerStore } from "@/store";
-import { CurrentTimeContext } from "..";
+import { SongContext } from "..";
 
 type TouchType = {
   initiated: boolean;
@@ -22,7 +22,7 @@ const ProgressBar: React.FC = () => {
   const progress = useRef<HTMLDivElement>({} as HTMLDivElement);
   const progressBtn = useRef<HTMLDivElement>({} as HTMLDivElement);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
-  const { setSongProgress } = useContext(CurrentTimeContext);
+  const { setSongProgress } = useContext(SongContext);
 
   const [touch, setTouch] = useImmer<TouchType>({
     initiated: false,

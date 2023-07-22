@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, SyntheticEvent, createContext, useEffect, useRef, useState } from "react";
+import { FC, SyntheticEvent, createContext, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import PlayerBanner from "./PlayerBanner";
 import FullScreenPlayer from "./FullScreenPlayer";
@@ -12,86 +12,11 @@ const currentSong = {
   ar: [{ name: "薛之谦" }],
 };
 
-//mock一份playList，后面直接从 redux 拿，现在只是为了调试播放效果。
-const playList = [
-  {
-    ftype: 0,
-    djId: 0,
-    a: null,
-    cd: "01",
-    crbt: null,
-    no: 1,
-    st: 0,
-    rt: "",
-    cf: "",
-    alia: ["手游《梦幻花园》苏州园林版推广曲"],
-    rtUrls: [],
-    fee: 0,
-    s_id: 0,
-    copyright: 0,
-    h: {
-      br: 320000,
-      fid: 0,
-      size: 9400365,
-      vd: -45814,
-    },
-    mv: 0,
-    al: {
-      id: 84991301,
-      name: "拾梦纪",
-      picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
-      tns: [],
-      pic_str: "109951164627180052",
-      pic: 109951164627180050,
-    },
-    name: "拾梦纪",
-    l: {
-      br: 128000,
-      fid: 0,
-      size: 3760173,
-      vd: -41672,
-    },
-    rtype: 0,
-    m: {
-      br: 192000,
-      fid: 0,
-      size: 5640237,
-      vd: -43277,
-    },
-    cp: 1416668,
-    mark: 0,
-    rtUrl: null,
-    mst: 9,
-    dt: 234947,
-    ar: [
-      {
-        id: 12084589,
-        name: "妖扬",
-        tns: [],
-        alias: [],
-      },
-      {
-        id: 12578371,
-        name: "金天",
-        tns: [],
-        alias: [],
-      },
-    ],
-    pop: 5,
-    pst: 0,
-    t: 0,
-    v: 3,
-    id: 1416767593,
-    publishTime: 0,
-    rurl: null,
-  },
-];
-
 type ContextType = {
   setSongProgress: (percent: number) => void;
 };
 
-export const CurrentTimeContext = createContext<ContextType>({} as ContextType);
+export const SongContext = createContext<ContextType>({} as ContextType);
 
 const Player: FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
@@ -101,6 +26,13 @@ const Player: FC = () => {
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
+  const [prevSong, setPrevSong] = useState<any>();
+  const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
+  const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
+  const [sequencePlayList, setSequencePlayList] = usePlayerStore((state) => [
+    state.sequencePlayList,
+    state.setSequencePlayList,
+  ]);
 
   useMount(() => {
     if (!currentSong) return;
@@ -115,6 +47,24 @@ const Player: FC = () => {
     setDuration((current.dt / 1000) | 0); // 歌曲时长
     setPercent(getPercent(currentTime, duration)); // 设置百分比
   });
+
+  useEffect(() => {
+    if (!playList || currentIndex === -1 || !playList[currentIndex]) {
+      return;
+    }
+
+    const song = playList[currentIndex];
+    setCurrentSong(song);
+    setPrevSong(song);
+    audioRef.current.src = getSongUrl(song.id);
+
+    setTimeout(() => {
+      audioRef.current.play();
+    });
+    setPlaying(true);
+    setCurrentTime(0); // 从0 开始
+    setDuration((song.dt / 1000) | 0); // 时长
+  }, [playList, currentIndex]);
 
   useEffect(() => {
     if (playing) {
@@ -153,17 +103,69 @@ const Player: FC = () => {
     audioRef.current.currentTime = newTime;
 
     // 如果进度条被滑动时，歌曲处于暂停状态，则把状态置为播放
-    // if (!playing) {
-    //   setPlaying(true);
-    // }
+    if (!playing) {
+      setPlaying(true);
+    }
+  };
+
+  /**
+   * 循环播放
+   */
+  const loopHandler = () => {
+    audioRef.current.currentTime = 0;
+    setCurrentTime(0);
+    audioRef.current.play();
+    setPlaying(true);
+  };
+
+  const prevHandler = () => {
+    //播放列表只有一首歌时单曲循环
+    if (playList.length === 1) {
+      loopHandler();
+      return;
+    }
+
+    // 切换索引
+    let index = currentIndex - 1;
+    if (index < 0) index = playList.length - 1;
+    if (!playing) setPlaying(true);
+    setCurrentIndex(index);
+  };
+
+  const nextHandler = () => {
+    if (playList.length === 1) {
+      loopHandler();
+      return;
+    }
+
+    // 切换索引
+    let index = currentIndex + 1;
+    if (index > playList.length - 1) index = 0;
+    if (!playing) setPlaying(true);
+    setCurrentIndex(index);
+  };
+
+  const togglePlayMode = () => {
+    const newMode = (playMode + 1) % 3;
+    if (newMode === 0) {
+      setPlayList(sequencePlayList);
+    } else if (newMode === 1) {
+    } else if (newMode === 2) {
+    }
   };
 
   return (
     <div className={styles.player}>
       <PlayerBanner song={currentSong} />
-      <CurrentTimeContext.Provider value={{ setSongProgress }}>
-        <FullScreenPlayer song={currentSong} currentTime={currentTime} duration={duration} />
-      </CurrentTimeContext.Provider>
+      <SongContext.Provider value={{ setSongProgress }}>
+        <FullScreenPlayer
+          song={currentSong}
+          currentTime={currentTime}
+          duration={duration}
+          prevHandler={prevHandler}
+          nextHandler={nextHandler}
+        />
+      </SongContext.Provider>
       <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
     </div>
   );

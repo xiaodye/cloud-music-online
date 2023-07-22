@@ -31,3 +31,29 @@ export const formatPlayTime = (interval: number) => {
   const second = (interval % 60).toString().padStart(2, "0");
   return `${minute}:${second}`;
 };
+
+function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// 随机算法
+export function shuffle(arr: number[]): number[] {
+  const new_arr: number[] = [];
+  arr.forEach((item) => {
+    new_arr.push(item);
+  });
+  for (let i = 0; i < new_arr.length; i++) {
+    const j = getRandomInt(0, i);
+    const t = new_arr[i];
+    new_arr[i] = new_arr[j];
+    new_arr[j] = t;
+  }
+  return new_arr;
+}
+
+// 找到当前的歌曲索引
+export const findIndex = (song: any, list: any[]) => {
+  return list.findIndex((item) => {
+    return song.id === item.id;
+  });
+};

@@ -1,21 +1,18 @@
 import { create } from "zustand";
-import { PlayMode } from "./types";
+import { Mode, PlayMode } from "./types";
 import { immer } from "zustand/middleware/immer";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { SongType } from "@/api/types";
 
 type State = {
   fullScreen: boolean; // 播放器是否为全屏模式
   playing: boolean; // 当前歌曲是否播放
-  sequencePlayList: any[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
-  playList: any[];
-  playMode: PlayMode; // 播放模式
+  sequencePlayList: SongType[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
+  playList: SongType[];
+  playMode: Mode; // 播放模式
   currentIndex: number; // 当前歌曲在播放列表的索引位置
   showPlayList: boolean; // 是否展示播放列表
-  currentSong: {
-    al: { picUrl: string };
-    name: string;
-    ar: { name: string }[];
-  };
+  currentSong: SongType;
   percent: number; // 播放百分比
 };
 
@@ -23,10 +20,10 @@ type Actions = {
   setCurrentSong: (song: any) => void;
   setCurrentIndex: (index: number) => void;
   setFullScreen: (open: boolean) => void;
-  setPlayMode: (mode: PlayMode) => void;
+  setPlayMode: (mode: Mode) => void;
   setPlaying: (newState: boolean) => void;
   setSequencePlayList: () => void;
-  setPlayList: () => void;
+  setPlayList: (list: any[]) => void;
   setShowPlayList: () => void;
   setPercent: (percent: number) => void;
 };
@@ -34,16 +31,77 @@ type Actions = {
 const initialState: State = {
   fullScreen: false, // 播放器是否为全屏模式
   playing: false, // 当前歌曲是否播放
-  sequencePlayList: [], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
-  playList: [],
-  playMode: "sequence", // 播放模式
+  sequencePlayList: [
+    {
+      id: 1416767593,
+      name: "拾梦纪",
+      al: {
+        id: 84991301,
+        name: "拾梦纪",
+        picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
+      },
+
+      dt: 234947,
+      ar: [
+        {
+          id: 12084589,
+          name: "妖扬",
+        },
+        {
+          id: 12578371,
+          name: "金天",
+        },
+      ],
+    },
+  ], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
+  playList: [
+    {
+      id: 1416767593,
+      name: "拾梦纪",
+      al: {
+        id: 84991301,
+        name: "拾梦纪",
+        picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
+      },
+
+      dt: 234947,
+      ar: [
+        {
+          id: 12084589,
+          name: "妖扬",
+        },
+        {
+          id: 12578371,
+          name: "金天",
+        },
+      ],
+    },
+  ],
+  currentSong: {
+    id: 1416767593,
+    name: "拾梦纪",
+    al: {
+      id: 84991301,
+      name: "拾梦纪",
+      picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
+    },
+
+    dt: 234947,
+    ar: [
+      {
+        id: 12084589,
+        name: "妖扬",
+      },
+      {
+        id: 12578371,
+        name: "金天",
+      },
+    ],
+  },
+  playMode: Mode.SEQUENCE, // 播放模式
   currentIndex: -1, // 当前歌曲在播放列表的索引位置
   showPlayList: false, // 是否展示播放列表
-  currentSong: {
-    al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
-    name: "木偶人",
-    ar: [{ name: "薛之谦" }],
-  },
+
   percent: 0,
 };
 
@@ -67,7 +125,7 @@ const usePlayerStore = create(
       });
     },
 
-    setPlayMode: (mode: PlayMode) =>
+    setPlayMode: (mode: Mode) =>
       set((state) => {
         state.playMode = mode;
       }),
@@ -78,7 +136,11 @@ const usePlayerStore = create(
       }),
 
     setSequencePlayList: () => set((state) => ({ ...state })),
-    setPlayList: () => set((state) => ({ ...state })),
+
+    setPlayList: (list: any[]) =>
+      set((state) => {
+        state.playList = list;
+      }),
     setShowPlayList: () => set((state) => ({ ...state })),
     setPercent: (percent) =>
       set((state) => {

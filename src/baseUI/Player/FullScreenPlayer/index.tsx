@@ -6,18 +6,17 @@ import { DownOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { CSSTransition } from "react-transition-group";
 import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
+import { SongType } from "@/api/types";
 
 interface IProps {
-  song: {
-    al: { picUrl: string };
-    name: string;
-    ar: { name: string }[];
-  };
+  song: SongType;
   currentTime: number;
   duration: number;
+  prevHandler: () => void;
+  nextHandler: () => void;
 }
 
-const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration }) => {
+const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
@@ -75,7 +74,7 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration }) => {
             <div className={styles.iconBox}>
               <i className={classNames("iconfont", styles.icon)}>&#xe625;</i>
             </div>
-            <div className={styles.iconBox}>
+            <div className={styles.iconBox} onClick={prevHandler}>
               <i className={classNames("iconfont", styles.icon)}>&#xe6e1;</i>
             </div>
             <div className={styles.iconBox}>
@@ -87,7 +86,7 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration }) => {
                 }}
               ></i>
             </div>
-            <div className={styles.iconBox}>
+            <div className={styles.iconBox} onClick={nextHandler}>
               <i className={classNames("iconfont", styles.icon)}>&#xe718;</i>
             </div>
             <div className={styles.iconBox}>
