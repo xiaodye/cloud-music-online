@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Mode, PlayMode } from "./types";
+import { PlayMode } from "./types";
 import { immer } from "zustand/middleware/immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { SongType } from "@/api/types";
@@ -9,7 +9,7 @@ type State = {
   playing: boolean; // 当前歌曲是否播放
   sequencePlayList: SongType[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
   playList: SongType[];
-  playMode: Mode; // 播放模式
+  playMode: PlayMode; // 播放模式
   currentIndex: number; // 当前歌曲在播放列表的索引位置
   showPlayList: boolean; // 是否展示播放列表
   currentSong: SongType;
@@ -20,7 +20,7 @@ type Actions = {
   setCurrentSong: (song: any) => void;
   setCurrentIndex: (index: number) => void;
   setFullScreen: (open: boolean) => void;
-  setPlayMode: (mode: Mode) => void;
+  setPlayMode: (mode: PlayMode) => void;
   setPlaying: (newState: boolean) => void;
   setSequencePlayList: () => void;
   setPlayList: (list: any[]) => void;
@@ -98,7 +98,7 @@ const initialState: State = {
       },
     ],
   },
-  playMode: Mode.SEQUENCE, // 播放模式
+  playMode: PlayMode.SEQUENCE, // 播放模式
   currentIndex: -1, // 当前歌曲在播放列表的索引位置
   showPlayList: false, // 是否展示播放列表
 
@@ -125,7 +125,7 @@ const usePlayerStore = create(
       });
     },
 
-    setPlayMode: (mode: Mode) =>
+    setPlayMode: (mode: PlayMode) =>
       set((state) => {
         state.playMode = mode;
       }),

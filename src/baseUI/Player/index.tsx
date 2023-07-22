@@ -4,13 +4,8 @@ import PlayerBanner from "./PlayerBanner";
 import FullScreenPlayer from "./FullScreenPlayer";
 import { usePlayerStore } from "@/store";
 import useMount from "@/hooks/useMount";
-import { getSongUrl } from "@/utils/utils";
-
-const currentSong = {
-  al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
-  name: "木偶人",
-  ar: [{ name: "薛之谦" }],
-};
+import { findIndex, getSongUrl, shuffle } from "@/utils/utils";
+import { PlayMode } from "@/store/player/types";
 
 type ContextType = {
   setSongProgress: (percent: number) => void;
@@ -33,6 +28,7 @@ const Player: FC = () => {
     state.sequencePlayList,
     state.setSequencePlayList,
   ]);
+  const songReady = useRef(true);
 
   useMount(() => {
     if (!currentSong) return;
@@ -59,7 +55,10 @@ const Player: FC = () => {
     audioRef.current.src = getSongUrl(song.id);
 
     setTimeout(() => {
-      audioRef.current.play();
+      // 注意，play 方法返回的是一个 promise 对象
+      audioRef.current.play().then(() => {
+        songReady.current = true;
+      });
     });
     setPlaying(true);
     setCurrentTime(0); // 从0 开始
@@ -145,13 +144,35 @@ const Player: FC = () => {
     setCurrentIndex(index);
   };
 
+  const endHandler = () => {
+    if (playMode === PlayMode.LOOP) {
+      loopHandler();
+    } else {
+      nextHandler();
+    }
+  };
+
   const togglePlayMode = () => {
     const newMode = (playMode + 1) % 3;
-    if (newMode === 0) {
+    if (newMode === PlayMode.SEQUENCE) {
       setPlayList(sequencePlayList);
-    } else if (newMode === 1) {
-    } else if (newMode === 2) {
+      const newIndex = findIndex(currentSong, sequencePlayList);
+      setCurrentIndex(newIndex);
+    } else if (newMode === PlayMode.LOOP) {
+      setPlayList([currentSong]);
+    } else if (newMode === PlayMode.RANDOM) {
+      const newList = shuffle(sequencePlayList);
+      const newIndex = findIndex(currentSong, newList);
+      setPlayList(newList);
+      setCurrentIndex(newIndex);
     }
+
+    setPlayMode(newMode);
+  };
+
+  const errorHandler = () => {
+    songReady.current = true;
+    alert("播放出错");
   };
 
   return (
@@ -164,9 +185,10 @@ const Player: FC = () => {
           duration={duration}
           prevHandler={prevHandler}
           nextHandler={nextHandler}
+          togglePlayMode={togglePlayMode}
         />
       </SongContext.Provider>
-      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
+      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={endHandler} onError={errorHandler}></audio>
     </div>
   );
 };

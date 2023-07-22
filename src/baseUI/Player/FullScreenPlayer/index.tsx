@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useCallback, useContext, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { formatPlayTime, getName } from "@/utils/utils";
@@ -14,13 +14,25 @@ interface IProps {
   duration: number;
   prevHandler: () => void;
   nextHandler: () => void;
+  togglePlayMode: () => void;
 }
 
-const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler }) => {
+const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler, togglePlayMode }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
+  const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
+
+  const getPlayModeIcon = () => {
+    if (playMode === 0) {
+      return "&#xe625;";
+    } else if (playMode === 1) {
+      return "&#xe653;";
+    } else {
+      return "&#xe61b;";
+    }
+  };
 
   return (
     <CSSTransition
@@ -71,8 +83,11 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
 
           {/* 播放控件 */}
           <div className={styles.iconList}>
-            <div className={styles.iconBox}>
-              <i className={classNames("iconfont", styles.icon)}>&#xe625;</i>
+            <div className={styles.iconBox} onClick={togglePlayMode}>
+              <i
+                className={classNames("iconfont", styles.icon)}
+                dangerouslySetInnerHTML={{ __html: getPlayModeIcon() }}
+              ></i>
             </div>
             <div className={styles.iconBox} onClick={prevHandler}>
               <i className={classNames("iconfont", styles.icon)}>&#xe6e1;</i>

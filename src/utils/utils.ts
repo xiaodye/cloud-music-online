@@ -1,3 +1,5 @@
+import { SongType } from "@/api/types";
+
 export function getCount(count: number): string {
   if (count < 0) return "";
   if (count < 10000) {
@@ -37,22 +39,21 @@ function getRandomInt(min: number, max: number): number {
 }
 
 // 随机算法
-export function shuffle(arr: number[]): number[] {
-  const new_arr: number[] = [];
-  arr.forEach((item) => {
-    new_arr.push(item);
-  });
-  for (let i = 0; i < new_arr.length; i++) {
+export function shuffle(arr: SongType[]): SongType[] {
+  const newArr = [...arr];
+
+  for (let i = 0; i < newArr.length; i++) {
     const j = getRandomInt(0, i);
-    const t = new_arr[i];
-    new_arr[i] = new_arr[j];
-    new_arr[j] = t;
+    const t = newArr[i];
+    newArr[i] = newArr[j];
+    newArr[j] = t;
   }
-  return new_arr;
+
+  return newArr;
 }
 
 // 找到当前的歌曲索引
-export const findIndex = (song: any, list: any[]) => {
+export const findIndex = (song: SongType, list: SongType[]) => {
   return list.findIndex((item) => {
     return song.id === item.id;
   });
