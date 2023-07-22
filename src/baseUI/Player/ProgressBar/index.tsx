@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, TouchEvent, MouseEvent } from "react";
+import React, { useEffect, useRef, TouchEvent, MouseEvent, useContext } from "react";
 import styles from "./styles.module.scss";
 import { useImmer } from "use-immer";
+import useMount from "@/hooks/useMount";
+import { usePlayerStore } from "@/store";
+import { CurrentTimeContext } from "..";
 
 type TouchType = {
   initiated: boolean;
@@ -10,13 +13,16 @@ type TouchType = {
 };
 
 interface IProps {
-  percentChangeHandler?: (percent: number) => void;
+  percent: number;
+  onPercentChange?: (percent: number) => void;
 }
 
-const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
-  const progressContainer = useRef<HTMLDivElement>({} as HTMLDivElement);
+const ProgressBar: React.FC = () => {
+  const progressBar = useRef<HTMLDivElement>({} as HTMLDivElement);
   const progress = useRef<HTMLDivElement>({} as HTMLDivElement);
   const progressBtn = useRef<HTMLDivElement>({} as HTMLDivElement);
+  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
+  const { setSongProgress } = useContext(CurrentTimeContext);
 
   const [touch, setTouch] = useImmer<TouchType>({
     initiated: false,
@@ -25,10 +31,22 @@ const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
     progressBtnWidth: 16,
   });
 
+  // 当播放进度百分比 percent 发生改变时，滑块的偏移也要变
+  useEffect(() => {
+    const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
+    const offsetWidth = percent * progressBarWidth;
+    moveTo(offsetWidth);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [percent, touch.progressBtnWidth]);
+
   // 处理进度条的偏移
   const moveTo = (offsetWidth: number) => {
     progress.current.style.width = `${offsetWidth}px`;
     progressBtn.current.style.transform = `translate(${offsetWidth}px, -50%)`;
+
+    // 更改进度条百分比
+    changePercent();
   };
 
   const progressTouchStart = (e: TouchEvent) => {
@@ -45,7 +63,7 @@ const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
     const slideX = e.touches[0].pageX - touch.startX;
 
     // 计算滚动条长度
-    const progressBarWidth = progressContainer.current.clientWidth - touch.progressBtnWidth;
+    const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
 
     // progress 的长度不能超过 progressBar 的长度
     const offsetWidth = Math.min(Math.max(0, touch.progressWidth + slideX), progressBarWidth);
@@ -59,8 +77,12 @@ const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
     });
   };
 
+  /**
+   * 点击移动到指定位置
+   * @param e
+   */
   const progressClick = (e: MouseEvent) => {
-    const rect = progressContainer.current.getBoundingClientRect();
+    const rect = progressBar.current.getBoundingClientRect();
     const offsetWidth = e.pageX - rect.left;
 
     moveTo(offsetWidth);
@@ -70,16 +92,21 @@ const ProgressBar: React.FC<IProps> = ({ percentChangeHandler }) => {
    * 进度条改变
    * @param percent 百分比
    */
-  const changePercent = (percent: number) => {
-    const progressBarWidth = progressContainer.current.clientWidth - touch.progressBtnWidth;
-    const currentPercent = progress.current.clientWidth / progressBarWidth; // 新的进度计算
+  const changePercent = () => {
+    // 根据进度条总长度和滑块长度计算百分比，然后更新百分比
+    const progressBarWidth = progressBar.current.clientWidth - touch.progressBtnWidth;
+    const currentPercent = progress.current.clientWidth / progressBarWidth; // 新的百分比计算
 
-    percentChangeHandler && percentChangeHandler(currentPercent); // 把新的进度传给回调函数并执行
+    // 更改歌曲进度百分比
+    setPercent(currentPercent);
+
+    // 设置歌曲的currentTime
+    setSongProgress(percent);
   };
 
   return (
-    <div className={styles.progressBar}>
-      <div className={styles.barInner} ref={progressContainer} onClick={progressClick}>
+    <div className={styles.progressContainer}>
+      <div className={styles.progressBar} ref={progressBar} onClick={progressClick}>
         <div className={styles.progress} ref={progress}></div>
         <div
           className={styles.progressBtnWrapper}

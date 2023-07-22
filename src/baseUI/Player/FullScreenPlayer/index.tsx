@@ -1,11 +1,12 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
-import { getName } from "@/utils/utils";
+import { formatPlayTime, getName } from "@/utils/utils";
 import { DownOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { CSSTransition } from "react-transition-group";
 import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
+import { CurrentTimeContext } from "..";
 
 interface IProps {
   song: {
@@ -13,13 +14,21 @@ interface IProps {
     name: string;
     ar: { name: string }[];
   };
+  currentTime: number;
+  duration: number;
 }
 
-const FullScreenPlayer: FC<IProps> = ({ song }) => {
+const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
+  const { setSongProgress } = useContext(CurrentTimeContext);
+
+  const changePercent = (currentPercent: number) => {
+    setPercent(currentPercent);
+    setSongProgress(percent);
+  };
 
   return (
     <CSSTransition
@@ -50,6 +59,7 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
           <ShareAltOutlined className={styles.icon} />
         </header>
 
+        {/* 转盘 */}
         <main className={styles.middle}>
           <div className={styles.cdWrapper}>
             <img
@@ -62,11 +72,12 @@ const FullScreenPlayer: FC<IProps> = ({ song }) => {
 
         <footer className={styles.footer}>
           <div className={styles.progressContainer}>
-            <div className={styles.time}>1:19</div>
+            <div className={styles.time}>{formatPlayTime(currentTime)}</div>
             <ProgressBar></ProgressBar>
-            <div className={styles.time}>2:45</div>
+            <div className={styles.time}>{formatPlayTime(duration)}</div>
           </div>
 
+          {/* 播放控件 */}
           <div className={styles.iconList}>
             <div className={styles.iconBox}>
               <i className={classNames("iconfont", styles.icon)}>&#xe625;</i>

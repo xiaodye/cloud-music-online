@@ -23,3 +23,11 @@ export const getName = (list: { name: string }[]) => {
 export const getSongUrl = (id: number) => {
   return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 };
+
+// 转换歌曲播放时间
+export const formatPlayTime = (interval: number) => {
+  interval = interval | 0; // | 0 表示向下取整
+  const minute = (interval / 60) | 0;
+  const second = (interval % 60).toString().padStart(2, "0");
+  return `${minute}:${second}`;
+};

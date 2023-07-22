@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { Dispatch, FC, SetStateAction, SyntheticEvent, createContext, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import PlayerBanner from "./PlayerBanner";
 import FullScreenPlayer from "./FullScreenPlayer";
@@ -87,6 +87,13 @@ const playList = [
   },
 ];
 
+type ContextType = {
+  currentTime: number;
+  setSongProgress: (percent: number) => void;
+};
+
+export const CurrentTimeContext = createContext<ContextType>({} as ContextType);
+
 const Player: FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -94,26 +101,20 @@ const Player: FC = () => {
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
-
-  const percent = Number.isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
 
   useMount(() => {
     if (!currentSong) return;
 
     setCurrentIndex(0);
     const current = playList[0];
-    setCurrentSong(current);
 
+    setCurrentSong(current);
     audioRef.current.src = getSongUrl(current.id);
 
-    // setTimeout(() => {
-    //   audioRef.current.play();
-    // });
-
-    // audioRef.current.pause();
-
-    setCurrentTime(0); //从头开始播放
-    setDuration((current.dt / 1000) | 0); //时长
+    setCurrentTime(0); // 设置播放起始时间, 从头开始播放
+    setDuration((current.dt / 1000) | 0); // 歌曲时长
+    setPercent(getPercent(currentTime, duration)); // 设置百分比
   });
 
   useEffect(() => {
@@ -124,11 +125,47 @@ const Player: FC = () => {
     }
   }, [playing]);
 
+  // 获取音乐播放的时间
+  const updateTime = (e: SyntheticEvent<HTMLAudioElement>) => {
+    const audioElement = e.target as HTMLAudioElement;
+    const currentTime = audioElement.currentTime;
+
+    setCurrentTime(currentTime);
+    setPercent(getPercent(currentTime, duration));
+  };
+
+  /**
+   * 根据已播放时间和总时长计算歌曲百分比进度
+   * @param currentTime
+   * @param duration
+   * @returns
+   */
+  const getPercent = (currentTime: number, duration: number) => {
+    return Number.isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  };
+
+  /**
+   * 当进度条被点击、滑动时，currentTime 也应该跟着变
+   * @param percent
+   */
+  const setSongProgress = (percent: number) => {
+    const newTime = percent * duration;
+    setCurrentTime(newTime);
+    audioRef.current.currentTime = newTime;
+
+    // 如果进度条被滑动时，歌曲处于暂停状态，则把状态置为播放
+    if (!playing) {
+      setPlaying(true);
+    }
+  };
+
   return (
     <div className={styles.player}>
       <PlayerBanner song={currentSong} />
-      <FullScreenPlayer song={currentSong} />
-      <audio src="" ref={audioRef}></audio>
+      <CurrentTimeContext.Provider value={{ currentTime, setSongProgress }}>
+        <FullScreenPlayer song={currentSong} currentTime={currentTime} duration={duration} />
+      </CurrentTimeContext.Provider>
+      <audio ref={audioRef} onTimeUpdate={updateTime}></audio>
     </div>
   );
 };
