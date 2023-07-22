@@ -52,7 +52,7 @@ const Player: FC = () => {
   // 4. 计算 duration, 重置 currentTime -> 0
   // 5. 播放歌曲，audio.current.play()
   useEffect(() => {
-    if (playList.length === 0 || currentIndex === -1 || !playList[currentIndex]) {
+    if (playList.length === 0 || currentIndex === -1) {
       return;
     }
 
@@ -77,6 +77,8 @@ const Player: FC = () => {
 
   // 监听 playing 变化，从而控制 audio 标签播放和暂停
   useEffect(() => {
+    console.log(playing);
+
     if (playing) {
       audioRef.current.play();
     } else {

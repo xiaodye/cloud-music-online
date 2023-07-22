@@ -102,7 +102,7 @@ const initialState: State = {
   },
   currentTime: 0,
   playMode: PlayMode.SEQUENCE, // 播放模式
-  currentIndex: 0, // 当前歌曲在播放列表的索引位置
+  currentIndex: -1, // 当前歌曲在播放列表的索引位置
   showPlayList: false, // 是否展示播放列表
 
   percent: 0,
