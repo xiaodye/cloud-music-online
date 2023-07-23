@@ -9,9 +9,9 @@
     overflow: hidden;
     aspect-ratio: 1;
 
-    .cover {
-      width: 100%;
-      height: 100%;
+    & img {
+      width: 30vw;
+      aspect-ratio: 1;
       object-fit: cover;
     }
 
