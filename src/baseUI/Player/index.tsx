@@ -7,6 +7,8 @@ import useMount from "@/hooks/useMount";
 import { findIndex, getSongUrl, shuffle } from "@/utils/utils";
 import { PlayMode } from "@/store/player/types";
 import PlayList from "@/components/PlayList";
+import useTogglePlayMode from "@/hooks/useTogglePlayMode";
+import { SongType } from "@/api/types";
 
 type ContextType = {
   setSongProgress: (percent: number) => void;
@@ -22,14 +24,12 @@ const Player: FC = () => {
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
-  const [prevSong, setPrevSong] = useState<any>();
+  const [prevSong, setPrevSong] = useState<SongType>();
   const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
   const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
-  const [sequencePlayList, setSequencePlayList] = usePlayerStore((state) => [
-    state.sequencePlayList,
-    state.setSequencePlayList,
-  ]);
   const songReady = useRef(true);
+
+  const { togglePlayMode } = useTogglePlayMode();
 
   // useMount(() => {
   //   if (!currentSong) return;
@@ -163,28 +163,6 @@ const Player: FC = () => {
     } else {
       nextHandler();
     }
-  };
-
-  /**
-   * 切换播放模式
-   */
-  const togglePlayMode = () => {
-    const newMode = (playMode + 1) % 3;
-
-    if (newMode === PlayMode.SEQUENCE) {
-      setPlayList(sequencePlayList);
-      const newIndex = findIndex(currentSong, sequencePlayList);
-      setCurrentIndex(newIndex);
-    } else if (newMode === PlayMode.LOOP) {
-      setPlayList(playList);
-    } else if (newMode === PlayMode.RANDOM) {
-      const newList = shuffle(sequencePlayList);
-      const newIndex = findIndex(currentSong, newList);
-      setPlayList(newList);
-      setCurrentIndex(newIndex);
-    }
-
-    setPlayMode(newMode);
   };
 
   /**

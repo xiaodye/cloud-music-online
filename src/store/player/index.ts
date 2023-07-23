@@ -28,6 +28,8 @@ type Actions = {
   setPlayList: (list: SongType[]) => void;
   setShowPlayList: (show: boolean) => void;
   setPercent: (percent: number) => void;
+
+  deleteSong: (currentIndex: number) => void;
 };
 
 const initialState: State = {
@@ -161,6 +163,11 @@ const usePlayerStore = create(
     setPercent: (percent) =>
       set((state) => {
         state.percent = percent;
+      }),
+
+    deleteSong: (currentIndex) =>
+      set((state) => {
+        state.currentIndex = currentIndex;
       }),
   }))
 );

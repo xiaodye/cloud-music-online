@@ -14,8 +14,9 @@ interface IProps {
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const { percent, setShowPlayList } = usePlayerStore((state) => ({
+  const { percent, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
     percent: state.percent,
+    showPlayList: state.showPlayList,
     setShowPlayList: state.setShowPlayList,
   }));
 
@@ -55,13 +56,7 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           </div>
         </Circle>
 
-        <i
-          className={classNames("iconfont", styles.iconSong)}
-          onClick={() => {
-            console.log(1);
-            setShowPlayList(true);
-          }}
-        >
+        <i className={classNames("iconfont", styles.iconSong)} onClick={() => setShowPlayList(!showPlayList)}>
           &#xe640;
         </i>
       </div>
