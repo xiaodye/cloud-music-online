@@ -125,6 +125,16 @@ const Player: FC = () => {
   };
 
   /**
+   * 循环播放
+   */
+  const loopHandler = () => {
+    audioRef.current.currentTime = 0;
+    setCurrentTime(0);
+    audioRef.current.play();
+    setPlaying(true);
+  };
+
+  /**
    * 点击上一曲
    * @returns
    */
@@ -149,10 +159,7 @@ const Player: FC = () => {
    */
   const endHandler = () => {
     if (playMode === PlayMode.LOOP) {
-      audioRef.current.currentTime = 0;
-      setCurrentTime(0);
-      audioRef.current.play();
-      setPlaying(true);
+      loopHandler();
     } else {
       nextHandler();
     }
@@ -169,7 +176,7 @@ const Player: FC = () => {
       const newIndex = findIndex(currentSong, sequencePlayList);
       setCurrentIndex(newIndex);
     } else if (newMode === PlayMode.LOOP) {
-      setPlayList([currentSong]);
+      setPlayList(playList);
     } else if (newMode === PlayMode.RANDOM) {
       const newList = shuffle(sequencePlayList);
       const newIndex = findIndex(currentSong, newList);
