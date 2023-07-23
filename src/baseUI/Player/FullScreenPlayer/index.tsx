@@ -21,6 +21,7 @@ interface IProps {
 const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler, togglePlayMode }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
+  const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const { playMode, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
     playMode: state.playMode,
     showPlayList: state.showPlayList,
@@ -35,6 +36,19 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
     } else {
       return "&#xe61b;";
     }
+  };
+
+  /**
+   * 播放和暂停歌曲
+   * @returns
+   */
+  const playSong = () => {
+    if (currentIndex === -1) {
+      setCurrentIndex(0);
+      return;
+    }
+
+    setPlaying(!playing);
   };
 
   return (
@@ -98,7 +112,7 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
             <div className={styles.iconBox}>
               <i
                 className={classNames("iconfont", styles.icon, styles.center)}
-                onClick={() => setPlaying(!playing)}
+                onClick={() => playSong()}
                 dangerouslySetInnerHTML={{
                   __html: playing ? "&#xe723;" : "&#xe731;",
                 }}

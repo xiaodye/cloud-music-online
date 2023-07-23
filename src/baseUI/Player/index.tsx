@@ -4,7 +4,7 @@ import PlayerBanner from "./PlayerBanner";
 import FullScreenPlayer from "./FullScreenPlayer";
 import { usePlayerStore } from "@/store";
 import useMount from "@/hooks/useMount";
-import { findIndex, getSongUrl, shuffle } from "@/utils/utils";
+import { getSongUrl } from "@/utils/utils";
 import { PlayMode } from "@/store/player/types";
 import PlayList from "@/components/PlayList";
 import useTogglePlayMode from "@/hooks/useTogglePlayMode";
@@ -13,6 +13,30 @@ import { SongType } from "@/api/types";
 type ContextType = {
   setSongProgress: (percent: number) => void;
 };
+
+const songList: SongType[] = [
+  {
+    id: 1416767593,
+    name: "拾梦纪",
+    al: {
+      id: 84991301,
+      name: "拾梦纪",
+      picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
+    },
+
+    dt: 234947,
+    ar: [
+      {
+        id: 12084589,
+        name: "妖扬",
+      },
+      {
+        id: 12578371,
+        name: "金天",
+      },
+    ],
+  },
+];
 
 export const SongContext = createContext<ContextType>({} as ContextType);
 
@@ -24,26 +48,25 @@ const Player: FC = () => {
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
-  const [prevSong, setPrevSong] = useState<SongType>();
   const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
   const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
+  const [sequencePlayList, setSequencePlayList] = usePlayerStore((state) => [
+    state.sequencePlayList,
+    state.setSequencePlayList,
+  ]);
   const songReady = useRef(true);
 
   const { togglePlayMode } = useTogglePlayMode();
 
-  // useMount(() => {
-  //   if (!currentSong) return;
-
-  //   setCurrentIndex(0);
-  //   const current = playList[0];
-
-  //   setCurrentSong(current);
-  //   audioRef.current.src = getSongUrl(current.id);
-
-  //   setCurrentTime(0); // 设置播放起始时间, 从头开始播放
-  //   setDuration((current.dt / 1000) | 0); // 歌曲时长
-  //   setPercent(getPercent(currentTime, duration)); // 设置百分比
-  // });
+  // 当应用启动时，store 可能没有数据，手动填充一条
+  useMount(() => {
+    if (playList.length === 0) {
+      setSequencePlayList(songList);
+      setPlayList(songList);
+      setCurrentSong(songList[0]);
+      setPlayMode(PlayMode.SEQUENCE);
+    }
+  });
 
   // 切换索引会触发播放
   // 播放逻辑
@@ -59,7 +82,6 @@ const Player: FC = () => {
 
     const song = playList[currentIndex];
     setCurrentSong(song);
-    setPrevSong(song);
     audioRef.current.src = getSongUrl(song.id);
 
     setTimeout(() => {
@@ -83,6 +105,8 @@ const Player: FC = () => {
     } else {
       audioRef.current.pause();
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
 
   /**

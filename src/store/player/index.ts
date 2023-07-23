@@ -35,52 +35,8 @@ type Actions = {
 const initialState: State = {
   fullScreen: false, // 播放器是否为全屏模式
   playing: false, // 当前歌曲是否播放
-  sequencePlayList: [
-    {
-      id: 1416767593,
-      name: "拾梦纪",
-      al: {
-        id: 84991301,
-        name: "拾梦纪",
-        picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
-      },
-
-      dt: 234947,
-      ar: [
-        {
-          id: 12084589,
-          name: "妖扬",
-        },
-        {
-          id: 12578371,
-          name: "金天",
-        },
-      ],
-    },
-  ], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
-  playList: [
-    {
-      id: 1416767593,
-      name: "拾梦纪",
-      al: {
-        id: 84991301,
-        name: "拾梦纪",
-        picUrl: "http://p1.music.126.net/M19SOoRMkcHmJvmGflXjXQ==/109951164627180052.jpg",
-      },
-
-      dt: 234947,
-      ar: [
-        {
-          id: 12084589,
-          name: "妖扬",
-        },
-        {
-          id: 12578371,
-          name: "金天",
-        },
-      ],
-    },
-  ],
+  sequencePlayList: [], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
+  playList: [],
   currentSong: {
     id: 1416767593,
     name: "拾梦纪",
