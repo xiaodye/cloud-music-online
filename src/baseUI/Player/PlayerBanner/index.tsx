@@ -70,7 +70,7 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           </div>
         </Circle>
 
-        <i className={classNames("iconfont", styles.iconSong)} onClick={() => setShowPlayList(!showPlayList)}>
+        <i className={classNames("iconfont", styles.iconSong)} onClick={() => setShowPlayList(true)}>
           &#xe640;
         </i>
       </div>

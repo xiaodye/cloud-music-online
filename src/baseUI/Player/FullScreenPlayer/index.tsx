@@ -8,11 +8,13 @@ import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
 import { SongType } from "@/api/types";
 import { PlayMode } from "@/store/player/types";
+import Lyric from "@/utils/lyric-parser";
 
 interface IProps {
   song: SongType;
   currentTime: number;
   duration: number;
+
   prevHandler: () => void;
   nextHandler: () => void;
   togglePlayMode: () => void;
@@ -51,6 +53,10 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
     setPlaying(!playing);
   };
 
+  const toggleLyric = () => {
+    console.log(1);
+  };
+
   return (
     <CSSTransition
       in={fullScreen}
@@ -82,7 +88,7 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
 
         {/* 转盘 */}
         <main className={styles.middle}>
-          <div className={styles.cdWrapper}>
+          <div className={styles.cdWrapper} onClick={toggleLyric}>
             <img
               className={classNames(styles.cdInner, playing ? "" : styles.pause)}
               src={song.al.picUrl + "?param=400x400"}

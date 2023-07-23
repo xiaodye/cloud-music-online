@@ -36,13 +36,15 @@ export type SingerDetailType = {
     name: string;
     picUrl: string;
   };
-  hotSongs: {
-    name: string;
-    ar: { name: string }[];
-    al: {
-      name: string;
-    };
-  }[];
+  hotSongs: SongType[];
+};
+
+// 歌词数据类型
+export type LyricType = {
+  lrc: {
+    lyric: string;
+    version: number;
+  };
 };
 
 export type SongType = {

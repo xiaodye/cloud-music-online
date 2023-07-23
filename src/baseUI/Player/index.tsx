@@ -9,6 +9,8 @@ import { PlayMode } from "@/store/player/types";
 import PlayList from "@/components/PlayList";
 import useTogglePlayMode from "@/hooks/useTogglePlayMode";
 import { SongType } from "@/api/types";
+import { getLyricRequest } from "@/api/request";
+import Lyric, { LyricLineType } from "@/utils/lyric-parser";
 
 type ContextType = {
   setSongProgress: (percent: number) => void;
@@ -54,7 +56,12 @@ const Player: FC = () => {
     state.sequencePlayList,
     state.setSequencePlayList,
   ]);
+
   const songReady = useRef(true);
+
+  const [currentPlayingLyric, setCurrentPlayingLyric] = useState(""); // 当前歌词行
+  const currentLineNum = useRef(0); // 歌词行数
+  const lyricRef = useRef<Lyric>({} as Lyric); // 当前歌词对象
 
   const { togglePlayMode } = useTogglePlayMode();
 
@@ -66,6 +73,7 @@ const Player: FC = () => {
       setCurrentSong(songList[0]);
       setPlayMode(PlayMode.SEQUENCE);
     }
+    getLyric(currentSong.id);
   });
 
   // 切换索引会触发播放
@@ -92,6 +100,7 @@ const Player: FC = () => {
     });
 
     setPlaying(true);
+    getLyric(currentSong.id);
     setCurrentTime(0); // 从 0 开始
     setDuration((song.dt / 1000) | 0); // 时长
 
@@ -108,6 +117,35 @@ const Player: FC = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
+
+  const handleLyric = ({ txt, lineNum }: LyricLineType) => {
+    if (!lyricRef.current) return;
+
+    currentLineNum.current = lineNum;
+    setCurrentPlayingLyric(txt);
+  };
+
+  /**
+   * 获取歌词，初识化Lyric 插件
+   * @param id
+   */
+  const getLyric = async (id: number) => {
+    // if (lyricRef.current) {
+    //   lyricRef.current.stop();
+    // }
+
+    try {
+      const { lrc } = await getLyricRequest(id);
+
+      lyricRef.current = new Lyric(lrc.lyric, handleLyric);
+      lyricRef.current.play();
+      currentLineNum.current = 0;
+      lyricRef.current.seek(0);
+    } catch {
+      songReady.current = true;
+      audioRef.current.play();
+    }
+  };
 
   /**
    * 获取音乐播放的进度
@@ -141,6 +179,8 @@ const Player: FC = () => {
     const newTime = percent * duration;
     setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
+
+    lyricRef.current.seek(newTime * 1000);
 
     // 如果进度条被滑动时，歌曲处于暂停状态，则把状态置为播放
     if (!playing) {

@@ -1,5 +1,5 @@
 // 歌手种类
-export const categoryList = [
+export const categoryTypes = [
   {
     key: "-1",
     name: "全部",
@@ -46,7 +46,7 @@ export const areaList = [
 ];
 
 // 歌手首字母
-export const alphaList = [
+export const alphaTypes = [
   {
     key: "A",
     name: "A",

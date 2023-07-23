@@ -1,5 +1,5 @@
 import axiosInstance from "./config";
-import { AlbumDetailType, ArtistData, RankListType, SingerDetailType } from "./types";
+import { AlbumDetailType, ArtistData, LyricType, RankListType, SingerDetailType } from "./types";
 
 // 轮播图
 export const getBannerListData = async () => {
@@ -67,5 +67,16 @@ export const getSingerInfoRequest = async (id: number) => {
   }
 };
 
+// 获取歌词
+export const getLyricRequest = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get<LyricType>(`/lyric?id=${id}`);
+
+    return data;
+  } catch (err) {
+    throw new Error(`request error: ${err}`);
+  }
+};
+
 // 歌手种类, 歌手首字母
-export { categoryList as categoryTypes, alphaList as alphaTypes, areaList } from "./static";
+export { categoryTypes, alphaTypes, areaList } from "./static";
