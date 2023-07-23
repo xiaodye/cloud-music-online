@@ -78,9 +78,26 @@
   justify-content: center;
   align-items: center;
 
+  .needle {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 100px;
+    aspect-ratio: 2/3;
+    transform-origin: 15px 15px;
+    transform: translate(-16px, 0) rotateZ(0);
+    transition: 0.4s;
+    background-image: url(@/assets/needle.png);
+    background-size: cover;
+
+    &.needle-pause {
+      transform: translate(-16px, 0) rotateZ(-30deg);
+    }
+  }
+
   .cd-wrapper {
     position: absolute;
-    top: 50%;
+    top: 15%;
     left: 50%;
     display: flex;
     justify-content: center;
@@ -89,7 +106,7 @@
     height: 300px;
     border-radius: 50%;
     background-color: #131315;
-    transform: translate(-50%, calc(-50% - 60px));
+    transform: translate(-50%, 0);
     transition: 0.4s;
 
     .cd-inner {

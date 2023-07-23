@@ -98,7 +98,7 @@ const FullScreenPlayer: FC<IProps> = ({
         <main className={styles.middle}>
           <div
             className={styles.cdWrapper}
-            style={{ opacity: showLyric ? 0 : 1 }}
+            style={{ opacity: showLyric ? 0 : 1, zIndex: showLyric ? 0 : 5 }}
             onClick={() => setShowLyric(!showLyric)}
           >
             <img
@@ -110,7 +110,7 @@ const FullScreenPlayer: FC<IProps> = ({
 
           <div
             className={styles.lyricContainer}
-            style={{ opacity: showLyric ? 1 : 0 }}
+            style={{ opacity: showLyric ? 1 : 0, zIndex: showLyric ? 5 : 0 }}
             onClick={() => setShowLyric(!showLyric)}
           >
             <Scroll>
@@ -127,6 +127,11 @@ const FullScreenPlayer: FC<IProps> = ({
               </div>
             </Scroll>
           </div>
+
+          <div
+            className={classNames(styles.needle, playing ? "" : styles.needlePause)}
+            style={{ opacity: showLyric ? 0 : 1, zIndex: showLyric ? 0 : 5 }}
+          ></div>
         </main>
 
         <footer className={styles.footer}>
