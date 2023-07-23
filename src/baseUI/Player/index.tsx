@@ -84,7 +84,7 @@ const Player: FC = () => {
   // 4. 计算 duration, 重置 currentTime -> 0
   // 5. 播放歌曲，audio.current.play()
   useEffect(() => {
-    if (playList.length === 0 || currentIndex === -1) {
+    if (playList.length === 0 || currentIndex === -1 || currentSong === playList[currentIndex]) {
       return;
     }
 
@@ -138,6 +138,7 @@ const Player: FC = () => {
       const { lrc } = await getLyricRequest(id);
 
       lyricRef.current = new Lyric(lrc.lyric, handleLyric);
+
       lyricRef.current.play();
       currentLineNum.current = 0;
       lyricRef.current.seek(0);
@@ -249,6 +250,7 @@ const Player: FC = () => {
           prevHandler={prevHandler}
           nextHandler={nextHandler}
           togglePlayMode={togglePlayMode}
+          lyricLines={lyricRef.current.lyricList}
         />
       </SongContext.Provider>
       <PlayList />

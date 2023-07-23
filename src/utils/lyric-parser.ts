@@ -15,7 +15,7 @@ export type LyricLineType = {
 
 export default class Lyric {
   private lrc: string;
-  private lyricList: LineType[];
+  lyricList: LineType[];
   private handler: (lyricLine: LyricLineType) => void;
   private state: number;
   private curLineIndex: number;
@@ -29,6 +29,8 @@ export default class Lyric {
     this.state = STATE_PAUSE; // 播放状态
     this.curLineIndex = 0; // 当前播放歌词所在的行数
     this.startStamp = 0; // 歌曲开始的时间戳
+
+    this.initLines();
   }
 
   private initLines() {

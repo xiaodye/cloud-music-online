@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { formatPlayTime, getName } from "@/utils/utils";
@@ -8,7 +8,8 @@ import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
 import { SongType } from "@/api/types";
 import { PlayMode } from "@/store/player/types";
-import Lyric from "@/utils/lyric-parser";
+import Lyric, { LineType } from "@/utils/lyric-parser";
+import Scroll from "@/components/Scroll";
 
 interface IProps {
   song: SongType;
@@ -18,9 +19,18 @@ interface IProps {
   prevHandler: () => void;
   nextHandler: () => void;
   togglePlayMode: () => void;
+  lyricLines: LineType[];
 }
 
-const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler, nextHandler, togglePlayMode }) => {
+const FullScreenPlayer: FC<IProps> = ({
+  song,
+  currentTime,
+  duration,
+  prevHandler,
+  nextHandler,
+  togglePlayMode,
+  lyricLines,
+}) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
@@ -29,6 +39,8 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
     showPlayList: state.showPlayList,
     setShowPlayList: state.setShowPlayList,
   }));
+
+  const [showLyric, setShowLyric] = useState(false);
 
   const getPlayModeIcon = () => {
     if (playMode === PlayMode.SEQUENCE) {
@@ -51,10 +63,6 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
     }
 
     setPlaying(!playing);
-  };
-
-  const toggleLyric = () => {
-    console.log(1);
   };
 
   return (
@@ -88,12 +96,36 @@ const FullScreenPlayer: FC<IProps> = ({ song, currentTime, duration, prevHandler
 
         {/* 转盘 */}
         <main className={styles.middle}>
-          <div className={styles.cdWrapper} onClick={toggleLyric}>
+          <div
+            className={styles.cdWrapper}
+            style={{ opacity: showLyric ? 0 : 1 }}
+            onClick={() => setShowLyric(!showLyric)}
+          >
             <img
               className={classNames(styles.cdInner, playing ? "" : styles.pause)}
               src={song.al.picUrl + "?param=400x400"}
               alt="cover"
             />
+          </div>
+
+          <div
+            className={styles.lyricContainer}
+            style={{ opacity: showLyric ? 1 : 0 }}
+            onClick={() => setShowLyric(!showLyric)}
+          >
+            <Scroll>
+              <div className={styles.lyricList}>
+                {lyricLines ? (
+                  lyricLines.map((item) => (
+                    <p key={item.time} className={styles.lyricListItem}>
+                      {item.txt}
+                    </p>
+                  ))
+                ) : (
+                  <p>歌词解析中...</p>
+                )}
+              </div>
+            </Scroll>
           </div>
         </main>
 
