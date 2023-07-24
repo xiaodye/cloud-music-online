@@ -1,6 +1,6 @@
 import Scroll from "@/components/Scroll";
 import React, { useState } from "react";
-import { content, listContainer, listItem, horizen } from "./styles.css";
+import { listContainer, listItem, horizen } from "./styles.css";
 import classNames from "classnames";
 
 type areaType = {
@@ -26,19 +26,17 @@ const Horizen: React.FC<IProps> = ({ list, title, style, onClick }) => {
   return (
     <div className={horizen} style={style}>
       <Scroll direction="horizontal">
-        <div className={content}>
-          <div className={listContainer}>
-            <span className={listItem}>{title}</span>
-            {list.map((item) => (
-              <span
-                key={item.key}
-                className={classNames(listItem, currentKey === item.key ? "selected" : "")}
-                onClick={() => clickHandle(item.key)}
-              >
-                {item.name}
-              </span>
-            ))}
-          </div>
+        <div className={listContainer}>
+          <span className={listItem}>{title}</span>
+          {list.map((item) => (
+            <span
+              key={item.key}
+              className={classNames(listItem, currentKey === item.key ? "selected" : "")}
+              onClick={() => clickHandle(item.key)}
+            >
+              {item.name}
+            </span>
+          ))}
         </div>
       </Scroll>
     </div>

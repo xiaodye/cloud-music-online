@@ -5,14 +5,6 @@ const horizen = style({
   height: 40,
 });
 
-const content = style({
-  display: "inline-block",
-  alignItems: "center",
-  whiteSpace: "nowrap",
-  width: "auto",
-  height: "100%",
-});
-
 const listContainer = style({
   display: "flex",
   alignItems: "center",
@@ -23,7 +15,7 @@ const listContainer = style({
 });
 
 const listItem = style({
-  flex: " 0 0 auto",
+  flex: "0 0 auto",
   fontSize: globalVars.font_size_s,
   borderRadius: "10px",
   padding: "2px 10px",
@@ -46,4 +38,4 @@ const listItem = style({
   },
 });
 
-export { horizen, content, listContainer, listItem };
+export { horizen, listContainer, listItem };

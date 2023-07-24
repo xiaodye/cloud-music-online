@@ -1,46 +1,24 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import styles from "./styles.module.scss";
-import { useMemo } from "react";
+import TabBar from "@/components/TabBar";
 import classNames from "classnames";
+import { AudioOutlined, SearchOutlined } from "@ant-design/icons";
 
 const Home: React.FC = () => {
-  const tabs = useMemo(
-    () => [
-      {
-        path: "/home/recommend",
-        text: "推荐",
-      },
-      {
-        path: "/home/singers",
-        text: "歌手",
-      },
-      {
-        path: "/home/rank",
-        text: "排行榜",
-      },
-    ],
-    []
-  );
-
-  const getNavLinkClassName = ({ isActive }: { isActive: boolean; isPending: boolean }) => {
-    return isActive ? classNames(styles.tabItem, styles.active) : styles.tabItem;
-  };
-
   return (
     <div className={styles.home}>
       <div className={styles.top}>
-        <span className="iconfont menu">&#xe65c;</span>
-        <span className="title">云音悦</span>
-        <span className="iconfont search">&#xe62b;</span>
-      </div>
-      <div className={styles.tab}>
-        {tabs.map((item, index) => (
-          <NavLink to={item.path} key={index} className={getNavLinkClassName}>
-            {item.text}
-          </NavLink>
-        ))}
+        <i className={classNames("iconfont", styles.iconAside)}>&#xe65c;</i>
+
+        <div className={styles.search}>
+          <SearchOutlined />
+          <input className={styles.searchInput} type="text" placeholder="请输入关键词" />
+        </div>
+
+        <AudioOutlined style={{ color: "#fff", fontSize: 22 }} />
       </div>
 
+      <TabBar />
       <Outlet />
     </div>
   );

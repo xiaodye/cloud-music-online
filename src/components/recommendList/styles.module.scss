@@ -6,13 +6,9 @@
   background-color: var(--background-color);
 
   .title {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    height: 45px;
-    font-weight: 700;
-    padding-left: 10px;
-    font-size: 15px;
+    font-size: var(--font-size-ll);
+    padding: 10px;
+    font-weight: bold;
   }
 }
 

@@ -9,36 +9,36 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5px 10px;
-  background: var(--theme-color);
-  & > span {
-    line-height: 40px;
-    color: var(--font-color-light);
-    font-size: 20px;
-    &.iconfont {
-      font-size: 25px;
-    }
-  }
-}
-
-.tab {
-  display: flex;
-  justify-content: space-around;
+  column-gap: 30px;
   align-items: center;
-  height: 45px;
-  background-color: var(--theme-color);
   padding: 0 10px;
-  &-item {
-    display: flex;
-    box-sizing: border-box;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s;
+  height: 50px;
+  background: var(--theme-color);
+
+  .icon-aside {
     color: var(--font-color-light);
-    &.active {
-      border-bottom-color: var(--font-color-light);
+    font-size: 25px;
+  }
+
+  .search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 0 10px;
+    height: 30px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    // margin-right: 30px;
+
+    &-icon {
+      color: #333;
+      font-size: 18px;
+    }
+
+    &-input {
+      font-size: var(--font-size-s);
+      flex: 1;
     }
   }
 }
