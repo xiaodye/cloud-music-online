@@ -57,7 +57,7 @@ const SingerDetail: React.FC = () => {
               <span className={styles.text}> 收藏 </span>
             </div>
             <div className={styles.singerListWrapper}>
-              <Scroll>
+              <Scroll bounceTop={false}>
                 <SongList list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />
               </Scroll>
             </div>

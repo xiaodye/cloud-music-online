@@ -18,6 +18,7 @@ BScroll.use(ObserveImage);
 
 interface IProps {
   direction?: "vertical" | "horizontal";
+  bounceTop?: boolean; // 下拉是否有回弹效果
   click?: boolean;
   style?: React.CSSProperties;
   pullUpLoading?: boolean;
@@ -40,6 +41,7 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     children,
     direction = "vertical",
     click = true,
+    bounceTop = true,
     pullUpLoading = false,
     pullUpLoadText,
     pullDownLoading = false,
@@ -74,6 +76,9 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
       pullDownRefresh: {
         threshold: 60,
       },
+      bounce: {
+        top: bounceTop,
+      },
       observeDOM: true, // 开启 observe-dom 插件
       observeImage: true, // 开启 observe-image 插件
       probeType: 3,
@@ -105,7 +110,6 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     <div className={styles.container} style={style} ref={bsContainer}>
       <div className={styles.content}>
         <DanceLoading style={{ display: pullDownLoading ? "flex" : "none" }} loadText={pullDownLoadText} />
-        {/* {React.Children.map(children, (child, index) => child)} */}
         {children}
         <DanceLoading style={{ display: pullUpLoading ? "flex" : "none" }} loadText={pullUpLoadText} />
       </div>
