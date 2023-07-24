@@ -1,3 +1,4 @@
+// 艺术家（歌手）类型
 export type Artist = {
   id: number;
   accountId: number;
@@ -5,11 +6,13 @@ export type Artist = {
   picUrl: string;
 };
 
+// 艺术家接口
 export type ArtistData = {
   artists: Artist[];
   code: number;
 };
 
+// 排行榜
 export type RankListType = {
   id: string;
   coverImgUrl: string;
@@ -47,6 +50,7 @@ export type LyricType = {
   };
 };
 
+// 歌曲类型
 export type SongType = {
   id: number;
   name: string;
