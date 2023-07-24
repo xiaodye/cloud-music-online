@@ -76,8 +76,8 @@ const FullScreenPlayer: FC<IProps> = ({
             <DownOutlined className={styles.icon} />
           </div>
           <div className={styles.info}>
-            <span className={styles.infoName}>{song.name}</span>
-            <span className={styles.infoSinger}>{getName(song.ar)} </span>
+            <div className={classNames(styles.infoName, "text-noWrap")}>{song.name}</div>
+            <div className={classNames(styles.infoSinger, "text-noWrap")}>{getName(song.ar)} </div>
           </div>
           <ShareAltOutlined className={styles.icon} />
         </header>

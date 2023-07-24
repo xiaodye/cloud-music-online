@@ -61,10 +61,12 @@
     row-gap: 4px;
     text-align: center;
     &-name {
+      max-width: 60vw;
       color: var(--font-color-desc);
       font-size: var(--font-size-l);
     }
     &-singer {
+      max-width: 60vw;
       color: var(--font-color-desc-v2);
       font-size: var(--font-size-s);
     }
