@@ -1,5 +1,5 @@
 import Horizen from "@/baseUI/horizen";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { alphaTypes, areaList, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
 import Scroll from "@/components/Scroll";
@@ -25,6 +25,8 @@ const Singers: React.FC = () => {
     offset: 0,
   });
 
+  const singerListMap = useRef<Map<string, Artist[]>>(new Map());
+
   useMount(() => {
     getSingerList(options.area, options.alpha, options.offset);
   });
@@ -40,20 +42,41 @@ const Singers: React.FC = () => {
    * @param offset 数量
    */
   const getSingerList = async (area: string, alpha: string, offset: number) => {
+    const key = `${area}-${alpha}`;
+    if (singerListMap.current.has(key)) {
+      setSingerList(singerListMap.current.get(key)!);
+      return;
+    }
+
     setIsLoading(true);
     const res = await getSingerListData(area, alpha, offset);
     setSingerList(res.artists);
+
+    // 在 map 做缓存，避免不必要的请求
+    singerListMap.current.set(key, res.artists);
+
     setIsLoading(false);
   };
 
+  /**
+   * 改变区域
+   * @param value
+   */
   const changeArea = (value: string) => {
     setOptions({ ...options, area: value });
   };
 
+  /**
+   * 改变首字母
+   * @param value
+   */
   const changeAlpha = (value: string) => {
     setOptions({ ...options, alpha: value });
   };
 
+  /**
+   * 下拉刷新
+   */
   const onPullDown = async () => {
     setPullDownIsLoading(true);
     getSingerList(options.area, options.alpha, options.offset);
@@ -62,16 +85,15 @@ const Singers: React.FC = () => {
     }, 1000);
   };
 
+  /**
+   * 上拉加载更多
+   */
   const onPullUp = () => {
     setPullUpIsLoading(true);
     setTimeout(() => {
       setPullUpIsLoading(false);
     }, 2000);
   };
-
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
 
   return (
     <div className={singers}>
