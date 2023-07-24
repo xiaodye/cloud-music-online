@@ -9,6 +9,7 @@ import useMount from "@/hooks/useMount";
 import { getSingerInfoRequest } from "@/api/request";
 import { SingerDetailType } from "@/api/types";
 import Loading from "@/baseUI/Loading";
+import { PlusOutlined } from "@ant-design/icons";
 
 const SingerDetail: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -52,10 +53,9 @@ const SingerDetail: React.FC = () => {
             <Banner title={singerDetail.artist.name} onClick={handleClick} />
             <div className={styles.singerBg} style={{ backgroundImage: `url(${singerDetail.artist.picUrl})` }}></div>
             <div className={styles.collectBtn}>
-              <i className="iconfont">&#xe62d;</i>
+              <PlusOutlined className={styles.icon} />
               <span className={styles.text}> 收藏 </span>
             </div>
-            {/* <div className={styles.bgLayer}></div> */}
             <div className={styles.singerListWrapper}>
               <Scroll>
                 <SongList list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />

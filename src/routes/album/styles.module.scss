@@ -146,7 +146,13 @@
     align-items: center;
     font-size: 18px;
     column-gap: 10px;
-    margin-left: 10px;
+    margin-left: 20px;
+
+    .text-container {
+      display: flex;
+      align-items: center;
+    }
+
     .num {
       color: var(--font-color-desc-v2);
       font-size: 14px;

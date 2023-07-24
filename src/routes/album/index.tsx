@@ -7,11 +7,11 @@ import Banner from "@/components/Banner";
 import Scroll from "@/components/Scroll";
 import SongList from "@/components/songList";
 import { getCount } from "@/utils/utils";
-import classNames from "classnames";
 import useMount from "@/hooks/useMount";
 import { getAlbumDetailRequest } from "@/api/request";
 import { AlbumDetailType } from "@/api/types";
 import Loading from "@/baseUI/Loading";
+import { CustomerServiceFilled, PlayCircleFilled } from "@ant-design/icons";
 
 const Album: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -61,7 +61,7 @@ const Album: React.FC = () => {
                 <div className={styles.albumContainer}>
                   <div className={styles.coverWrapper}>
                     <div className={styles.decorate}>
-                      <i className="iconfont play">&#xe885;</i>
+                      <CustomerServiceFilled className={styles.icon} />
                       <span className={styles.count}>{Math.floor(albumDetail.subscribedCount / 1000) / 10} 万 </span>
                     </div>
                     <img src={albumDetail.coverImgUrl} alt="cover" />
@@ -98,8 +98,9 @@ const Album: React.FC = () => {
               <main className={styles.main}>
                 <div className={styles.firstLine}>
                   <div className={styles.playAll}>
-                    <i className={classNames("iconfont", styles.icon)}>&#xe6e3;</i>
-                    <div>
+                    <PlayCircleFilled className={styles.icon} />
+
+                    <div className={styles.textContainer}>
                       <span>播放全部</span>
                       <span className={styles.num}>（共 {albumDetail.tracks.length} 首）</span>
                     </div>

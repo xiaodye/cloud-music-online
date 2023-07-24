@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { formatPlayTime, getName } from "@/utils/utils";
-import { DownOutlined, ShareAltOutlined } from "@ant-design/icons";
+import { RollbackOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { CSSTransition } from "react-transition-group";
 import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
@@ -73,7 +73,7 @@ const FullScreenPlayer: FC<IProps> = ({
 
         <header className={styles.header}>
           <div onClick={() => setFullScreen(false)}>
-            <DownOutlined className={styles.icon} />
+            <RollbackOutlined className={styles.icon} />
           </div>
           <div className={styles.info}>
             <div className={classNames(styles.infoName, "text-noWrap")}>{song.name}</div>

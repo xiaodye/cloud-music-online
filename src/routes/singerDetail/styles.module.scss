@@ -47,15 +47,17 @@
   color: var(--font-color-light);
   border-radius: 20px;
   text-align: center;
-  font-size: 0;
   line-height: 40px;
 
-  .iconfont {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 12px;
-    vertical-align: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+
+  .icon {
+    font-size: 18px;
   }
+
   .text {
     display: inline-block;
     font-size: 14px;

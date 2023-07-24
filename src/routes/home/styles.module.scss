@@ -15,9 +15,9 @@
   height: 50px;
   background: var(--theme-color);
 
-  .icon-aside {
+  .icon {
     color: var(--font-color-light);
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .search {
@@ -29,15 +29,15 @@
     height: 30px;
     background-color: #ffffff;
     border-radius: 30px;
-    // margin-right: 30px;
 
     &-icon {
       color: #333;
       font-size: 18px;
     }
 
-    &-input {
+    &-text {
       font-size: var(--font-size-s);
+      color: var(--font-color-desc);
       flex: 1;
     }
   }

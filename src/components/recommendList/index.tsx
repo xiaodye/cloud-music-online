@@ -4,6 +4,7 @@ import { getCount } from "@/utils/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import placeImg from "@/assets/music.png";
 import { useNavigate } from "react-router-dom";
+import { CustomerServiceFilled } from "@ant-design/icons";
 
 export type List = {
   id: number;
@@ -31,7 +32,7 @@ const RecommendList: React.FC<Props> = ({ list }) => {
           <div className={styles.listItem} key={item.id} onClick={() => gotoDetail(item.id)}>
             <div className={styles.imgWrapper}>
               <div className={styles.decorate}>
-                <i className="iconfont play">&#xe885;</i>
+                <CustomerServiceFilled className={styles.icon} />
                 <span className="count">{getCount(item.playCount)}</span>
               </div>
 

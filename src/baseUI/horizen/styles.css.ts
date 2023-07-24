@@ -23,9 +23,10 @@ const listItem = style({
   ":first-of-type": {
     flex: "0 0 auto",
     padding: "5px 10px",
-    color: "gray",
     fontSize: globalVars.font_size_m,
     verticalAlign: "middle",
+    fontWeight: "bold",
+    color: "#333",
   },
 
   selectors: {
