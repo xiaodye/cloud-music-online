@@ -11,5 +11,5 @@
 
   "cssvar.files": ["src/**/*.css"],
   "cssvar.extensions": ["css", "scss"],
-  "cSpell.words": ["Horizen", "iconfont", "immer", "swiper", "tailwindcss", "vant", "zustand"]
+  "cSpell.words": ["Horizen", "iconfont", "immer", "partialize", "swiper", "tailwindcss", "vant", "zustand"]
 }
