@@ -10,7 +10,12 @@ import PlayList from "@/components/PlayList";
 import useTogglePlayMode from "@/hooks/useTogglePlayMode";
 import { SongType } from "@/api/types";
 import { getLyricRequest } from "@/api/request";
-import Lyric, { LyricLineType } from "@/utils/lyric-parser";
+// import Lyric, { LineType, LyricLineType } from "@/utils/lyric-parser";
+
+export type LyricLineType = {
+  time: number;
+  txt: string;
+};
 
 type ContextType = {
   setSongProgress: (percent: number) => void;
@@ -57,11 +62,7 @@ const Player: FC = () => {
     state.setSequencePlayList,
   ]);
 
-  const songReady = useRef(true);
-
-  const [currentPlayingLyric, setCurrentPlayingLyric] = useState(""); // 当前歌词行
-  const currentLineNum = useRef(0); // 歌词行数
-  const lyricRef = useRef<Lyric>({} as Lyric); // 当前歌词对象
+  const [lyricLines, setLyricLines] = useState<LyricLineType[]>([]);
 
   const { togglePlayMode } = useTogglePlayMode();
 
@@ -73,6 +74,7 @@ const Player: FC = () => {
       setCurrentSong(songList[0]);
       setPlayMode(PlayMode.SEQUENCE);
     }
+
     getLyric(currentSong.id);
   });
 
@@ -92,17 +94,13 @@ const Player: FC = () => {
     setCurrentSong(song);
     audioRef.current.src = getSongUrl(song.id);
 
-    setTimeout(() => {
-      // 注意，play 方法返回的是一个 promise 对象
-      audioRef.current.play().then(() => {
-        songReady.current = true;
-      });
-    });
-
     setPlaying(true);
     getLyric(currentSong.id);
     setCurrentTime(0); // 从 0 开始
     setDuration((song.dt / 1000) | 0); // 时长
+
+    // 注意: play 方法返回的是一个 promise 对象, 播放的时候会有一个缓存准备，
+    audioRef.current.play();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
@@ -118,34 +116,49 @@ const Player: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing]);
 
-  const handleLyric = ({ txt, lineNum }: LyricLineType) => {
-    if (!lyricRef.current) return;
-
-    currentLineNum.current = lineNum;
-    setCurrentPlayingLyric(txt);
-  };
-
   /**
    * 获取歌词，初识化Lyric 插件
    * @param id
    */
   const getLyric = async (id: number) => {
-    // if (lyricRef.current) {
-    //   lyricRef.current.stop();
-    // }
+    const { lrc } = await getLyricRequest(id);
+    transformToLyricLines(lrc.lyric);
+  };
 
-    try {
-      const { lrc } = await getLyricRequest(id);
+  /**
+   * 把原始字符串形式的歌词解析成歌词行
+   * @param lrc
+   */
+  const transformToLyricLines = (lrc: string) => {
+    const lines = lrc.split("\n");
+    const timeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
+    const lyricList: LyricLineType[] = [];
 
-      lyricRef.current = new Lyric(lrc.lyric, handleLyric);
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]; // 如 "[00:01.997] 作词：薛之谦"
+      const result = timeExp.exec(line);
+      if (!result) continue;
 
-      lyricRef.current.play();
-      currentLineNum.current = 0;
-      lyricRef.current.seek(0);
-    } catch {
-      songReady.current = true;
-      audioRef.current.play();
+      const txt = line.replace(timeExp, "").trim(); // 现在把时间戳去掉，只剩下歌词文本
+
+      if (txt) {
+        if (result[3].length === 3) {
+          result[3] = Number(result[3]) / 10 + ""; // [00:01.997] 中匹配到的 997 就会被切成 99
+        }
+
+        // 转化具体到毫秒的时间，result [3] * 10 可理解为 (result / 100) * 1000
+        lyricList.push({
+          time: Number(result[1]) * 60 * 1000 + Number(result[2]) * 1000 + (Number(result[3]) || 0) * 10,
+          txt,
+        });
+      }
     }
+
+    lyricList.sort((a, b) => {
+      return a.time - b.time;
+    }); // 根据时间排序
+
+    setLyricLines(lyricList);
   };
 
   /**
@@ -181,7 +194,8 @@ const Player: FC = () => {
     setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
 
-    lyricRef.current.seek(newTime * 1000);
+    // 设置歌词进度
+    // lyricRef.current.seek(newTime * 1000);
 
     // 如果进度条被滑动时，歌曲处于暂停状态，则把状态置为播放
     if (!playing) {
@@ -234,7 +248,6 @@ const Player: FC = () => {
    * 播放出错提示
    */
   const errorHandler = () => {
-    songReady.current = true;
     setPlaying(false);
     alert("播放出错，歌曲收费！");
   };
@@ -250,7 +263,7 @@ const Player: FC = () => {
           prevHandler={prevHandler}
           nextHandler={nextHandler}
           togglePlayMode={togglePlayMode}
-          lyricLines={lyricRef.current.lyricList}
+          lyricLines={lyricLines}
         />
       </SongContext.Provider>
       <PlayList />

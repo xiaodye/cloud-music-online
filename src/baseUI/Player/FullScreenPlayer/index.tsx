@@ -8,8 +8,8 @@ import { usePlayerStore } from "@/store";
 import ProgressBar from "../ProgressBar";
 import { SongType } from "@/api/types";
 import { PlayMode } from "@/store/player/types";
-import Lyric, { LineType } from "@/utils/lyric-parser";
 import Scroll from "@/components/Scroll";
+import { LyricLineType } from "..";
 
 interface IProps {
   song: SongType;
@@ -19,7 +19,7 @@ interface IProps {
   prevHandler: () => void;
   nextHandler: () => void;
   togglePlayMode: () => void;
-  lyricLines: LineType[];
+  lyricLines: LyricLineType[];
 }
 
 const FullScreenPlayer: FC<IProps> = ({
@@ -34,9 +34,8 @@ const FullScreenPlayer: FC<IProps> = ({
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
-  const { playMode, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
+  const { playMode, setShowPlayList } = usePlayerStore((state) => ({
     playMode: state.playMode,
-    showPlayList: state.showPlayList,
     setShowPlayList: state.setShowPlayList,
   }));
 
