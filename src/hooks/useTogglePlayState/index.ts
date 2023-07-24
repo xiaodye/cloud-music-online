@@ -9,11 +9,6 @@ function useTogglePlayState() {
    * @returns
    */
   const togglePlayState = () => {
-    if (currentIndex === -1) {
-      setCurrentIndex(0);
-      return;
-    }
-
     setPlaying(!playing);
   };
 

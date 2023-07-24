@@ -57,6 +57,7 @@ const Player: FC = () => {
   const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
   const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
+  const [isFirst, setIsFirst] = usePlayerStore((state) => [state.isFirst, state.setIsFirst]);
   const [sequencePlayList, setSequencePlayList] = usePlayerStore((state) => [
     state.sequencePlayList,
     state.setSequencePlayList,
@@ -75,7 +76,11 @@ const Player: FC = () => {
       setPlayMode(PlayMode.SEQUENCE);
     }
 
+    // 应用启动时，做的设置
+    audioRef.current.src = getSongUrl(currentSong.id);
     getLyric(currentSong.id);
+    setCurrentTime(0); // 从 0 开始
+    setDuration((currentSong.dt / 1000) | 0); // 时长
   });
 
   // 切换索引会触发播放
@@ -86,7 +91,13 @@ const Player: FC = () => {
   // 4. 计算 duration, 重置 currentTime -> 0
   // 5. 播放歌曲，audio.current.play()
   useEffect(() => {
-    if (playList.length === 0 || currentIndex === -1 || currentSong === playList[currentIndex]) {
+    // 应用第一次启动时，不做处理
+    if (isFirst) {
+      setIsFirst(false);
+      return;
+    }
+
+    if (playList.length === 0 || currentSong === playList[currentIndex]) {
       return;
     }
 
@@ -94,12 +105,11 @@ const Player: FC = () => {
     setCurrentSong(song);
     audioRef.current.src = getSongUrl(song.id);
 
-    setPlaying(true);
     getLyric(currentSong.id);
     setCurrentTime(0); // 从 0 开始
     setDuration((song.dt / 1000) | 0); // 时长
+    setPlaying(true);
 
-    // 注意: play 方法返回的是一个 promise 对象, 播放的时候会有一个缓存准备，
     audioRef.current.play();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

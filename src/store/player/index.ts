@@ -5,6 +5,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { SongType } from "@/api/types";
 
 type State = {
+  isFirst: boolean; // 是否是第一次（应用启动的时候）
   fullScreen: boolean; // 播放器是否为全屏模式
   playing: boolean; // 当前歌曲是否播放
   sequencePlayList: SongType[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
@@ -18,6 +19,7 @@ type State = {
 };
 
 type Actions = {
+  setIsFirst: (flag: boolean) => void;
   setCurrentSong: (song: SongType) => void;
   setCurrentIndex: (index: number) => void;
   setCurrentTime: (newTime: number) => void;
@@ -33,6 +35,7 @@ type Actions = {
 };
 
 const initialState: State = {
+  isFirst: true,
   fullScreen: false, // 播放器是否为全屏模式
   playing: false, // 当前歌曲是否播放
   sequencePlayList: [], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
@@ -60,72 +63,87 @@ const initialState: State = {
   },
   currentTime: 0,
   playMode: PlayMode.SEQUENCE, // 播放模式
-  currentIndex: -1, // 当前歌曲在播放列表的索引位置，一开始不应该播放，所以置为 -1
+  currentIndex: 0, // 当前歌曲在播放列表的索引位置，一开始不应该播放，所以置为 -1
   showPlayList: false, // 是否展示播放列表
 
   percent: 0,
 };
 
 const usePlayerStore = create(
-  immer<State & Actions>((set) => ({
-    ...initialState,
+  persist(
+    immer<State & Actions>((set) => ({
+      ...initialState,
 
-    setCurrentSong: (song: SongType) =>
-      set((state) => {
-        state.currentSong = song;
-      }),
+      setIsFirst: (flag: boolean) =>
+        set((state) => {
+          state.isFirst = flag;
+        }),
 
-    setCurrentIndex: (index: number) =>
-      set((state) => {
-        state.currentIndex = index;
-      }),
+      setCurrentSong: (song: SongType) =>
+        set((state) => {
+          state.currentSong = song;
+        }),
 
-    setCurrentTime: (newTime) =>
-      set((state) => {
-        state.currentTime = newTime;
-      }),
+      setCurrentIndex: (index: number) =>
+        set((state) => {
+          state.currentIndex = index;
+        }),
 
-    setFullScreen: (open: boolean) => {
-      set((state) => {
-        state.fullScreen = open;
-      });
-    },
+      setCurrentTime: (newTime) =>
+        set((state) => {
+          state.currentTime = newTime;
+        }),
 
-    setPlayMode: (mode: PlayMode) =>
-      set((state) => {
-        state.playMode = mode;
-      }),
+      setFullScreen: (open: boolean) => {
+        set((state) => {
+          state.fullScreen = open;
+        });
+      },
 
-    setPlaying: (newState: boolean) =>
-      set((state) => {
-        state.playing = newState;
-      }),
+      setPlayMode: (mode: PlayMode) =>
+        set((state) => {
+          state.playMode = mode;
+        }),
 
-    setSequencePlayList: (list: SongType[]) =>
-      set((state) => {
-        state.sequencePlayList = list;
-      }),
+      setPlaying: (newState: boolean) =>
+        set((state) => {
+          state.playing = newState;
+        }),
 
-    setPlayList: (list: SongType[]) =>
-      set((state) => {
-        state.playList = list;
-      }),
+      setSequencePlayList: (list: SongType[]) =>
+        set((state) => {
+          state.sequencePlayList = list;
+        }),
 
-    setShowPlayList: (show: boolean) =>
-      set((state) => {
-        state.showPlayList = show;
-      }),
+      setPlayList: (list: SongType[]) =>
+        set((state) => {
+          state.playList = list;
+        }),
 
-    setPercent: (percent) =>
-      set((state) => {
-        state.percent = percent;
-      }),
+      setShowPlayList: (show: boolean) =>
+        set((state) => {
+          state.showPlayList = show;
+        }),
 
-    deleteSong: (currentIndex) =>
-      set((state) => {
-        state.currentIndex = currentIndex;
-      }),
-  }))
+      setPercent: (percent) =>
+        set((state) => {
+          state.percent = percent;
+        }),
+
+      deleteSong: (currentIndex) =>
+        set((state) => {
+          state.currentIndex = currentIndex;
+        }),
+    })),
+    {
+      name: "player-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) =>
+        Object.fromEntries(
+          Object.entries(state).filter(([key]) => ["currentSong", "sequencePlayList", "playList"].includes(key))
+        ),
+    }
+  )
 );
 
 export default usePlayerStore;
