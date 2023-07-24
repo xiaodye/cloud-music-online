@@ -2,7 +2,7 @@ import Horizen from "@/baseUI/horizen";
 import React, { useEffect, useRef, useState } from "react";
 import { alphaTypes, areaList, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
-import Scroll, { ScrollRef } from "@/components/Scroll";
+import Scroll, { PullUpStateType, ScrollRef } from "@/components/Scroll";
 import SingerList from "@/components/singerList";
 import { Artist } from "@/api/types";
 import useMount from "@/hooks/useMount";
@@ -17,7 +17,7 @@ type SingerOptionsType = {
 const Singers: React.FC = () => {
   const [singerList, setSingerList] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [pullUpIsLoading, setPullUpIsLoading] = useState(false);
+  // const [pullUpIsLoading, setPullUpIsLoading] = useState(false);
   const [pullDownIsLoading, setPullDownIsLoading] = useState(false);
   const [options, setOptions] = useState<SingerOptionsType>({
     area: "-1",
@@ -26,8 +26,8 @@ const Singers: React.FC = () => {
   });
 
   const scrollRef = useRef<ScrollRef>({} as ScrollRef);
-
   const singerListMap = useRef<Map<string, Artist[]>>(new Map());
+  const [pullUpState, setPullUpState] = useState<PullUpStateType>("more");
 
   useMount(() => {
     getSingerList(options.area, options.alpha, options.offset);
@@ -80,8 +80,12 @@ const Singers: React.FC = () => {
    * 下拉刷新
    */
   const onPullDown = async () => {
+    // 节流
+    if (pullDownIsLoading) return;
+
     setPullDownIsLoading(true);
-    getSingerList(options.area, options.alpha, options.offset);
+    await getSingerList(options.area, options.alpha, options.offset);
+
     setTimeout(() => {
       setPullDownIsLoading(false);
       scrollRef.current.finishPullDown();
@@ -92,10 +96,19 @@ const Singers: React.FC = () => {
    * 上拉加载更多
    */
   const onPullUp = () => {
-    setPullUpIsLoading(true);
-    setTimeout(() => {
-      setPullUpIsLoading(false);
+    // 节流处理
+    if (pullUpState === "loading") return;
+
+    // 当状态为 noMore，直接结束上拉状态
+    if (pullUpState === "noMore") {
       scrollRef.current.finishPullUp();
+    }
+
+    setPullUpState("loading");
+
+    setTimeout(() => {
+      scrollRef.current.finishPullUp();
+      setPullUpState("more");
     }, 2000);
   };
 
@@ -114,7 +127,7 @@ const Singers: React.FC = () => {
             pullUp={onPullUp}
             pullDown={onPullDown}
             pullDownLoading={pullDownIsLoading}
-            pullUpLoading={pullUpIsLoading}
+            pullUpState={pullUpState}
             ref={scrollRef}
           >
             <SingerList list={singerList} />

@@ -17,6 +17,8 @@ BScroll.use(PullDown);
 BScroll.use(ObserveDOM);
 BScroll.use(ObserveImage);
 
+export type PullUpStateType = "more" | "loading" | "noMore";
+
 interface IProps {
   direction?: "vertical" | "horizontal"; // 垂直 | 水平
   bounceTop?: boolean; // 下拉是否有回弹效果
@@ -24,8 +26,8 @@ interface IProps {
   isPullUpLoad?: boolean; // 是否开启上拉刷新事件
   isPullDownRefresh?: boolean; // 是否开启下拉加载更多
   style?: React.CSSProperties; // 样式透传
-  pullUpLoading?: boolean; // 正在上拉
   pullDownLoading?: boolean; // 正在下拉
+  pullUpState?: PullUpStateType;
   // pullUpLoadText?: string; // 上拉加载文字
   // pullDownLoadText?: string; // 下拉刷新文字
   children: React.ReactNode; // 容器元素
@@ -49,8 +51,9 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     isPullUpLoad = false,
     isPullDownRefresh = false,
     bounceTop = true,
-    pullUpLoading = false,
+    pullUpState = "more",
     pullDownLoading = false,
+
     style,
 
     onScroll,
@@ -123,6 +126,16 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     isPullUpLoad && bs.current.off("pullingUp");
   });
 
+  const getPullUpStateText = (state: PullUpStateType) => {
+    if (state === "more") {
+      return "加载更多";
+    } else if (state === "loading") {
+      return "正在加载更多...";
+    } else {
+      return "没有更多了";
+    }
+  };
+
   return (
     <div className={styles.container} style={style} ref={bsContainer}>
       <div className={styles.content}>
@@ -136,8 +149,8 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
 
         {isPullUpLoad && (
           <div className={styles.pullUpContainer}>
-            <SyncOutlined spin={pullUpLoading} className={styles.icon} />
-            <span>{pullUpLoading ? "正在加载更多..." : "没有更多了"}</span>
+            <SyncOutlined spin={pullUpState === "loading"} className={styles.icon} />
+            <span>{getPullUpStateText(pullUpState)}</span>
           </div>
         )}
       </div>
