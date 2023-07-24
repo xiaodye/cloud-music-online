@@ -6,6 +6,7 @@ import { usePlayerStore } from "@/store";
 // import ProgressCircle from "../ProgressCircle";
 import { Circle } from "react-vant";
 import { SongType } from "@/api/types";
+import useTogglePlayState from "@/hooks/useTogglePlayState";
 
 interface IProps {
   song: SongType;
@@ -14,25 +15,13 @@ interface IProps {
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const { percent, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
     percent: state.percent,
     showPlayList: state.showPlayList,
     setShowPlayList: state.setShowPlayList,
   }));
 
-  /**
-   * 播放和暂停歌曲
-   * @returns
-   */
-  const playSong = () => {
-    if (currentIndex === -1) {
-      setCurrentIndex(0);
-      return;
-    }
-
-    setPlaying(!playing);
-  };
+  const { togglePlayState } = useTogglePlayState();
 
   return (
     <div className={styles.miniPlayerContainer}>
@@ -62,7 +51,7 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
           color="#d44439"
           className={styles.progressCircle}
         >
-          <div className={styles.iconBox} onClick={() => playSong()}>
+          <div className={styles.iconBox} onClick={() => togglePlayState()}>
             <i
               className={classNames("iconfont", styles.iconPlay)}
               dangerouslySetInnerHTML={{ __html: playing ? "&#xe650;" : "&#xe61e;" }}

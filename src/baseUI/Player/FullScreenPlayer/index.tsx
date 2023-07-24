@@ -10,6 +10,7 @@ import { SongType } from "@/api/types";
 import { PlayMode } from "@/store/player/types";
 import Scroll from "@/components/Scroll";
 import { LyricLineType } from "..";
+import useTogglePlayState from "@/hooks/useTogglePlayState";
 
 interface IProps {
   song: SongType;
@@ -33,13 +34,14 @@ const FullScreenPlayer: FC<IProps> = ({
 }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const { playMode, setShowPlayList } = usePlayerStore((state) => ({
     playMode: state.playMode,
     setShowPlayList: state.setShowPlayList,
   }));
 
   const [showLyric, setShowLyric] = useState(false);
+
+  const { togglePlayState } = useTogglePlayState();
 
   const getPlayModeIcon = () => {
     if (playMode === PlayMode.SEQUENCE) {
@@ -49,19 +51,6 @@ const FullScreenPlayer: FC<IProps> = ({
     } else {
       return "&#xe61b;";
     }
-  };
-
-  /**
-   * 播放和暂停歌曲
-   * @returns
-   */
-  const playSong = () => {
-    if (currentIndex === -1) {
-      setCurrentIndex(0);
-      return;
-    }
-
-    setPlaying(!playing);
   };
 
   return (
@@ -154,7 +143,7 @@ const FullScreenPlayer: FC<IProps> = ({
             <div className={styles.iconBox}>
               <i
                 className={classNames("iconfont", styles.icon, styles.center)}
-                onClick={() => playSong()}
+                onClick={() => togglePlayState()}
                 dangerouslySetInnerHTML={{
                   __html: playing ? "&#xe723;" : "&#xe731;",
                 }}
