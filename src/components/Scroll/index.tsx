@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useImperativeHandle } from "react";
+import { forwardRef, useRef, useImperativeHandle, useEffect } from "react";
 import BScroll from "@better-scroll/core";
 import PullUp from "@better-scroll/pull-up";
 import PullDown from "@better-scroll/pull-down";
@@ -9,6 +9,7 @@ import useMount from "@/hooks/useMount";
 import useUnMount from "@/hooks/useUnmount";
 import DanceLoading from "@/baseUI/DanceLoading";
 import React from "react";
+import { SyncOutlined } from "@ant-design/icons";
 
 // 使用插件
 BScroll.use(PullUp);
@@ -17,23 +18,27 @@ BScroll.use(ObserveDOM);
 BScroll.use(ObserveImage);
 
 interface IProps {
-  direction?: "vertical" | "horizontal";
+  direction?: "vertical" | "horizontal"; // 垂直 | 水平
   bounceTop?: boolean; // 下拉是否有回弹效果
-  click?: boolean;
-  style?: React.CSSProperties;
-  pullUpLoading?: boolean;
-  pullUpLoadText?: string;
-  pullDownLoading?: boolean;
-  pullDownLoadText?: string;
-  children: React.ReactNode;
-  onScroll?: () => void;
-  pullUp?: () => void;
-  pullDown?: () => void;
+  click?: boolean; // 是否可点击
+  isPullUpLoad?: boolean; // 是否开启上拉刷新事件
+  isPullDownRefresh?: boolean; // 是否开启下拉加载更多
+  style?: React.CSSProperties; // 样式透传
+  pullUpLoading?: boolean; // 正在上拉
+  pullDownLoading?: boolean; // 正在下拉
+  // pullUpLoadText?: string; // 上拉加载文字
+  // pullDownLoadText?: string; // 下拉刷新文字
+  children: React.ReactNode; // 容器元素
+  onScroll?: () => void; // 滚动触发函数
+  pullUp?: () => void; // 上拉触发函数
+  pullDown?: () => void; // 下拉触发函数
 }
 
 // 子组件
 export interface ScrollRef {
-  refresh(): void;
+  refresh: () => void;
+  finishPullDown: () => void;
+  finishPullUp: () => void;
 }
 
 const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
@@ -41,12 +46,13 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     children,
     direction = "vertical",
     click = true,
+    isPullUpLoad = false,
+    isPullDownRefresh = false,
     bounceTop = true,
     pullUpLoading = false,
-    pullUpLoadText,
     pullDownLoading = false,
-    pullDownLoadText,
     style,
+
     onScroll,
     pullUp,
     pullDown,
@@ -60,58 +66,80 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      refresh() {
+      refresh: () => {
         bs.current.refresh();
+      },
+      finishPullDown: () => {
+        bs.current.finishPullDown();
+      },
+      finishPullUp: () => {
+        bs.current.finishPullUp();
       },
     }),
     []
   );
 
+  // 组件挂载
   useMount(() => {
     bs.current = new BScroll(bsContainer.current, {
       scrollX: direction === "horizontal",
       scrollY: direction === "vertical",
       click: click,
-      pullUpLoad: true,
-      pullDownRefresh: {
-        threshold: 60,
-      },
       bounce: {
         top: bounceTop,
       },
       observeDOM: true, // 开启 observe-dom 插件
       observeImage: true, // 开启 observe-image 插件
       probeType: 3,
+
+      pullUpLoad: isPullUpLoad ? true : undefined, // 配置上拉加载
+      pullDownRefresh: isPullDownRefresh ? true : undefined, // 配置下拉刷新
     });
 
-    // 绑定事件
+    // 绑定滚动事件
     bs.current.on("scroll", () => {
       onScroll && onScroll();
     });
-    bs.current.on("pullingDown", () => {
-      pullDown && pullDown();
-      bs.current.finishPullDown();
-    });
-    bs.current.on("pullingUp", () => {
-      pullUp && pullUp();
-      bs.current.finishPullUp();
-    });
+
+    // 绑定下拉事件
+    isPullDownRefresh &&
+      bs.current.on("pullingDown", () => {
+        pullDown && pullDown();
+      });
+
+    // 绑定上拉事件
+    isPullUpLoad &&
+      bs.current.on("pullingUp", () => {
+        pullUp && pullUp();
+      });
   });
 
+  // 组件卸载
   useUnMount(() => {
     // 销毁 bs ，并且解绑事件
     bs.current.destroy();
     bs.current.off("scroll");
-    bs.current.off("pullingDown");
-    bs.current.off("pullingUp");
+    isPullDownRefresh && bs.current.off("pullingDown");
+    isPullUpLoad && bs.current.off("pullingUp");
   });
 
   return (
     <div className={styles.container} style={style} ref={bsContainer}>
       <div className={styles.content}>
-        <DanceLoading style={{ display: pullDownLoading ? "flex" : "none" }} loadText={pullDownLoadText} />
+        {isPullDownRefresh && (
+          <div className={styles.pullDownContainer} style={{ visibility: isPullDownRefresh ? "visible" : "hidden" }}>
+            <DanceLoading />
+          </div>
+        )}
+
         {children}
-        <DanceLoading style={{ display: pullUpLoading ? "flex" : "none" }} loadText={pullUpLoadText} />
+
+        {isPullUpLoad && (
+          <div className={styles.pullUpContainer}>
+            <SyncOutlined spin={pullUpLoading} className={styles.icon} />
+            <span>{pullUpLoading ? "正在加载更多..." : "没有更多了"}</span>
+          </div>
+        )}
       </div>
     </div>
   );

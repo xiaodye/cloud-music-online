@@ -8,3 +8,25 @@
   display: inline-block;
   min-width: 100%;
 }
+
+.pullDown-container {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-100%);
+}
+
+.pullUp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  font-size: 12px;
+  padding: 10px 0;
+
+  .icon {
+    font-size: 16px;
+  }
+}

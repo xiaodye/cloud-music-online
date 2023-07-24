@@ -2,7 +2,7 @@ import Horizen from "@/baseUI/horizen";
 import React, { useEffect, useRef, useState } from "react";
 import { alphaTypes, areaList, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
-import Scroll from "@/components/Scroll";
+import Scroll, { ScrollRef } from "@/components/Scroll";
 import SingerList from "@/components/singerList";
 import { Artist } from "@/api/types";
 import useMount from "@/hooks/useMount";
@@ -24,6 +24,8 @@ const Singers: React.FC = () => {
     alpha: "A",
     offset: 0,
   });
+
+  const scrollRef = useRef<ScrollRef>({} as ScrollRef);
 
   const singerListMap = useRef<Map<string, Artist[]>>(new Map());
 
@@ -82,7 +84,8 @@ const Singers: React.FC = () => {
     getSingerList(options.area, options.alpha, options.offset);
     setTimeout(() => {
       setPullDownIsLoading(false);
-    }, 1000);
+      scrollRef.current.finishPullDown();
+    }, 2000);
   };
 
   /**
@@ -92,6 +95,7 @@ const Singers: React.FC = () => {
     setPullUpIsLoading(true);
     setTimeout(() => {
       setPullUpIsLoading(false);
+      scrollRef.current.finishPullUp();
     }, 2000);
   };
 
@@ -105,10 +109,13 @@ const Singers: React.FC = () => {
       ) : (
         <div className={scrollContainer}>
           <Scroll
+            isPullDownRefresh={true}
+            isPullUpLoad={true}
             pullUp={onPullUp}
             pullDown={onPullDown}
             pullDownLoading={pullDownIsLoading}
             pullUpLoading={pullUpIsLoading}
+            ref={scrollRef}
           >
             <SingerList list={singerList} />
           </Scroll>
