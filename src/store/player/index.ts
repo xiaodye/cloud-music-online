@@ -140,7 +140,9 @@ const usePlayerStore = create(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) =>
         Object.fromEntries(
-          Object.entries(state).filter(([key]) => ["currentSong", "sequencePlayList", "playList"].includes(key))
+          Object.entries(state).filter(([key]) =>
+            ["currentSong", "currentIndex", "sequencePlayList", "playList"].includes(key)
+          )
         ),
     }
   )
