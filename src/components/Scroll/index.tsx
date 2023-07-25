@@ -136,6 +136,10 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log(bs.current);
+  // }, [pullUpState]);
+
   return (
     <div className={styles.container} style={style} ref={bsContainer}>
       <div className={styles.content}>

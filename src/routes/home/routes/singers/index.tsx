@@ -2,63 +2,30 @@ import Horizen from "@/baseUI/horizen";
 import React, { useEffect, useRef, useState } from "react";
 import { alphaTypes, areaList, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
-import Scroll, { PullUpStateType, ScrollRef } from "@/components/Scroll";
+import Scroll, { ScrollRef } from "@/components/Scroll";
 import SingerList from "@/components/singerList";
 import { Artist } from "@/api/types";
-import useMount from "@/hooks/useMount";
 import Loading from "@/baseUI/Loading";
-
-type SingerOptionsType = {
-  area: string;
-  alpha: string;
-  offset: number;
-};
+import { useImmer } from "use-immer";
+import { SingerListMapType, SingerOptionsType } from "./types";
 
 const Singers: React.FC = () => {
-  const [singerList, setSingerList] = useState<Artist[]>([]);
+  const [currentSingerList, setCurrentSingerList] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [pullUpIsLoading, setPullUpIsLoading] = useState(false);
-  const [pullDownIsLoading, setPullDownIsLoading] = useState(false);
-  const [options, setOptions] = useState<SingerOptionsType>({
+  const [options, setOptions] = useImmer<SingerOptionsType>({
     area: "-1",
     alpha: "A",
-    offset: 0,
+    pullUpState: "more",
   });
 
   const scrollRef = useRef<ScrollRef>({} as ScrollRef);
-  const singerListMap = useRef<Map<string, Artist[]>>(new Map());
-  const [pullUpState, setPullUpState] = useState<PullUpStateType>("more");
+  const singerListMap = useRef<Map<string, SingerListMapType>>(new Map());
+  // const [pullUpState, setPullUpState] = useState<PullUpStateType>("more");
 
-  useMount(() => {
-    getSingerList(options.area, options.alpha, options.offset);
-  });
-
+  // 监听 area 和 alpha 改变
   useEffect(() => {
-    getSingerList(options.area, options.alpha, options.offset);
-  }, [options]);
-
-  /**
-   * 获取歌手列表
-   * @param area 分类
-   * @param alpha 首字母
-   * @param offset 数量
-   */
-  const getSingerList = async (area: string, alpha: string, offset: number) => {
-    const key = `${area}-${alpha}`;
-    if (singerListMap.current.has(key)) {
-      setSingerList(singerListMap.current.get(key)!);
-      return;
-    }
-
-    setIsLoading(true);
-    const res = await getSingerListData(area, alpha, offset);
-    setSingerList(res.artists);
-
-    // 在 map 做缓存，避免不必要的请求
-    singerListMap.current.set(key, res.artists);
-
-    setIsLoading(false);
-  };
+    togglePanel(options.area, options.alpha);
+  }, [options.area, options.alpha]);
 
   /**
    * 改变区域
@@ -77,60 +44,90 @@ const Singers: React.FC = () => {
   };
 
   /**
-   * 下拉刷新
+   * 切换面板，当点击切换首字母和区域时，均会触发此函数
+   * @param area
+   * @param alpha
+   * @returns
    */
-  const onPullDown = async () => {
-    // 节流
-    if (pullDownIsLoading) return;
+  const togglePanel = async (area: string, alpha: string) => {
+    // 1. 切换歌手区域和首字母的时候，如果 map 有缓存，先走 map 的缓存
+    const key = `${area}-${alpha}`;
+    if (singerListMap.current.has(key)) {
+      setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
+      return;
+    }
 
-    setPullDownIsLoading(true);
-    await getSingerList(options.area, options.alpha, options.offset);
+    // 2. map 中未找到缓存, 请求数据(相当于第一次做请求)，并在 map 中做缓存
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setPullDownIsLoading(false);
-      scrollRef.current.finishPullDown();
-    }, 2000);
+    const res = await getSingerListData(area, alpha, 0);
+    singerListMap.current.set(key, { singerList: res.artists, offset: 1, more: res.more });
+
+    // 设置展示数据
+    setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
+
+    setOptions((options) => {
+      options.pullUpState = res.more ? "more" : "noMore";
+    });
+    setIsLoading(false);
   };
 
   /**
    * 上拉加载更多
+   * @param area
+   * @param alpha
+   * @returns
    */
-  const onPullUp = () => {
+  const loadMore = async () => {
     // 节流处理
-    if (pullUpState === "loading") return;
+    if (options.pullUpState === "loading") return;
 
-    // 当状态为 noMore，直接结束上拉状态
-    if (pullUpState === "noMore") {
+    // 当状态为 noMore，没有更多了，直接结束上拉状态
+    if (options.pullUpState === "noMore") {
       scrollRef.current.finishPullUp();
     }
 
-    setPullUpState("loading");
+    const { area, alpha } = options;
 
-    setTimeout(() => {
-      scrollRef.current.finishPullUp();
-      setPullUpState("more");
-    }, 2000);
+    // 设置 pullUpState 为 loading
+    setOptions((options) => {
+      options.pullUpState = "loading";
+    });
+
+    // 根据 key 获取对应 map 缓存
+    const singerMap = singerListMap.current.get(`${area}-${alpha}`)!;
+    // console.log(singerMap);
+
+    // 更新 key 对应的 map 缓存, 把新的数据添加到列表的末尾去
+    const { artists, more } = await getSingerListData(area, alpha, singerMap.offset);
+
+    singerMap.singerList = [...singerMap.singerList, ...artists];
+    singerMap.offset++;
+    singerMap.more = more;
+
+    // 设置展示数据
+    setCurrentSingerList(singerMap.singerList);
+
+    // 根据 more 设置 pullUpState
+    setOptions((options) => {
+      options.pullUpState = singerMap.more ? "more" : "noMore";
+    });
+
+    // 结束上拉状态
+    scrollRef.current.finishPullUp();
   };
 
   return (
     <div className={singers}>
-      <Horizen list={areaList} title={"分类:"} onClick={changeArea} />
+      <Horizen list={areaList} title={"区域:"} onClick={changeArea} />
       <Horizen list={alphaTypes} title={"首字母:"} onClick={changeAlpha} />
 
       {isLoading ? (
         <Loading />
       ) : (
         <div className={scrollContainer}>
-          <Scroll
-            isPullDownRefresh={true}
-            isPullUpLoad={true}
-            pullUp={onPullUp}
-            pullDown={onPullDown}
-            pullDownLoading={pullDownIsLoading}
-            pullUpState={pullUpState}
-            ref={scrollRef}
-          >
-            <SingerList list={singerList} />
+          <Scroll isPullUpLoad={true} pullUp={loadMore} pullUpState={options.pullUpState} ref={scrollRef}>
+            <SingerList list={currentSingerList} />
           </Scroll>
         </div>
       )}

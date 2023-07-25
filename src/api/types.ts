@@ -10,6 +10,7 @@ export type Artist = {
 export type ArtistData = {
   artists: Artist[];
   code: number;
+  more: boolean;
 };
 
 // 排行榜
