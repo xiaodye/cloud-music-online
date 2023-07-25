@@ -11,7 +11,7 @@ const Recommend: React.FC = () => {
   const [recommendList, setRecommendList] = useState([]);
   const [isPullDownLoading, setIsPullDownLoading] = useState(false);
 
-  const scrollRef = useRef<ScrollRef>({} as ScrollRef);
+  const scrollRef = useRef<ScrollRef>(null);
 
   useMount(async () => {
     getBannerList();
@@ -37,7 +37,7 @@ const Recommend: React.FC = () => {
     await getRecommendList();
 
     setIsPullDownLoading(false);
-    scrollRef.current.finishPullDown();
+    scrollRef.current?.finishPullDown();
   };
 
   return (

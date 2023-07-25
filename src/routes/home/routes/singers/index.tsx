@@ -18,7 +18,7 @@ const Singers: React.FC = () => {
     pullUpState: "more",
   });
 
-  const scrollRef = useRef<ScrollRef>({} as ScrollRef);
+  const scrollRef = useRef<ScrollRef>(null);
   const singerListMap = useRef<Map<string, SingerListMapType>>(new Map());
   // const [pullUpState, setPullUpState] = useState<PullUpStateType>("more");
 
@@ -84,7 +84,7 @@ const Singers: React.FC = () => {
 
     // 当状态为 noMore，没有更多了，直接结束上拉状态
     if (options.pullUpState === "noMore") {
-      scrollRef.current.finishPullUp();
+      scrollRef.current?.finishPullUp();
     }
 
     const { area, alpha } = options;
@@ -114,7 +114,7 @@ const Singers: React.FC = () => {
     });
 
     // 结束上拉状态
-    scrollRef.current.finishPullUp();
+    scrollRef.current?.finishPullUp();
   };
 
   return (
