@@ -7,48 +7,53 @@ import Album from "@/routes/album";
 import User from "@/routes/user";
 import { Navigate, createHashRouter } from "react-router-dom";
 import SingerDetail from "@/routes/singerDetail";
+import App from "@/App";
 
 const router = createHashRouter([
-  // 访问根路径，重定向到/home
   {
     path: "/",
-    element: <Navigate to="/home" />,
-  },
-
-  {
-    path: "/home",
-    element: <Home />,
+    element: <App />,
     children: [
       {
         index: true,
-        element: <Navigate to="/home/recommend" />,
+        element: <Navigate to="/home" />,
       },
       {
-        path: "recommend",
-        element: <Recommend />,
+        path: "home",
+        element: <Home />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to={"/home/recommend"} />,
+          },
+          {
+            path: "recommend",
+            element: <Recommend />,
+          },
+          {
+            path: "singers",
+            element: <Singers />,
+          },
+          {
+            path: "rank",
+            element: <Rank />,
+          },
+        ],
+      },
+
+      {
+        path: "user",
+        element: <User />,
       },
       {
-        path: "singers",
-        element: <Singers />,
+        path: "album/:id",
+        element: <Album />,
       },
       {
-        path: "rank",
-        element: <Rank />,
+        path: "singer-detail/:id",
+        element: <SingerDetail />,
       },
     ],
-  },
-  {
-    path: "/user",
-    element: <User />,
-  },
-  {
-    path: "/album/:id",
-    element: <Album />,
-  },
-
-  {
-    path: "/singer-detail/:id",
-    element: <SingerDetail />,
   },
 
   // NotFound

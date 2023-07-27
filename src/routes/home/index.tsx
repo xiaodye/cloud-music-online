@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styles from "./styles.module.scss";
 import TabBar from "@/components/TabBar";
-import classNames from "classnames";
 import { AlignLeftOutlined, AudioOutlined, SearchOutlined } from "@ant-design/icons";
 
 const Home: React.FC = () => {

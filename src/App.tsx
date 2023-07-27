@@ -1,11 +1,10 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./router";
+import { Outlet } from "react-router-dom";
 import Player from "./baseUI/Player";
 
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <Outlet />
       <Player />
     </div>
   );
