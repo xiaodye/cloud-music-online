@@ -1,15 +1,18 @@
+import { Suspense, lazy } from "react";
 import Home from "@/routes/home";
 import Rank from "@/routes/home/routes/rank";
 import Recommend from "@/routes/home/routes/recommend";
 import Singers from "@/routes/home/routes/singers";
 import NotFound from "@/routes/notFound";
-import Album from "@/routes/album";
 import User from "@/routes/user";
 import { Navigate, createHashRouter } from "react-router-dom";
-import SingerDetail from "@/routes/singerDetail";
 import App from "@/App";
-import Login from "@/routes/login";
+import Loading from "@/baseUI/Loading";
 // import { KeepAlive, AliveScope, withKeepAlive } from "@/baseUI/KeepAlive";
+
+const Login = lazy(() => import("@/routes/login"));
+const SingerDetail = lazy(() => import("@/routes/singerDetail"));
+const Album = lazy(() => import("@/routes/album"));
 
 const router = createHashRouter([
   {
@@ -45,7 +48,11 @@ const router = createHashRouter([
 
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Login />
+          </Suspense>
+        ),
       },
 
       {
@@ -54,11 +61,19 @@ const router = createHashRouter([
       },
       {
         path: "album/:id",
-        element: <Album />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Album />
+          </Suspense>
+        ),
       },
       {
         path: "singer-detail/:id",
-        element: <SingerDetail />,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <SingerDetail />
+          </Suspense>
+        ),
       },
     ],
   },
