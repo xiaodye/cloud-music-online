@@ -1,4 +1,22 @@
 // 艺术家（歌手）类型
+export type QRKeyType = {
+  code: number;
+  unikey: string;
+};
+
+export type QRImgType = {
+  qrimg: string;
+  qrurl: string;
+};
+
+export type QRCheckType = {
+  code: 800 | 801 | 802 | 803;
+  cookie: string;
+  message: string;
+  nickname: string;
+  avatarUrl: string;
+};
+
 export type Artist = {
   id: number;
   accountId: number;

@@ -1,27 +1,32 @@
 import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
 
 type State = {
-  username: string;
-  password: string;
+  userInfo: {
+    nickname: string;
+    avatarUrl: string;
+  };
+  hasLogin: boolean;
 };
 
 type Actions = {
-  setUserInfo: (userInfo: State) => void;
+  setHasLogin: (status: boolean) => void;
+  setUserInfo: (userInfo: { nickname?: string; avatarUrl?: string }) => void;
   deleteUserInfo: () => void;
 };
 
 const initialState: State = {
-  username: "",
-  password: "",
+  userInfo: {
+    nickname: "",
+    avatarUrl: "",
+  },
+  hasLogin: false,
 };
 
-const useUserStore = create(
-  immer<State & Actions>((set) => ({
-    ...initialState,
-    setUserInfo: (userInfo) => set(() => ({ ...userInfo })),
-    deleteUserInfo: () => set(() => initialState),
-  }))
-);
+const useUserStore = create<State & Actions>((set) => ({
+  ...initialState,
+  setHasLogin: (status) => set((state) => ({ ...state, hasLogin: status })),
+  setUserInfo: (userInfo) => set((state) => ({ ...state, userInfo: { ...state.userInfo, ...userInfo } })),
+  deleteUserInfo: () => set(() => initialState),
+}));
 
 export default useUserStore;

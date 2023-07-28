@@ -1,5 +1,34 @@
 import axiosInstance from "./config";
-import { AlbumDetailType, ArtistData, LyricType, RankListType, SingerDetailType } from "./types";
+import {
+  AlbumDetailType,
+  ArtistData,
+  LyricType,
+  QRCheckType,
+  QRImgType,
+  QRKeyType,
+  RankListType,
+  SingerDetailType,
+} from "./types";
+
+// 扫码登录：1. 获取用于二维码的 key
+export const getLoginQRKeyRequest = async () => {
+  const { data } = await axiosInstance.get<{ code: number; data: QRKeyType }>(`/login/qr/key?timestamp=${Date.now()}`);
+  return data;
+};
+
+// 扫码登录：2. 根据key获取二维码
+export const getLoginQRImgRequest = async (key: string) => {
+  const { data } = await axiosInstance.get<{ code: number; data: QRImgType }>(
+    `/login/qr/create?key=${key}&qrimg=true&timestamp=${Date.now()}`
+  );
+  return data;
+};
+
+// 扫码登录：3. 二维码检测扫码状态接口
+export const getLoginQRCheck = async (key: string) => {
+  const { data } = await axiosInstance.get<QRCheckType>(`/login/qr/check?key=${key}&timestamp=${Date.now()}`);
+  return data;
+};
 
 // 轮播图
 export const getBannerListData = async () => {

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
-import { useDrawerStore } from "@/store";
+import { useDrawerStore, useUserStore } from "@/store";
 import {
   CustomerServiceTwoTone,
   HeartTwoTone,
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const Drawer: FC = () => {
   const [show, setShow] = useDrawerStore((state) => [state.showDrawer, state.setShowDrawer]);
+  const userInfo = useUserStore((state) => state.userInfo);
   const navigate = useNavigate();
 
   const gotoLogin = () => {
@@ -28,33 +29,42 @@ const Drawer: FC = () => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.top}>
-          <img src="https://s2.loli.net/2023/03/14/Wou5OES6YHn1JeM.jpg" className={styles.topAvatar} />
-          <div className={classNames(styles.topNickname, "text-noWrap")} onClick={gotoLogin}>
-            不止所措的染 🤣
+          <img
+            src={userInfo.avatarUrl === "" ? "https://s2.loli.net/2023/02/02/4NeR7YMnjSxhPAQ.jpg" : userInfo.avatarUrl}
+            className={styles.topAvatar}
+          />
+          <div className={classNames(styles.topNickname, "text-noWrap")}>
+            {userInfo.nickname === "" ? (
+              <div className={styles.topBtn} onClick={gotoLogin}>
+                立即登录
+              </div>
+            ) : (
+              userInfo.nickname
+            )}
           </div>
         </div>
 
         <ul className={styles.menu}>
           <li className={styles.menuItem}>
-            <HeartTwoTone twoToneColor="#eb2f96" />
+            <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: 20 }} />
             我喜欢
           </li>
           <li className={styles.menuItem}>
-            <TrophyTwoTone twoToneColor="#52c41a" />
+            <TrophyTwoTone twoToneColor="#52c41a" style={{ fontSize: 20 }} />
             我的音乐
           </li>
           <li className={styles.menuItem}>
-            <TagsTwoTone />
+            <TagsTwoTone style={{ fontSize: 20 }} />
             我的歌单
           </li>
           <li className={styles.menuItem}>
             {" "}
-            <StarTwoTone twoToneColor="#eb2f96" />
+            <StarTwoTone twoToneColor="#eb2f96" style={{ fontSize: 20 }} />
             我的收藏
           </li>
           <li className={styles.menuItem}>
             {" "}
-            <CustomerServiceTwoTone />
+            <CustomerServiceTwoTone style={{ fontSize: 20 }} />
             播放历史
           </li>
         </ul>

@@ -35,9 +35,18 @@
         object-fit: cover;
       }
       &-nickname {
-        flex: 1;
+        // flex: 1;
         font-size: 18px;
         font-weight: bold;
+      }
+
+      &-btn {
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: normal;
+        color: var(--theme-color);
+        background-color: #efefef;
       }
     }
 
@@ -51,8 +60,8 @@
       &-item {
         display: flex;
         align-items: center;
-        column-gap: 10px;
-        font-size: 18px;
+        column-gap: 15px;
+        font-size: 17px;
         font-weight: 500;
       }
     }
@@ -73,8 +82,8 @@
 
       .logout {
         font-size: 16px;
-        padding: 5px 10px;
-        border-radius: 5px;
+        padding: 5px 15px;
+        border-radius: 10px;
         background-color: #efefef;
         color: var(--theme-color);
       }
