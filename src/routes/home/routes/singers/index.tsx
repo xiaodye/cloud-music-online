@@ -61,7 +61,7 @@ const Singers: React.FC = () => {
     setIsLoading(true);
 
     const res = await getSingerListData(area, alpha, 0);
-    singerListMap.current.set(key, { singerList: res.artists, offset: 1, more: res.more });
+    singerListMap.current.set(key, { singerList: res.artists, offset: 30, more: res.more });
 
     // 设置展示数据
     setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
@@ -102,7 +102,7 @@ const Singers: React.FC = () => {
     const { artists, more } = await getSingerListData(area, alpha, singerMap.offset);
 
     singerMap.singerList = [...singerMap.singerList, ...artists];
-    singerMap.offset++;
+    singerMap.offset += 30;
     singerMap.more = more;
 
     // 设置展示数据
