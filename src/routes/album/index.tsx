@@ -64,7 +64,7 @@ const Album: React.FC = () => {
                       <CustomerServiceFilled className={styles.icon} />
                       <span className={styles.count}>{Math.floor(albumDetail.subscribedCount / 1000) / 10} 万 </span>
                     </div>
-                    <img src={albumDetail.coverImgUrl} alt="cover" />
+                    <img src={albumDetail.coverImgUrl} alt="cover" className={styles.img} />
                   </div>
                   <div className={styles.albumDesc}>
                     <div className={styles.albumDescTitle}>{albumDetail.name}</div>
