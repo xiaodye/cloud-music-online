@@ -1,0 +1,42 @@
+.login {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  padding: 0 20px;
+  background-color: #fff;
+
+  .header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #e8e8e9;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 40px;
+    margin-top: 100px;
+  }
+
+  .img-box {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .btn {
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: #efefef;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+}

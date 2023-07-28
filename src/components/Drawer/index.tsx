@@ -10,12 +10,15 @@ import {
   TagsTwoTone,
   TrophyTwoTone,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const Drawer: FC = () => {
   const [show, setShow] = useDrawerStore((state) => [state.showDrawer, state.setShowDrawer]);
+  const navigate = useNavigate();
 
   const gotoLogin = () => {
-    console.log("login");
+    setShow(false);
+    navigate("/login");
   };
 
   return (

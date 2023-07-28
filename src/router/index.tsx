@@ -8,6 +8,7 @@ import User from "@/routes/user";
 import { Navigate, createHashRouter } from "react-router-dom";
 import SingerDetail from "@/routes/singerDetail";
 import App from "@/App";
+import Login from "@/routes/login";
 // import { KeepAlive, AliveScope, withKeepAlive } from "@/baseUI/KeepAlive";
 
 const router = createHashRouter([
@@ -40,6 +41,11 @@ const router = createHashRouter([
             element: <Rank />,
           },
         ],
+      },
+
+      {
+        path: "/login",
+        element: <Login />,
       },
 
       {
