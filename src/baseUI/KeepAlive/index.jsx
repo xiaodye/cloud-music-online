@@ -1,4 +1,4 @@
 import AliveScope from "./AliveScope";
-import KeepAlive from "./KeepAlive";
+import KeepAlive, { withKeepAlive } from "./KeepAlive";
 
-export { AliveScope, KeepAlive };
+export { AliveScope, KeepAlive, withKeepAlive };

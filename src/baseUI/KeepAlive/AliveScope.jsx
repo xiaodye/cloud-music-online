@@ -1,9 +1,11 @@
-import { useCallback, useReducer } from "react";
-import actions from "./actions.js";
-import { KeepAliveContext } from "./KeepAliveContext.js";
+import { useCallback, useReducer, createContext } from "react";
+import keepAliveReducer, { actions } from "./keepAliveReducer.js";
+
+export const KeepAliveContext = createContext({});
 
 const AliveScope = ({ children }) => {
   /**
+   * 用于缓存状态
    * keepAliveId: {
    *  keepAliveId,
    *  reactElement,
@@ -14,7 +16,7 @@ const AliveScope = ({ children }) => {
   const [keepAliveStates, dispatch] = useReducer(keepAliveReducer, {});
 
   const setKeepAliveStates = useCallback(
-    (keepAliveId, reactElement) => {
+    ({ keepAliveId, reactElement }) => {
       if (!keepAliveStates[keepAliveId]) {
         dispatch({
           type: actions.CREATING,
@@ -39,6 +41,8 @@ const AliveScope = ({ children }) => {
 
       {Object.values(keepAliveStates).map(({ keepAliveId, reactElement }) => (
         <div
+          id={keepAliveId}
+          style={{ display: "none" }}
           key={keepAliveId}
           ref={(node) => {
             if (node && !keepAliveStates[keepAliveId].nodes) {
@@ -46,7 +50,7 @@ const AliveScope = ({ children }) => {
                 type: actions.CREATED,
                 payload: {
                   keepAliveId,
-                  nodes: [...node.childNodes],
+                  nodes: node.firstElementChild,
                 },
               });
             }
@@ -58,35 +62,5 @@ const AliveScope = ({ children }) => {
     </KeepAliveContext.Provider>
   );
 };
-
-function keepAliveReducer(state, action) {
-  const { type, payload } = action;
-  const { keepAliveId, nodes, reactElement } = payload;
-
-  switch (type) {
-    case actions.CREATING:
-      return {
-        ...state,
-        [keepAliveId]: {
-          keepAliveId,
-          reactElement,
-          nodes: null,
-          status: type,
-        },
-      };
-    case actions.CREATED:
-      return {
-        ...state,
-        [keepAliveId]: {
-          ...state[keepAliveId],
-          status: type,
-          nodes,
-        },
-      };
-
-    default:
-      return state;
-  }
-}
 
 export default AliveScope;

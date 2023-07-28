@@ -8,6 +8,7 @@ import User from "@/routes/user";
 import { Navigate, createHashRouter } from "react-router-dom";
 import SingerDetail from "@/routes/singerDetail";
 import App from "@/App";
+// import { KeepAlive, AliveScope, withKeepAlive } from "@/baseUI/KeepAlive";
 
 const router = createHashRouter([
   {
