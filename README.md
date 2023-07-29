@@ -2,6 +2,7 @@
 
 ![](https://img.shields.io/badge/React-%5E18.2.0-brightgreen)
 ![](https://img.shields.io/badge/TypeScript-%5E5.0.2-yellow)
+![](https://img.shields.io/badge/React-%2Drouter-%2Ddom-%5E6.11.2-red)
 ![](https://img.shields.io/badge/Zustand-%5E4.3.8-red)
 ![](https://img.shields.io/badge/vite-%5E4.3.9-blue)
 
