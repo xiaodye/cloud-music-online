@@ -37,7 +37,7 @@ pnpm run build:tsc
 
 ## 🚄技术栈
 
-### 前端
+#### 前端
 
 - 开发框架：React 18
 - 语言：TypeScript、Scss
@@ -45,10 +45,11 @@ pnpm run build:tsc
 - 图标库：Iconfont、@ant-design/icons
 - 路由库：React-router-dom v6
 - 状态库及中间件：Zustand、Immer、Persist
+- 请求库：Axios
 - 代码规范：Prettier、Eslint
-- 其他：Axios、Better-Scroll、React-lazy-load-image-component、@vanilla-extract/css、Swiper、classnames、use-immer
+- 其他：Better-Scroll、React-lazy-load-image-component、@vanilla-extract/css、Swiper、classnames、use-immer
 
-### 后端
+#### 后端
 
 - 开源项目 `NeteaseCloudMusicApi` 接口集合
 
