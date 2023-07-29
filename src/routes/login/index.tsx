@@ -13,10 +13,11 @@ const Login: FC = () => {
   const navigate = useNavigate();
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   const [btnText, setBtnText] = useState("请扫描二维码登录");
-  const [qrUrl, setQrUrl] = useState("https://s2.loli.net/2023/03/14/Wou5OES6YHn1JeM.jpg");
+  const [qrUrl, setQrUrl] = useState("");
   const timer = useRef<any>(null);
   const qrKey = useRef<string>("");
   const [loginStatus, setLoginStatus] = useState<LoadingStatusType>("loading");
+  const userInfo = useRef<{ nickname: string; avatarUrl: string }>();
 
   useMount(() => {
     login();
@@ -46,9 +47,14 @@ const Login: FC = () => {
 
       if (code === 802) {
         setBtnText(message + "...");
+
+        // 储存用户信息
+        if (!userInfo.current) {
+          userInfo.current = { nickname, avatarUrl };
+        }
       } else if (code === 803) {
         setBtnText("登录成功!，正在跳转...");
-        setUserInfo({ nickname, avatarUrl });
+        setUserInfo({ nickname: userInfo.current?.nickname, avatarUrl: userInfo.current?.avatarUrl });
         clearInterval(timer.current);
         setTimeout(() => {
           navigate("/home");

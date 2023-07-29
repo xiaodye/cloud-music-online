@@ -33,15 +33,13 @@ const Drawer: FC = () => {
             src={userInfo.avatarUrl === "" ? "https://s2.loli.net/2023/02/02/4NeR7YMnjSxhPAQ.jpg" : userInfo.avatarUrl}
             className={styles.topAvatar}
           />
-          <div className={classNames(styles.topNickname, "text-noWrap")}>
-            {userInfo.nickname === "" ? (
-              <div className={styles.topBtn} onClick={gotoLogin}>
-                立即登录
-              </div>
-            ) : (
-              userInfo.nickname
-            )}
-          </div>
+          {userInfo.nickname === "" ? (
+            <div className={styles.topBtn} onClick={gotoLogin}>
+              立即登录
+            </div>
+          ) : (
+            <div className={classNames(styles.topNickname, "text-noWrap")}>{userInfo.nickname}</div>
+          )}
         </div>
 
         <ul className={styles.menu}>
