@@ -2,9 +2,9 @@
 
 ## 🙈项目介绍
 
-一款在线的网页版云音乐。前端采用`React18`和`Vite`构建，后端使用开源项目 `NeteaseCloudMusicApi` 接口。可以获取网易云的在线歌单、热门歌手、排行榜，可扫码登录网易云账号。实现播放器，可在线播放音乐，上一曲、下一曲、随机播放，实时进度条，播放列表。
+一款在线的网页版云音乐。前端采用 `React18` 和 `Vite` 构建，后端使用开源项目  `NeteaseCloudMusicApi`  接口。可以获取网易云的推荐歌单、热门歌手、排行榜；可扫码登录网易云账号；实现播放器，可在线播放音乐，上一曲、下一曲、切换播放模式，可拖拽进度条，解析歌词，播放列表等等。
 
-在线 demo：https://mini-cloud-music.vercel.app
+在线 `demo`：https://mini-cloud-music.vercel.app
 
 建议配合[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)**浏览器插件**使用，效果更佳，插件有个别 bug。
 
@@ -16,19 +16,19 @@
 
 #### 安装依赖
 
-```json
+```shell
 pnpm install
 ```
 
 #### 项目运行
 
-```json
+```shell
 pnpm run dev
 ```
 
 #### 项目打包
 
-```json
+```shell
 // 不带 tsc 检查
 pnpm run build
 // 带 tsc 检查
