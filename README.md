@@ -1,12 +1,14 @@
 # 云音乐在线网页版
 
+![](https://img.shields.io/badge/React-%5E18.2.0-brightgreen)![](https://img.shields.io/badge/TypeScript-%5E5.0.2-yellow)![](https://img.shields.io/badge/Zustand-%5E4.3.8-red)![](https://img.shields.io/badge/vite-%5E4.3.9-blue)
+
 ## 🙈项目介绍
 
 一款在线的网页版云音乐。前端采用 `React18` 和 `Vite` 构建，后端使用开源项目  `NeteaseCloudMusicApi`  接口。可以获取网易云的推荐歌单、热门歌手、排行榜；可扫码登录网易云账号；实现播放器，可在线播放音乐，上一曲、下一曲、切换播放模式，可拖拽进度条，解析歌词，播放列表等等。
 
 在线 `demo`：https://mini-cloud-music.vercel.app
 
-建议配合[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)**浏览器插件**使用，效果更佳，插件有个别 bug。
+建议配合**浏览器插件**：[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)，使用效果更佳，不过插件有个别 bug。
 
 ![img](https://lh3.googleusercontent.com/DX9jh6HhBr8tEj0kTLnDCzWimvw9VHuayGKDkJtT8_1LFWQc0136FaXFiLZ32GnjriJWuZP4Eq-CnJOv1h7iGVzokg=w640-h400-e365-rj-sc0x00ffffff)
 
@@ -29,10 +31,7 @@ pnpm run dev
 #### 项目打包
 
 ```shell
-// 不带 tsc 检查
 pnpm run build
-// 带 tsc 检查
-pnpm run build:tsc
 ```
 
 ## 🚄技术栈
@@ -47,7 +46,7 @@ pnpm run build:tsc
 - 状态库及中间件：Zustand、Immer、Persist
 - 请求库：Axios
 - 代码规范：Prettier、Eslint
-- 其他：Better-Scroll、React-lazy-load-image-component、@vanilla-extract/css、Swiper、classnames、use-immer
+- 其他：Better-Scroll、React-transition-group、React-lazy-load-image-component、@vanilla-extract/css、Swiper、classnames、use-immer
 
 #### 后端
 
@@ -55,7 +54,7 @@ pnpm run build:tsc
 
 ##  🍊功能亮点
 
-- 🔥采用最新的 `React 18` 和 `TypeScript` 开发，使用 `vite` 构建项目
+- 🔥采用最新的 `React 18` 和 `TypeScript` 开发，使用 `Vite` 构建项目
 - 💪使用 `React-router-dom v6` 配置式路由表，路由懒加载
 - 🌳全屏加载框、音符条、侧边抽屉、弹框、进场动画等均手动实现，不使用第三方组件库
 - ✨实扫码登录功能，使用网易云 `App` 扫码登录自己账号
