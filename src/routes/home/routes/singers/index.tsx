@@ -54,6 +54,9 @@ const Singers: React.FC = () => {
     const key = `${area}-${alpha}`;
     if (singerListMap.current.has(key)) {
       setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
+      setOptions((options) => {
+        options.pullUpState = res.more ? "more" : "noMore";
+      });
       return;
     }
 
@@ -65,10 +68,10 @@ const Singers: React.FC = () => {
 
     // 设置展示数据
     setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
-
     setOptions((options) => {
       options.pullUpState = res.more ? "more" : "noMore";
     });
+
     setIsLoading(false);
   };
 
