@@ -1,6 +1,9 @@
 # 云音乐在线网页版
 
-![](https://img.shields.io/badge/React-%5E18.2.0-brightgreen)![](https://img.shields.io/badge/TypeScript-%5E5.0.2-yellow)![](https://img.shields.io/badge/Zustand-%5E4.3.8-red)![](https://img.shields.io/badge/vite-%5E4.3.9-blue)
+![](https://img.shields.io/badge/React-%5E18.2.0-brightgreen)
+![](https://img.shields.io/badge/TypeScript-%5E5.0.2-yellow)
+![](https://img.shields.io/badge/Zustand-%5E4.3.8-red)
+![](https://img.shields.io/badge/vite-%5E4.3.9-blue)
 
 ## 🙈项目介绍
 
