@@ -33,8 +33,8 @@ const FullScreenPlayer: FC<IProps> = ({
   lyricLines,
 }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
-  const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const { playMode, setShowPlayList } = usePlayerStore((state) => ({
+  const { playing, playMode, setShowPlayList } = usePlayerStore((state) => ({
+    playing: state.playing,
     playMode: state.playMode,
     setShowPlayList: state.setShowPlayList,
   }));

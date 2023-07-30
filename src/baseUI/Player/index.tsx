@@ -50,18 +50,17 @@ export const SongContext = createContext<ContextType>({} as ContextType);
 const Player: FC = () => {
   const [currentTime, setCurrentTime] = usePlayerStore((state) => [state.currentTime, state.setCurrentTime]);
   const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement>({} as HTMLAudioElement);
   const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
   const [currentSong, setCurrentSong] = usePlayerStore((state) => [state.currentSong, state.setCurrentSong]);
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
-  const [percent, setPercent] = usePlayerStore((state) => [state.percent, state.setPercent]);
   const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
   const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
   const [isFirst, setIsFirst] = usePlayerStore((state) => [state.isFirst, state.setIsFirst]);
-  const [sequencePlayList, setSequencePlayList] = usePlayerStore((state) => [
-    state.sequencePlayList,
-    state.setSequencePlayList,
-  ]);
+  const { setPercent, setSequencePlayList } = usePlayerStore((state) => ({
+    setPercent: state.setPercent,
+    setSequencePlayList: state.setSequencePlayList,
+  }));
+  const audioRef = useRef<HTMLAudioElement>({} as HTMLAudioElement);
 
   const [lyricLines, setLyricLines] = useState<LyricLineType[]>([]);
 

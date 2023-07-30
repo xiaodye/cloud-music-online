@@ -37,9 +37,13 @@ const Rank: React.FC = () => {
   return (
     <div className={styles.rank}>
       <Scroll>
-        <h1 className={styles.title}>官方榜</h1>
+        <h1 key={1} className={styles.title}>
+          官方榜
+        </h1>
         <OfficialRankList list={officialList} />
-        <h1 className={styles.title}>全球榜</h1>
+        <h1 key={3} className={styles.title}>
+          全球榜
+        </h1>
         <GlobalRankList list={globalList} />
       </Scroll>
     </div>

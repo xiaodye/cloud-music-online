@@ -9,7 +9,7 @@ type State = {
   fullScreen: boolean; // 播放器是否为全屏模式
   playing: boolean; // 当前歌曲是否播放
   sequencePlayList: SongType[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
-  playList: SongType[];
+  playList: SongType[]; // 当前播放列表
   playMode: PlayMode; // 播放模式
   currentIndex: number; // 当前歌曲在播放列表的索引位置
   currentTime: number; // 当前歌曲已播放时长，单位: s

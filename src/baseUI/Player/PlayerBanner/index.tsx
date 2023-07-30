@@ -14,10 +14,9 @@ interface IProps {
 
 const PlayerBanner: FC<IProps> = ({ song }) => {
   const [fullScreen, setFullScreen] = usePlayerStore((state) => [state.fullScreen, state.setFullScreen]);
-  const [playing, setPlaying] = usePlayerStore((state) => [state.playing, state.setPlaying]);
-  const { percent, showPlayList, setShowPlayList } = usePlayerStore((state) => ({
+  const { playing, percent, setShowPlayList } = usePlayerStore((state) => ({
+    playing: state.playing,
     percent: state.percent,
-    showPlayList: state.showPlayList,
     setShowPlayList: state.setShowPlayList,
   }));
 
