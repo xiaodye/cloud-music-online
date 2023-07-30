@@ -25,6 +25,7 @@ const Singers: React.FC = () => {
   // 监听 area 和 alpha 改变
   useEffect(() => {
     togglePanel(options.area, options.alpha);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options.area, options.alpha]);
 
   /**
@@ -53,9 +54,11 @@ const Singers: React.FC = () => {
     // 1. 切换歌手区域和首字母的时候，如果 map 有缓存，先走 map 的缓存
     const key = `${area}-${alpha}`;
     if (singerListMap.current.has(key)) {
-      setCurrentSingerList(singerListMap.current.get(key)?.singerList ?? []);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const singerMap = singerListMap.current.get(key)!;
+      setCurrentSingerList(singerMap.singerList);
       setOptions((options) => {
-        options.pullUpState = res.more ? "more" : "noMore";
+        options.pullUpState = singerMap.more ? "more" : "noMore";
       });
       return;
     }
@@ -81,7 +84,7 @@ const Singers: React.FC = () => {
    * @param alpha
    * @returns
    */
-  const loadMore = async () => {
+  const loadMore = async (area: string, alpha: string) => {
     // 节流处理
     if (options.pullUpState === "loading") return;
 
@@ -90,16 +93,14 @@ const Singers: React.FC = () => {
       scrollRef.current?.finishPullUp();
     }
 
-    const { area, alpha } = options;
-
     // 设置 pullUpState 为 loading
     setOptions((options) => {
       options.pullUpState = "loading";
     });
 
     // 根据 key 获取对应 map 缓存
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const singerMap = singerListMap.current.get(`${area}-${alpha}`)!;
-    // console.log(singerMap);
 
     // 更新 key 对应的 map 缓存, 把新的数据添加到列表的末尾去
     const { artists, more } = await getSingerListData(area, alpha, singerMap.offset);
@@ -129,7 +130,12 @@ const Singers: React.FC = () => {
         <Loading />
       ) : (
         <div className={scrollContainer}>
-          <Scroll isPullUpLoad={true} pullUp={loadMore} pullUpState={options.pullUpState} ref={scrollRef}>
+          <Scroll
+            isPullUpLoad={true}
+            pullUp={() => loadMore(options.area, options.alpha)}
+            pullUpState={options.pullUpState}
+            ref={scrollRef}
+          >
             <SingerList list={currentSingerList} />
           </Scroll>
         </div>
