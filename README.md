@@ -54,16 +54,16 @@ pnpm run build
 
 #### 后端
 
-- 开源项目 `NeteaseCloudMusicApi` 接口集合
+- 开源项目 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) 接口集合
 
 ##  🍊功能亮点
 
 - 🔥采用最新的 `React 18` 和 `TypeScript` 开发，使用 `Vite` 构建项目
 - 💪使用 `React-router-dom v6` 配置式路由表，路由懒加载
-- 🌳全屏加载框、音符条、侧边抽屉、弹框、进场动画等均手动实现，不使用第三方组件库
+- 🌳`Loading` 组件、音符条、侧边抽屉、弹框、进场动画等均手动实现，不使用第三方组件库
 - ✨实扫码登录功能，使用网易云 `App` 扫码登录自己账号
-- 🎨对滚动插件 `Better-Scroll` 二次封装成组件，编写上拉刷新和下拉加载更多处理逻辑
-- 🚀实现在线播放器，可在线播放音乐。自编写可拖拽进度条组件，切换播放模式，歌词解析，状态持久化等等。
+- 🎨对滚动插件 `Better-Scroll` 二次封装，编写上拉刷新和下拉加载更多处理逻辑
+- 🚀实现在线播放器，可在线播放音乐。自编写可拖拽进度条，切换播放模式，歌词解析，状态持久化等等。
 - 🏃‍♂️对热门歌手页大量列表数据优化，包括数据缓存，数据懒加载，图片懒加载等。
 
 ## 💡未来计划（画饼）
@@ -71,13 +71,3 @@ pnpm run build
 - 完善现有项目，修复功能 Bug，样式优化
 - 接入网易云账号体系，构建用户中心
 - 搜索页等其他模块
-
-## ⚡️开源
-
-欢迎各位同学提 `issue`，共同完善项目。
-
-感谢以下项目：
-
-- [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
-
-- [react-cloud-music](https://github.com/sanyuan0704/react-cloud-music)
