@@ -22,8 +22,17 @@ const Singers: React.FC = () => {
   const singerListMap = useRef<Map<string, SingerListMapType>>(new Map());
   // const [pullUpState, setPullUpState] = useState<PullUpStateType>("more");
 
+  // 用于处理闭包导致获取不到最新状态的问题
+  const optionsRef = useRef<{ area: string; alpha: string }>({
+    area: "-1",
+    alpha: "A",
+  });
+
   // 监听 area 和 alpha 改变
   useEffect(() => {
+    optionsRef.current.area = options.area;
+    optionsRef.current.alpha = options.alpha;
+
     togglePanel(options.area, options.alpha);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options.area, options.alpha]);
@@ -132,7 +141,7 @@ const Singers: React.FC = () => {
         <div className={scrollContainer}>
           <Scroll
             isPullUpLoad={true}
-            pullUp={() => loadMore(options.area, options.alpha)}
+            pullUp={() => loadMore(optionsRef.current.area, optionsRef.current.alpha)}
             pullUpState={options.pullUpState}
             ref={scrollRef}
           >

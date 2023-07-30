@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useImperativeHandle, useEffect } from "react";
+import { forwardRef, useRef, useImperativeHandle } from "react";
 import BScroll from "@better-scroll/core";
 import PullUp from "@better-scroll/pull-up";
 import PullDown from "@better-scroll/pull-down";
@@ -56,9 +56,12 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
 
     style,
 
-    onScroll,
-    pullUp,
-    pullDown,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onScroll = () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    pullUp = () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    pullDown = () => {},
   } = props;
   // current 指向初始化 bs 实例需要的 DOM 元素
   const bsContainer = useRef<HTMLDivElement>({} as HTMLDivElement);
@@ -100,21 +103,13 @@ const Scroll = forwardRef<ScrollRef, IProps>((props, ref) => {
     });
 
     // 绑定滚动事件
-    bs.current.on("scroll", () => {
-      onScroll && onScroll();
-    });
+    bs.current.on("scroll", onScroll);
 
     // 绑定下拉事件
-    isPullDownRefresh &&
-      bs.current.on("pullingDown", () => {
-        pullDown && pullDown();
-      });
+    isPullDownRefresh && bs.current.on("pullingDown", pullDown);
 
     // 绑定上拉事件
-    isPullUpLoad &&
-      bs.current.on("pullingUp", () => {
-        pullUp && pullUp();
-      });
+    isPullUpLoad && bs.current.on("pullingUp", pullUp);
   });
 
   // 组件卸载
