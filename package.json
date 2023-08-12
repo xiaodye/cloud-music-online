@@ -44,6 +44,7 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.63.4",
     "typescript": "^5.0.2",
     "typescript-plugin-css-modules": "^5.0.1",
