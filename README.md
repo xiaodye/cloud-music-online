@@ -12,9 +12,9 @@
 
 在线 `demo`：https://mini-cloud-music.vercel.app
 
-建议配合**浏览器插件**：[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)，使用效果更佳，不过插件有个别 bug。
+配合**浏览器插件**：[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)，使用效果更佳，不过插件有个别 bug。
 
-![img](https://lh3.googleusercontent.com/DX9jh6HhBr8tEj0kTLnDCzWimvw9VHuayGKDkJtT8_1LFWQc0136FaXFiLZ32GnjriJWuZP4Eq-CnJOv1h7iGVzokg=w640-h400-e365-rj-sc0x00ffffff)
+![image-20230813142905169](https://s2.loli.net/2023/08/13/F4yHlVfoPUE6GAd.png)
 
 >  **项目**和**后端接口**均部署在`vercel`，因国内网络环境原因，可能无法访问。
 
@@ -60,11 +60,11 @@ pnpm run build
 
 - 🔥采用最新的 `React 18` 和 `TypeScript` 开发，使用 `Vite` 构建项目
 - 💪使用 `React-router-dom v6` 配置式路由表，路由懒加载
-- 🌳`Loading` 组件、音符条、侧边抽屉、弹框、进场动画等均手动实现，不使用第三方组件库
+- 🌳圆形进度条、`Loading` 组件、音符条、侧边抽屉、弹框、进场动画等均手动实现
 - ✨实扫码登录功能，使用网易云 `App` 扫码登录自己账号
-- 🎨对滚动插件 `Better-Scroll` 二次封装，编写上拉刷新和下拉加载更多处理逻辑
+- 🎨基于 Better-Scroll 封装滚动组件，实现下拉刷新、上拉加载更多处理逻辑
 - 🚀实现在线播放器，可在线播放音乐。自编写可拖拽进度条，切换播放模式，歌词解析，状态持久化等等。
-- 🏃‍♂️对热门歌手页大量列表数据优化，包括数据缓存，数据懒加载，图片懒加载等。
+- 🏃‍♂️对热门歌手页**大量列表数据优化**，包括列表懒加载，图片懒加载，数据状态缓存等。
 
 ## 💡未来计划（画饼）
 
