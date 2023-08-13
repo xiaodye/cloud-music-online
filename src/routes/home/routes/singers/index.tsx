@@ -8,6 +8,7 @@ import { Artist } from "@/api/types";
 import Loading from "@/baseUI/Loading";
 import { useImmer } from "use-immer";
 import { SingerListMapType, SingerOptionsType } from "./types";
+import { FixedSizeList } from "react-window";
 
 const Singers: React.FC = () => {
   const [currentSingerList, setCurrentSingerList] = useState<Artist[]>([]);
