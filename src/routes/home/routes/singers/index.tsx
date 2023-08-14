@@ -1,5 +1,5 @@
 import Horizen from "@/baseUI/horizen";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { alphaTypes, areaList, getSingerListData } from "@/api/request";
 import { scrollContainer, singers } from "./styles.css";
 import Scroll, { ScrollRef } from "@/components/Scroll";
@@ -8,7 +8,7 @@ import { Artist } from "@/api/types";
 import Loading from "@/baseUI/Loading";
 import { useImmer } from "use-immer";
 import { SingerListMapType, SingerOptionsType } from "./types";
-import VirtualSingerList from "@/components/singerList/VirtualSingerList";
+// import VirtualSingerList from "@/components/singerList/VirtualSingerList";
 
 const Singers: React.FC = () => {
   const [currentSingerList, setCurrentSingerList] = useState<Artist[]>([]);
