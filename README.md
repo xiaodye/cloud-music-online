@@ -12,10 +12,6 @@
 
 在线 `demo`：https://mini-cloud-music.vercel.app
 
-配合**浏览器插件**：[Mobile simulator](https://chrome.google.com/webstore/detail/mobile-simulator-responsi/ckejmhbmlajgoklhgbapkiccekfoccmk)，使用效果更佳，不过插件有个别 bug。
-
-![image-20230813142905169](https://s2.loli.net/2023/08/13/F4yHlVfoPUE6GAd.png)
-
 >  **项目**和**后端接口**均部署在`vercel`，因国内网络环境原因，可能无法访问。
 
 ## 🔑项目启动
