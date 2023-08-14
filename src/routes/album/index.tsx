@@ -2,9 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 import animation from "./animation.module.css";
 import { CSSTransition } from "react-transition-group";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Banner from "@/components/Banner";
-import Scroll from "@/components/Scroll";
 import SongList from "@/components/songList";
 import { getCount } from "@/utils/utils";
 import useMount from "@/hooks/useMount";
@@ -24,6 +23,8 @@ const Album: React.FC = () => {
   const handleBack = useCallback(() => {
     setShow(false);
   }, []);
+
+  const listContainerHeight = useMemo(() => window.innerHeight - 380, []);
 
   useMount(async () => {
     const res = await getAlbumDetailRequest(params.id!);
@@ -54,7 +55,7 @@ const Album: React.FC = () => {
         ) : (
           <>
             <Banner onClick={handleBack} />
-            <Scroll>
+            <div className={styles.content}>
               <header className={styles.header}>
                 <div className={styles.background} style={{ backgroundImage: `url(${albumDetail.coverImgUrl})` }}></div>
 
@@ -110,9 +111,9 @@ const Album: React.FC = () => {
                     <span> 收藏 ({getCount(albumDetail.subscribedCount)})</span>
                   </div>
                 </div>
-                <SongList list={albumDetail.tracks} />
+                <SongList height={listContainerHeight} list={albumDetail.tracks} />
               </main>
-            </Scroll>
+            </div>
           </>
         )}
       </div>

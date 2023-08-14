@@ -1,16 +1,18 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useMemo } from "react";
 import styles from "./styles.module.scss";
 import { getName } from "@/utils/utils";
 import classNames from "classnames";
 import { usePlayerStore } from "@/store";
 import { SongType } from "@/api/types";
+import { FixedSizeList as List } from "react-window";
 
 export interface IProps {
   list: SongType[];
   style?: CSSProperties;
+  height: number;
 }
 
-const SongList: React.FC<IProps> = ({ list, style }) => {
+const SongList: React.FC<IProps> = ({ list, style, height }) => {
   const { setPlayList, setSequencePlayList, setCurrentIndex } = usePlayerStore((state) => ({
     setPlayList: state.setPlayList,
     setSequencePlayList: state.setSequencePlayList,
@@ -33,19 +35,27 @@ const SongList: React.FC<IProps> = ({ list, style }) => {
   };
 
   return (
-    <ul className={styles.songList} style={style}>
-      {list.map((item, index) => (
-        <li key={index} className={styles.songListItem} onClick={() => chooseSong(index)}>
+    <List
+      style={style}
+      itemData={list}
+      width="100vw"
+      height={height}
+      itemCount={list.length}
+      itemSize={60}
+      innerElementType="ul"
+    >
+      {({ data, index, style }) => (
+        <li key={index} style={style} className={styles.songListItem} onClick={() => chooseSong(index)}>
           <div className={styles.songListItemIndex}>{index + 1}</div>
           <div className={styles.songListItemInfo}>
-            <span className={classNames("text-noWrap", styles.songListItemInfoName)}>{item.name}</span>
+            <span className={classNames("text-noWrap", styles.songListItemInfoName)}>{data[index].name}</span>
             <span className={classNames("text-noWrap", styles.songListItemInfoMsg)}>
-              {getName(item.ar)} - {item.al.name}
+              {getName(data[index].ar)} - {data[index].al.name}
             </span>
           </div>
         </li>
-      ))}
-    </ul>
+      )}
+    </List>
   );
 };
 

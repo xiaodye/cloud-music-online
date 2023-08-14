@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import styles from "./styles.module.scss";
 import Banner from "@/components/Banner";
-import Scroll from "@/components/Scroll";
 import { useNavigate, useParams } from "react-router-dom";
 import SongList from "@/components/songList";
 import useMount from "@/hooks/useMount";
@@ -21,6 +20,8 @@ const SingerDetail: React.FC = () => {
   const handleClick = () => {
     setShow(false);
   };
+
+  const listContainerHeight = useMemo(() => window.innerHeight - 360, []);
 
   useMount(async () => {
     const res = await getSingerInfoRequest(Number(params.id!));
@@ -57,9 +58,10 @@ const SingerDetail: React.FC = () => {
               <span className={styles.text}> 收藏 </span>
             </div>
             <div className={styles.singerListWrapper}>
-              <Scroll bounceTop={false}>
+              {/* <Scroll bounceTop={false}>
                 <SongList list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />
-              </Scroll>
+              </Scroll> */}
+              <SongList height={listContainerHeight} list={singerDetail.hotSongs} style={{ backgroundColor: "#fff" }} />
             </div>
           </>
         )}

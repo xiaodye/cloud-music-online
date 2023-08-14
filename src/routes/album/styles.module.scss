@@ -13,6 +13,12 @@
   padding-bottom: 60px;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .header {
   display: flex;
   flex-direction: column;
