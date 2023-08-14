@@ -3,10 +3,9 @@ import { getName } from "@/utils/utils";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
 import { usePlayerStore } from "@/store";
-// import ProgressCircle from "../ProgressCircle";
-import { Circle } from "react-vant";
 import { SongType } from "@/api/types";
 import useTogglePlayState from "@/hooks/useTogglePlayState";
+import CircleProgress from "../CircleProgress";
 
 interface IProps {
   song: SongType;
@@ -38,25 +37,14 @@ const PlayerBanner: FC<IProps> = ({ song }) => {
       </div>
 
       <div className={styles.songControl}>
-        {/* <ProgressCircle radius={25} percent={0.2}>
-          <i className={classNames("iconfont", styles.icon, styles.play)}>&#xe650;</i>
-        </ProgressCircle> */}
-        <Circle
-          rate={percent * 100}
-          size={30}
-          style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-          strokeWidth={80}
-          layerColor="#e9a19c"
-          color="#d44439"
-          className={styles.progressCircle}
-        >
+        <CircleProgress rate={percent * 100} size={30} layerColor="#e9a19c" color="#d44439">
           <div className={styles.iconBox} onClick={() => togglePlayState()}>
             <i
               className={classNames("iconfont", styles.iconPlay)}
               dangerouslySetInnerHTML={{ __html: playing ? "&#xe650;" : "&#xe61e;" }}
             ></i>
           </div>
-        </Circle>
+        </CircleProgress>
 
         <i className={classNames("iconfont", styles.iconSong)} onClick={() => setShowPlayList(true)}>
           &#xe640;

@@ -26,7 +26,6 @@
     "react-lazy-load-image-component": "^1.6.0",
     "react-router-dom": "^6.11.2",
     "react-transition-group": "^4.4.5",
-    "react-vant": "^3.3.1",
     "react-window": "^1.8.9",
     "react-window-infinite-loader": "^1.0.9",
     "swiper": "^9.4.1",

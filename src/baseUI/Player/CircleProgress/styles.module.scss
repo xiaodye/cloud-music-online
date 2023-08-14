@@ -1,0 +1,42 @@
+.circle-progress {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--layerColor) linear-gradient(to right, transparent 50%, var(--color) 0);
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  color: #fff;
+}
+
+.circle-progress::before {
+  content: "";
+  display: block;
+  height: 100%;
+  margin-left: 50%;
+  transform-origin: left;
+  border-radius: 0 100% 100% 0/50%;
+  transition: 0.3s;
+  background-color: var(--color);
+  transform: rotate(calc((var(--rate) - 50) * 0.01turn));
+}
+
+/* 如果 rate < 50% */
+.circle-progress.less::before {
+  background-color: var(--layerColor);
+  transform: rotate(calc((var(--rate) - 0) * 0.01turn));
+}
+
+.circle-progress::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background-color: #fff;
+}
