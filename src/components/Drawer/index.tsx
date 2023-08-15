@@ -11,6 +11,7 @@ import {
   TrophyTwoTone,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import avatar from "@/assets/cat.png";
 
 const Drawer: FC = () => {
   const [show, setShow] = useDrawerStore((state) => [state.showDrawer, state.setShowDrawer]);
@@ -29,10 +30,7 @@ const Drawer: FC = () => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.top}>
-          <img
-            src={userInfo.avatarUrl === "" ? "https://s2.loli.net/2023/02/02/4NeR7YMnjSxhPAQ.jpg" : userInfo.avatarUrl}
-            className={styles.topAvatar}
-          />
+          <img src={userInfo.avatarUrl === "" ? avatar : userInfo.avatarUrl} className={styles.topAvatar} />
           {userInfo.nickname === "" ? (
             <div className={styles.topBtn} onClick={gotoLogin}>
               立即登录

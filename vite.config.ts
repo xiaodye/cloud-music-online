@@ -29,4 +29,7 @@ export default defineConfig({
       "@": path.join(__dirname, "src"),
     },
   },
+  build: {
+    assetsInlineLimit: 20 * 1024,
+  },
 });
