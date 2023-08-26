@@ -1,4 +1,4 @@
-# 云音乐在线网页版
+# 云音乐平台
 
 ![](https://img.shields.io/badge/React-%5E18.2.0-brightgreen)
 ![](https://img.shields.io/badge/TypeScript-%5E5.0.2-yellow)
@@ -10,7 +10,7 @@
 
 一款在线的网页版云音乐。前端采用 `React18` 和 `Vite` 构建，后端使用开源项目  `NeteaseCloudMusicApi`  接口。可以获取网易云的推荐歌单、热门歌手、排行榜；可扫码登录网易云账号；实现播放器，可在线播放音乐，上一曲、下一曲、切换播放模式，可拖拽进度条，解析歌词，播放列表等等。
 
-在线 `demo`：https://mini-cloud-music.vercel.app
+在线 `demo`：https://cloud-music-online-web.vercel.app
 
 >  **项目**和**后端接口**均部署在`vercel`，因国内网络环境原因，可能无法访问。
 
