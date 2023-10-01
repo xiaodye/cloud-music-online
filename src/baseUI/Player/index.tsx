@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, createContext, useEffect, useRef, useState } from "react";
+import { FC, SyntheticEvent, createContext, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import PlayerBanner from "./PlayerBanner";
 import FullScreenPlayer from "./FullScreenPlayer";
@@ -10,6 +10,7 @@ import PlayList from "@/components/PlayList";
 import useTogglePlayMode from "@/hooks/useTogglePlayMode";
 import { SongType } from "@/api/types";
 import { getLyricRequest } from "@/api/request";
+import useUpdateEffect from "@/hooks/useUpdateEffect";
 // import Lyric, { LineType, LyricLineType } from "@/utils/lyric-parser";
 
 export type LyricLineType = {
@@ -55,7 +56,6 @@ const Player: FC = () => {
   const [currentIndex, setCurrentIndex] = usePlayerStore((state) => [state.currentIndex, state.setCurrentIndex]);
   const [playMode, setPlayMode] = usePlayerStore((state) => [state.playMode, state.setPlayMode]);
   const [playList, setPlayList] = usePlayerStore((state) => [state.playList, state.setPlayList]);
-  const [isFirst, setIsFirst] = usePlayerStore((state) => [state.isFirst, state.setIsFirst]);
   const { setPercent, setSequencePlayList } = usePlayerStore((state) => ({
     setPercent: state.setPercent,
     setSequencePlayList: state.setSequencePlayList,
@@ -89,13 +89,7 @@ const Player: FC = () => {
   // 3. 设置 playing -> true
   // 4. 计算 duration, 重置 currentTime -> 0
   // 5. 播放歌曲，audio.current.play()
-  useEffect(() => {
-    // 应用第一次启动时，不做处理
-    if (isFirst) {
-      setIsFirst(false);
-      return;
-    }
-
+  useUpdateEffect(() => {
     if (playList.length === 0 || currentSong === playList[currentIndex]) {
       return;
     }
@@ -115,7 +109,7 @@ const Player: FC = () => {
   }, [currentIndex]);
 
   // 监听 playing 变化，从而控制 audio 标签播放和暂停
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (playing) {
       audioRef.current.play();
     } else {

@@ -5,7 +5,6 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { SongType } from "@/api/types";
 
 type State = {
-  isFirst: boolean; // 是否是第一次（应用启动的时候）
   fullScreen: boolean; // 播放器是否为全屏模式
   playing: boolean; // 当前歌曲是否播放
   sequencePlayList: SongType[]; // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
@@ -19,7 +18,6 @@ type State = {
 };
 
 type Actions = {
-  setIsFirst: (flag: boolean) => void;
   setCurrentSong: (song: SongType) => void;
   setCurrentIndex: (index: number) => void;
   setCurrentTime: (newTime: number) => void;
@@ -35,7 +33,6 @@ type Actions = {
 };
 
 const initialState: State = {
-  isFirst: true,
   fullScreen: false, // 播放器是否为全屏模式
   playing: false, // 当前歌曲是否播放
   sequencePlayList: [], // 顺序列表 (因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
@@ -73,11 +70,6 @@ const usePlayerStore = create(
   persist(
     immer<State & Actions>((set) => ({
       ...initialState,
-
-      setIsFirst: (flag: boolean) =>
-        set((state) => {
-          state.isFirst = flag;
-        }),
 
       setCurrentSong: (song: SongType) =>
         set((state) => {
